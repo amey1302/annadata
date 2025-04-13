@@ -49,17 +49,11 @@
 		  <version>42.7.1</version>
 		</dependency>
 
+		<!-- Spring Security -->
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-
-<!--		&lt;!&ndash; Spring Security &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-security</artifactId>-->
-<!--		</dependency>-->
 
 
 		<!-- Bean Validation (e.g., @NotNull, @Email) -->
