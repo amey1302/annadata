@@ -2,8 +2,10 @@ package com.annadata.service;
 
 import com.annadata.dto.DonationDTO;
 import com.annadata.entity.Donation;
+import com.annadata.valueobject.FoodCategory;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface DonationService {
 
@@ -11,4 +13,13 @@ public interface DonationService {
 
      List<DonationDTO> getAllDonations();
 
+     Donation getDonationById(UUID uuid);
+
+    void deleteDonationById(UUID uuid);
+
+    Donation markAsCollected(UUID uuid);
+
+    Donation updateDonation(UUID uuid,Donation donation);
+
+    List<Donation> searchDonations(FoodCategory foodCategory, String address);
 }
