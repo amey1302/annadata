@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Table(name = "users")
@@ -24,6 +25,7 @@ public class User {
 
     @Id
     @GeneratedValue
+    @UuidGenerator
     private UUID id;
 
     private String name;
