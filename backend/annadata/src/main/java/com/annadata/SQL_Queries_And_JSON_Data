@@ -126,3 +126,5 @@ second now populate the donation table:
       "addressLink": "https://maps.google.com/?q=19.0760,72.8777",
       "status": "OPEN"
     }
+
+PLease add the queries and Json object for testing.
