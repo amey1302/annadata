@@ -27,8 +27,6 @@ public class DonationController {
                 .body(Map.of("message", "Donation created successfully", "donation", new DonationDTO(saved)));
     }
 
-
-
     @GetMapping
     public ResponseEntity<List<DonationDTO>> getAllDonations() {
         List<DonationDTO> donations = donationService.getAllDonations();
