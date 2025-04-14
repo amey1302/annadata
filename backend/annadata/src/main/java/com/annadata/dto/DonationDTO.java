@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor // This is crucial for builder to work with all fields
 @NoArgsConstructor  // Good to have, especially for Jackson or frameworks
+
 public class DonationDTO {
 
     private UUID id;
