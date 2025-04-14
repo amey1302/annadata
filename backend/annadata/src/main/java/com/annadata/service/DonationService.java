@@ -11,4 +11,5 @@ public interface DonationService {
 
      List<DonationDTO> getAllDonations();
 
+    String deleteAllDonations();
 }

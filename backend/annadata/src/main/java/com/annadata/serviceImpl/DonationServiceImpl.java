@@ -37,6 +37,15 @@ public class DonationServiceImpl implements DonationService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public String deleteAllDonations() {
+        if(donationRepository.findAll().size() > 0){
+            donationRepository.deleteAll();
+            return "Deleted All donations";
+        }else{
+            return "No Donations Exists";
+        }
+    }
 
 
 }
