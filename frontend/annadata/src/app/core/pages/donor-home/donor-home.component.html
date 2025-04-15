@@ -1,0 +1,59 @@
+<app-navbar></app-navbar>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Add Donation</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="title" class="col-form-label">Title:</label>
+            <input type="text" [(ngModel)]="donationObj.title" class="form-control" id="title">
+          </div>
+          <div class="mb-3">
+            <label for="description" class="col-form-label">Description:</label>
+            <textarea class="form-control" [(ngModel)]="donationObj.description" id="description"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="category" class="col-form-label">Category:</label>
+            <input type="text" [(ngModel)]="donationObj.foodCategory" class="form-control" id="category">
+          </div>
+          <div class="mb-3">
+            <label for="type" class="col-form-label">Food Type:</label>
+            <input type="text" [(ngModel)]="donationObj.foodType" class="form-control" id="type">
+          </div>
+          <div class="mb-3">
+            <label for="quantity" class="col-form-label">Quantity:</label>
+            <input type="number" [(ngModel)]="donationObj.quantity" class="form-control" id="quantity">
+          </div>
+          <div class="mb-3">
+            <label for="expiryTime" class="col-form-label">Expiry Time:</label>
+            <input type="date" [(ngModel)]="donationObj.expiryTime" class="form-control" id="expiryTime">
+          </div>
+          <div class="mb-3">
+            <label for="createdAt" class="col-form-label">Created Time:</label>
+            <input type="date" [(ngModel)]="donationObj.createdAt" class="form-control" id="createdAt">
+          </div>
+          <div class="mb-3">
+            <label for="address" class="col-form-label">Address:</label>
+            <textarea class="form-control" [(ngModel)]="donationObj.address" id="address"></textarea>
+          </div>
+          <input type="text" [(ngModel)]="donationObj.donorId" value="user.id" >
+         
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngFor="let donation of donations">
+<app-card [donation]="donation" [routerLink]="['/donation',2]"></app-card>
+</div>
