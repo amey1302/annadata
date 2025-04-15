@@ -1,0 +1,11 @@
+<app-navbar></app-navbar>
+<div class="text-center col-6 mx-auto " >
+  <form class="d-flex" role="search">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+</div>
+
+<div *ngFor="let donation of donations">
+<app-card [donation]="donation" [routerLink]="['/donation','donation.id']"></app-card>
+</div>
