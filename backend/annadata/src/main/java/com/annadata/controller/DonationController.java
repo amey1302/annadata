@@ -74,7 +74,6 @@ public class DonationController {
 
     @PutMapping("/{uuid}")
     public ResponseEntity<?> updateDonation(@PathVariable UUID uuid , @RequestBody Donation donation0){
-        System.out.println("Hey, Hello , how are you doing");
         Donation donation = donationService.updateDonation(uuid,donation0);
         if (donation != null) {
             return ResponseEntity.status(HttpStatus.OK).body(new DonationDTO(donation));
