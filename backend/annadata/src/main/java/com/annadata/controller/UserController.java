@@ -2,6 +2,8 @@ package com.annadata.controller;
 
 import com.annadata.entity.User;
 import com.annadata.service.UserService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,10 +34,8 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-
     @DeleteMapping
     public String deleteAllUsers(){
         return userService.deleteAllUsers();
     }
-
 }
