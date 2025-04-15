@@ -6,9 +6,12 @@ import com.annadata.entity.Donation;
 import com.annadata.entity.Request;
 import com.annadata.service.DonorRequestService;
 import com.annadata.valueobject.CollectStatus;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+
 
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +43,7 @@ public class DonorRequestController {
                                        @RequestParam CollectStatus status) {
         return donorRequestService.updateCollectStatus(id, status);
     }
-    @PutMapping("/requests/{id}/update-quantity")
+    @PutMapping("/requests/{donationId}/update-quantity")
     public Donation updateQuantity(@PathVariable UUID donationId, @RequestBody UpdateQuantityDTO dto) {
         return donorRequestService.updateQuantity(donationId, dto.getQuantity());
     }
