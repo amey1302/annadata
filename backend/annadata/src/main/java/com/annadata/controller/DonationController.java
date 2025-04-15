@@ -7,7 +7,6 @@ import com.annadata.valueobject.FoodCategory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -57,7 +56,6 @@ public class DonationController {
 
     @GetMapping
     public ResponseEntity<List<DonationDTO>> getAllDonations() {
-        System.out.println("Hello , I am here");
         List<DonationDTO> donations = donationService.getAllDonations();
         return ResponseEntity.ok(donations);
     }
@@ -66,7 +64,6 @@ public class DonationController {
     public ResponseEntity<DonationDTO> markAsCollected(@PathVariable UUID uuid) {
         try {
             Donation donation = donationService.markAsCollected(uuid);
-
             return ResponseEntity.ok(new DonationDTO(donation));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -89,7 +86,6 @@ public class DonationController {
     @GetMapping("/search")
     @ResponseBody
     public ResponseEntity<List<DonationDTO>> getDonation(@RequestParam(required = false)FoodCategory foodCategory,@RequestParam(required = false)String address){
-
         List<Donation> donationList = donationService.searchDonations(foodCategory,address);
         List<DonationDTO> donationDTOList = donationList.stream().map(DonationDTO::convertToDTO).collect(Collectors.toList());
         return ResponseEntity.ok(donationDTOList);
