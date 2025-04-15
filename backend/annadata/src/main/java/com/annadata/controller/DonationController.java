@@ -28,12 +28,16 @@ public class DonationController {
                 .body(Map.of("message", "Donation created successfully", "donation", new DonationDTO(saved)));
     }
 
-
-
     @GetMapping
     public ResponseEntity<List<DonationDTO>> getAllDonations() {
         List<DonationDTO> donations = donationService.getAllDonations();
         return ResponseEntity.ok(donations);
+    }
+
+    @DeleteMapping
+    public  ResponseEntity<String> deleteAllDonations(){
+        String message = donationService.deleteAllDonations();
+        return ResponseEntity.ok(message);
     }
 
 
