@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DonationService {
 
-     Donation createDonation(Donation donation);
+     DonationDTO createDonation(Donation donation);
 
      List<DonationDTO> getAllDonations();
 
