@@ -43,7 +43,7 @@
             <label for="address" class="col-form-label">Address:</label>
             <textarea class="form-control" [(ngModel)]="donationObj.address" id="address"></textarea>
           </div>
-          <input type="text" [(ngModel)]="donationObj.donorId" value="user.id" >
+          <input type="hidden" [(ngModel)]="donationObj.donorId" value="userId" >
          
         </form>
       </div>

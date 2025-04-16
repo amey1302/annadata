@@ -24,7 +24,9 @@ export class DonationService {
     return this.http.get<Donation>(environment.api_url+Constant.API_END_POINT.GET_DONATION+'/'+id);
   }
 
-
+  searchDonation(location:string){
+    return this.http.get<Donation[]>(environment.api_url+Constant.API_END_POINT.SEARCH_DONATION);
+  }
   deleteDonationById(){
 
   }

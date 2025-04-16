@@ -28,5 +28,10 @@ export class HomepageComponent implements OnInit {
     })
    
   }
-  
+  searchedDonation :Donation[] = [];  
+  search(){
+    this.donationService.searchDonation(this.searchedLocation).subscribe((res:Donation[])=>{
+      this.searchedDonation = res;
+    });
+  }
 }

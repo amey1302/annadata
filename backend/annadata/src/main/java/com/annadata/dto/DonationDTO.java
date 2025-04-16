@@ -3,6 +3,7 @@ package com.annadata.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.annadata.entity.Donation;
 import com.annadata.valueobject.DonationStatus;
 import com.annadata.valueobject.FoodCategory;
 import com.annadata.valueobject.FoodType;
@@ -52,5 +53,24 @@ public class DonationDTO {
         this.donorName = donation.getDonor().getName();
         this.donorEmail = donation.getDonor().getEmail();
         this.donorPhone = donation.getDonor().getPhoneNumber();
+    }
+
+    public static DonationDTO convertToDTO(Donation donation) {
+        return DonationDTO.builder()
+                .id(donation.getId())
+                .title(donation.getTitle())
+                .description(donation.getDescription())
+                .foodCategory(donation.getFoodCategory())
+                .foodType(donation.getFoodType())
+                .quantity(donation.getQuantity())
+                .expiryTime(donation.getExpiryTime())
+                .createdAt(donation.getCreatedAt())
+                .address(donation.getAddress())
+                .addressLink(donation.getAddressLink())
+                .status(donation.getStatus())
+                .donorName(donation.getDonor().getName())
+                .donorEmail(donation.getDonor().getEmail())
+                .donorPhone(donation.getDonor().getPhoneNumber())
+                .build();
     }
 }

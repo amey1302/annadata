@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { CardComponent } from '../../components/card/card.component';
 import { RouterModule } from '@angular/router';
@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class DonorHomeComponent {
   public donationObj : Donation = new Donation();
   donations! : Donation[];
-  
+  userId : signal("");
     constructor(private donationService:DonationService){
   
     }
