@@ -12,9 +12,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
 
 @RestController
 public class AuthController {
@@ -29,9 +32,16 @@ public class AuthController {
 
         boolean isAuthenticated = service.authenticateUser(loginRequest);
         if(isAuthenticated){
-            HttpSession session = httpServletRequest.getSession();
-            session.setAttribute("USER_SESSION", loginRequest.getEmail());
-            System.out.println(session.getAttribute("USER_SESSION"));
+            Authentication auth = new UsernamePasswordAuthenticationToken(
+                    loginRequest.getEmail(), null, Collections.emptyList());
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            HttpSession session = httpServletRequest.getSession(true);
+            session.setAttribute(
+                    HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                    SecurityContextHolder.getContext()
+            );
+            System.out.println(session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY));
 
             return new ResponseEntity<>("Login Successful", HttpStatus.OK);
         }else{
