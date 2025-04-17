@@ -31,7 +31,7 @@ public class DonationServiceImpl implements DonationService {
     @Override
     public List<DonationDTO> getAllDonations() {
         List<Donation> donations = donationRepository.findAll();
-
+        
         return donations.stream()
                 .map(DonationDTO::new) // constructor maps from entity
                 .collect(Collectors.toList());

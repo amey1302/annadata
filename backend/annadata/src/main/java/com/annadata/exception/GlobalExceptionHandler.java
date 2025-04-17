@@ -10,6 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.annadata.dto.ApiResponse;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,5 +55,17 @@ public class GlobalExceptionHandler {
         error.put("message", message);
         error.put("status", status.value());
         return error;
+    }
+    
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiResponse<String>> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        String message = "Something went wrong!";
+
+        if (ex.getMessage().contains("users_email_key")) {
+            message = "Email already exists!";
+        }
+
+        ApiResponse<String> response = new ApiResponse<>(false, message, null);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

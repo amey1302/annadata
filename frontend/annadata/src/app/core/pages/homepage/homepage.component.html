@@ -5,7 +5,6 @@
     <button class="btn btn-outline-success" type="submit">Search</button>
   </form>
 </div>
-
 <div *ngFor="let donation of donations">
-<app-card [donation]="donation" [routerLink]="['/donation','donation.id']"></app-card>
+  <app-card [donation]="donation" [routerLink]="['/donation','donation.id']"></app-card>
 </div>

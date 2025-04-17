@@ -115,7 +115,7 @@ second now populate the donation table:
         "password": "securePassword123",
         "phoneNumber": "9876543210",
         "role": "DONOR"
-      },
+      } ,
       "title": "Fresh Fruits Donation",
       "description": "5 crates of bananas and apples",
       "foodCategory": "PERISHABLE",
