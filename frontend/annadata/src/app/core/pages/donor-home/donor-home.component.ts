@@ -19,7 +19,7 @@ import { DomSanitizer , SafeResourceUrl } from '@angular/platform-browser';
 export class DonorHomeComponent {
   public donationObj : DonationSave = new DonationSave();
   donations! : Donation[];
-  userId = signal("77c2e050-d0ca-4023-95b8-7b9c7f6a2995");
+  userId = signal("5fb5cf19-52be-4e85-8629-d9d534c8b29f");
     constructor(private donationService:DonationService, private sanitizer: DomSanitizer){
   
     }
@@ -41,20 +41,20 @@ export class DonorHomeComponent {
       this.getDonation();
     }
 
-    mapUrl: SafeResourceUrl | null = null;
-    getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-          const embedUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
-          this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
-          this.donationObj.addressLink =    this.mapUrl;
-        }, (error) => {
-          alert('Location permission denied or unavailable.');
-        });
-      } else {
-        alert('Geolocation is not supported by this browser.');
-      }
-    }
+    // mapUrl: SafeResourceUrl | null = null;
+    // getLocation() {
+    //   if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition((position) => {
+    //       const lat = position.coords.latitude;
+    //       const lng = position.coords.longitude;
+    //       const embedUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
+    //       this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+    //       this.donationObj.addressLink =    this.mapUrl;
+    //     }, (error) => {
+    //       alert('Location permission denied or unavailable.');
+    //     });
+    //   } else {
+    //     alert('Geolocation is not supported by this browser.');
+    //   }
+    // }
 }

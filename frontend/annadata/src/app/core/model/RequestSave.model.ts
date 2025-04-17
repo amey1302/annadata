@@ -1,9 +1,13 @@
 export class RequestSave{
-    quantity:number;
+    donationId:string;
+    receiverId:string
+    quantityRequested:number;
     message:string;
 
     constructor(){
-        this.quantity = 0;
+        this.quantityRequested = 0;
         this.message = '';
+        this.donationId = '';
+        this.receiverId = '';
     }
 }

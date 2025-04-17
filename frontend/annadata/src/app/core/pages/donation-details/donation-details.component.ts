@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { Donation } from '../../model/Donation.model';
 import { Router } from '@angular/router';
 import { RequestSave } from '../../model/RequestSave.model';
+import { RequestService } from '../../services/request.service';
 declare var bootstrap: any;
 
 @Component({
@@ -18,18 +19,24 @@ declare var bootstrap: any;
   templateUrl: './donation-details.component.html',
   styleUrl: './donation-details.component.scss'
 })
-export class DonationDetailsComponent implements OnInit{
+export class DonationDetailsComponent implements OnInit {
   donation: Donation = new Donation();
   timeRemaining: string = '';
   donorInitials = '';
-  request : RequestSave = new RequestSave();
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private donationService:DonationService, private router: Router) {}
+  request: RequestSave = new RequestSave();
+  constructor(
+    private route: ActivatedRoute, 
+    private sanitizer: DomSanitizer, 
+    private donationService: DonationService,
+     private router: Router, 
+     private requestService: RequestService
+    ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
     this.donationService.getDonationById(id!).subscribe({
-      next:(res) => this.donation = res,
+      next: (res) => this.donation = res,
     })
 
     this.calculateCountdown();
@@ -39,11 +46,11 @@ export class DonationDetailsComponent implements OnInit{
   setDonorInitials() {
     const name = this.donation?.donorName || '';
     this.donorInitials = name
-  .split(' ')
-  .map((word: string) => word[0])
-  .join('')
-  .toUpperCase()
-  .slice(0, 2);
+      .split(' ')
+      .map((word: string) => word[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
   }
 
   calculateCountdown() {
@@ -67,7 +74,7 @@ export class DonationDetailsComponent implements OnInit{
   editableDonation: any = {};
 
   openEditModal(donation: any) {
-    this.editableDonation = { ...donation }; 
+    this.editableDonation = { ...donation };
     const modalElement = document.getElementById('editDonationModal');
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
@@ -75,45 +82,70 @@ export class DonationDetailsComponent implements OnInit{
     }
   }
 
-
-  saveRequest(){
-    
-  }
-
-
-  updateDonation() {
-    
-  }
   
+  updateDonation() {
+    this.donationService.updateDonationById(this.donation.id, this.editableDonation).subscribe({
+      next:()=>console.log("updated")
+    })
+  }
+  quantity : number =0;
+  openEditQuantityModal(){
+    this.quantity =  this.donation.quantity
+    const modalElement = document.getElementById('editQuantityModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+  updateQuantity(){
+    this.donationService.updateQuantity(this.donation.id, this.quantity).subscribe({
+      next: ()=>{
+        console.log("successfully added");
+      }
+    })
+  }
+  saveRequest() {
+    this.request.donationId = this.donation.id;
+    this.request.receiverId = "00d0f28f-500d-40b5-866b-4ff158830037";
+    console.log(this.request.quantityRequested);
+    this.requestService.saveRequest(this.request).subscribe({
+      next: (res) =>{
+        console.log(res.data);
+      }
+    })
+  }
+
+
+
   showDeleteModal: boolean = false;
   donationToDeleteId: string = '';
 
-deleteDonation(id: string) {
-  this.donationToDeleteId = id;
-  this.showDeleteModal = true;
-}
+  deleteDonation(id: string) {
+    this.donationToDeleteId = id;
+    this.showDeleteModal = true;
+  }
 
-confirmDelete() {
-  this.donationService.deleteDonationById(this.donationToDeleteId).subscribe({
-    next: () => {
-      this.showDeleteModal = false;
-      this.router.navigate(['/donor/homepage']).then(success => {
-        if (success) {
-          console.log('Navigation success');
-        } else {
-          console.log('Navigation failed');
-        }
-      });
-    },
-    error: err => {
-      console.error('Delete failed:', err);
-      this.showDeleteModal = false;
-    }
-  });
-}
+  confirmDelete() {
+    this.donationService.deleteDonationById(this.donationToDeleteId).subscribe({
+      next: () => {
+        this.showDeleteModal = false;
+        this.router.navigate(['/donor/homepage']).then(success => {
+          if (success) {
+            console.log('Navigation success');
+          } else {
+            console.log('Navigation failed');
+          }
+        });
+      },
+      error: err => {
+        console.error('Delete failed:', err);
+        this.showDeleteModal = false;
+      }
+    });
+  }
 
-cancelDelete() {
-  this.showDeleteModal = false;
-}
+  cancelDelete() {
+    this.showDeleteModal = false;
+  }
 
 }

@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { LoginServices } from '../../services/Login.services';
 import { User } from '../../model/User';
 import { Router } from '@angular/router'; // Make sure to import this
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-login-signup',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgIf],
   templateUrl: './login-signup.component.html',
   styleUrl: './login-signup.component.scss'
 })
@@ -39,7 +40,25 @@ export class LoginSignupComponent implements OnInit{
       })
      }
 
+     confirmPassword: string = '';
 
+     loginEmailTouched: boolean = false;
+     loginPasswordTouched: boolean = false;
+     nameTouched: boolean = false;
+     emailTouched: boolean = false;
+     passwordTouched: boolean = false;
+     confirmPasswordTouched: boolean = false;
+     phoneTouched: boolean = false;
+   
+     passwordCriteria = {
+       minLength: false,
+       uppercase: false,
+       lowercase: false,
+       number: false,
+       specialChar: false,
+     };
+   
+   
      signup(){
         this.LoginServices.saveUser(this.signupdata).subscribe({
 

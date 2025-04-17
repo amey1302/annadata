@@ -34,8 +34,15 @@ export class DonationService {
     return this.http.delete<string>(environment.api_url+Constant.API_END_POINT.DELETE_DONATION+"/"+id);
   }
 
-  updateDonationById(obj: DonationSave){
-    return this.http.put<ApiResponse>(environment.api_url+Constant.API_END_POINT.ADD_DONATION, obj);
+  updateDonationById(id:string, obj: DonationSave){
+    return this.http.put<ApiResponse>(environment.api_url+Constant.API_END_POINT.ADD_DONATION+"/"+id, obj);
+  }
+
+  updateQuantity(donationID:string, quantity:number){
+   let  obj = {
+      "quantity": quantity
+    }
+    return this.http.put<ApiResponse>(environment.api_url+Constant.API_END_POINT.UPDATE_QUANTITY+donationID+"/update-quantity", obj);
   }
 }
 

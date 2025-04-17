@@ -39,8 +39,10 @@
             {{ donation.description }}
           </div>
         </div>
-
+        <div>
         <div class="mb-2"><strong class="text-muted">🍽 Quantity:</strong> {{ donation.quantity }} people</div>
+        <i class="bi bi-pencil-square text-primary me-3" role="button" (click)="openEditQuantityModal()"></i>
+      </div>
         <div class="mb-2"><strong class="text-muted">📅 Expiry:</strong> {{ donation.expiryTime | date:'short' }}</div>
         <div class="mb-2"><strong class="text-muted">⏰ Created:</strong> {{ donation.createdAt | date:'medium' }}</div>
 
@@ -122,7 +124,7 @@
         <form>
           <div class="mb-3">
             <label for="quantity" class="form-label">Quantity:</label>
-            <input type="number" [(ngModel)]="request.quantity" name="quantity" class="form-control rounded-3" id="quantity" placeholder="Enter quantity required">
+            <input type="number" [(ngModel)]="request.quantityRequested" name="quantity" class="form-control rounded-3" id="quantity" placeholder="Enter quantity required">
           </div>
           <div class="mb-3">
             <label for="message" class="form-label">Message:</label>
@@ -133,7 +135,7 @@
 
       <div class="modal-footer bg-light rounded-bottom-4">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-success" (click)="saveRequest()">Send Request</button>
+        <button type="button" class="btn btn-success" (click)="saveRequest()" data-bs-dismiss="modal">Send Request</button>
       </div>
     </div>
   </div>
@@ -162,6 +164,20 @@
             <label class="form-label text-muted">Quantity</label>
             <input type="number" class="form-control rounded-3" [(ngModel)]="editableDonation.quantity" name="quantity">
           </div>
+          <div class="col-md-6">
+            <label for="expiryTime" class="form-label">Expiry Time</label>
+            <input type="datetime-local" [(ngModel)]="editableDonation.expiryTime" name="expiryTime" class="form-control" id="expiryTime">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-muted">Address</label>
+            <textarea class="form-control rounded-3" [(ngModel)]="editableDonation.address" name="address"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-muted">Address Link:</label>
+            <input type="text" class="form-control rounded-3" [(ngModel)]="editableDonation.addressLink" name="addressLink">
+          </div>
+
+
         </div>
 
         <div class="modal-footer bg-light">
@@ -174,3 +190,31 @@
 </div>
 
 
+
+
+
+<div class="modal fade" id="editQuantityModal" tabindex="-1" aria-labelledby="editQuantityModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-4 shadow-sm border-0">
+      <form (ngSubmit)="updateQuantity()">
+        <div class="modal-header" style="background-color: #F7F1E3;">
+          <h5 class="modal-title" style="color: #5B3711;">Edit Quantity</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body bg-white">
+         
+          <div class="mb-3">
+            <label class="form-label text-muted">Quantity</label>
+            <input type="number" class="form-control rounded-3" [(ngModel)]="quantity" name="quantity">
+          </div>
+        </div>
+
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn" style="background-color: #5B8C5A; color: white;" data-bs-dismiss="modal">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

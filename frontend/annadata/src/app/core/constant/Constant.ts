@@ -6,6 +6,7 @@ export const Constant = {
         SEARCH_DONATION:'/donations/search?address=',
         DELETE_DONATION:'/donations',
         User : '/users',
-        ADD_REQUEST:'/request'
+        ADD_REQUEST:'/receiver/requests',
+        UPDATE_QUANTITY:'/donor/requests/',
     }
 }

@@ -60,19 +60,19 @@
                 <label for="address" class="form-label">Address</label>
                 <textarea [(ngModel)]="donationObj.address" name="address" class="form-control" id="address" rows="2"></textarea>
               </div>
-              <button (click)="getLocation()">Get My Location</button>
-              <!-- <div class="col-12">
+              <!-- <button (click)="getLocation()">Get My Location</button> -->
+              <div class="col-12">
                 <label for="addressLink" class="form-label">Google Maps Link</label>
                 <input type="text" [(ngModel)]="donationObj.addressLink" name="addressLink" class="form-control" id="addressLink">
-              </div> -->
-              <iframe
+              </div>
+              <!-- <iframe
   width="100%"
   height="400"
   [src]="mapUrl"
   style="border:0;"
   allowfullscreen
   loading="lazy">
-</iframe>
+</iframe> -->
 
               <input type="hidden" [(ngModel)]="donationObj.donorId" name="donorId">
             </div>

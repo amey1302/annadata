@@ -96,8 +96,8 @@ public class DonationServiceImpl implements DonationService {
         Donation donation = getDonationById(id);
         donation.setTitle(updatedDonation.getTitle());
         donation.setDescription(updatedDonation.getDescription());
-        donation.setFoodCategory(updatedDonation.getFoodCategory());
-        donation.setFoodType(updatedDonation.getFoodType());
+//        donation.setFoodCategory(updatedDonation.getFoodCategory());
+//        donation.setFoodType(updatedDonation.getFoodType());
         donation.setQuantity(updatedDonation.getQuantity());
         donation.setExpiryTime(updatedDonation.getExpiryTime());
         donation.setAddress(updatedDonation.getAddress());
