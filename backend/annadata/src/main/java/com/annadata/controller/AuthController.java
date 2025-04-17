@@ -1,4 +1,8 @@
 package com.annadata.controller;
+import com.annadata.entity.Login;
+import com.annadata.entity.User;
+import com.annadata.repository.UserRepository;
+import com.annadata.service.UserService;
 
 import com.annadata.dto.RegisterRequestDTO;
 import com.annadata.entity.Login;
@@ -10,6 +14,10 @@ import com.annadata.serviceImpl.AuthServiceImpl;
 import com.annadata.valueobject.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +27,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.Collections;
 import java.util.UUID;
 
+
 @RestController
+@RequestMapping("/food-donation/api/v1")
+
 public class AuthController {
 
     @Autowired
@@ -34,21 +47,44 @@ public class AuthController {
     private UserRepository repo;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Login loginRequest, HttpServletRequest request) {
-        try{
+    public ResponseEntity<Map<String,Object>> login(@RequestBody Login loginRequest, HttpServletRequest request) {
+        Map<String, Object> resp = new HashMap<>();
+
+        try {
             boolean isAuthenticated = service.authenticateUser(loginRequest);
             if (isAuthenticated) {
                 User user = repo.findByEmail(loginRequest.getEmail());
                 createSessionWithSecurityContext(request, loginRequest.getEmail(), user.getId(), user.getRole());
-                return new ResponseEntity<>("Login Successful", HttpStatus.OK);
+                resp.put("message", "Login Success");
+                resp.put("status", true);
+                return new ResponseEntity<>(resp, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Invalid Credentials", HttpStatus.UNAUTHORIZED);
+                resp.put("message", "Invalid creadential");
+                resp.put("status", false);
+                return new ResponseEntity<>(resp, HttpStatus.UNAUTHORIZED);
             }
-        }catch (IllegalArgumentException exception){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+        } catch (IllegalArgumentException exception) {
+            resp.put("message", exception.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
         }
-
     }
+    // private AuthService service;
+
+    // @PostMapping("/login")
+    // public ResponseEntity<String> login(@RequestBody Login loginRequest, HttpServletRequest request) {
+    //     try{
+    //         boolean isAuthenticated = service.authenticateUser(loginRequest);
+    //         if (isAuthenticated) {
+    //             createSessionWithSecurityContext(request, loginRequest.getEmail());
+    //             return new ResponseEntity<>("Login Successful", HttpStatus.OK);
+    //         } else {
+    //             return new ResponseEntity<>("Invalid Credentials", HttpStatus.UNAUTHORIZED);
+    //         }
+    //     }catch (IllegalArgumentException exception){
+    //         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    //     }
+
+    // }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequestDTO request, HttpServletRequest requestContext) {
@@ -64,6 +100,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+
         }
     }
 
@@ -95,4 +132,5 @@ public class AuthController {
                 role
         );
     }
+
 }

@@ -38,4 +38,9 @@ public class UserController {
     public String deleteAllUsers(){
         return userService.deleteAllUsers();
     }
+    
+//    @DeleteMapping
+//    public String deletebyId() {
+//    	
+//    }
 }

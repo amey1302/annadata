@@ -1,7 +1,9 @@
 package com.annadata.serviceImpl;
 
 import com.annadata.dto.DonationDTO;
+import com.annadata.dto.DonorRequestViewDTO;
 import com.annadata.entity.Donation;
+import com.annadata.entity.Request;
 import com.annadata.repository.DonationRepository;
 import com.annadata.service.DonationService;
 import com.annadata.valueobject.DonationStatus;
@@ -22,18 +24,38 @@ public class DonationServiceImpl implements DonationService {
     }
 
     @Override
-    public Donation createDonation(Donation donation) {
+    public DonationDTO createDonation(Donation donation) {
         donation.setStatus(DonationStatus.OPEN);
         donationRepository.save(donation);
-        return donation;
+
+        return mapToDTO(donation);
     }
+    private DonationDTO mapToDTO(Donation donation) {
+        return DonationDTO.builder()
+                .id(donation.getId())
+                .title(donation.getTitle())
+                .description(donation.getDescription())
+                .foodCategory(donation.getFoodCategory())
+                .foodType(donation.getFoodType())
+                .quantity(donation.getQuantity())
+                .expiryTime(donation.getExpiryTime())
+                .address(donation.getAddress())
+                .addressLink(donation.getAddressLink())
+                .createdAt(donation.getCreatedAt())
+                .status(donation.getStatus())
+                .donorName(donation.getDonor().getName())
+                .donorEmail(donation.getDonor().getEmail())
+                .donorPhone(donation.getDonor().getPhoneNumber())
+                .build();
+    }
+
 
     @Override
     public List<DonationDTO> getAllDonations() {
         List<Donation> donations = donationRepository.findAll();
-
+        
         return donations.stream()
-                .map(DonationDTO::new) // constructor maps from entity
+                .map(DonationDTO::new)
                 .collect(Collectors.toList());
     }
 
