@@ -1,12 +1,43 @@
-<div class="card" style="width: 18rem;">
-    <div class="card-body">
-      
-      <h5 class="card-title">{{donation.title}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">{{donation.foodType}}</h6>
-      <p class="card-text">{{donation.quantity}}</p>
-      <p class="card-text">{{donation.address}}</p>
-      <p class="card-text">{{donation.status}}</p>
-      <p class="card-text">{{donation.expiryTime}}</p>
-      <a href="#" class="card-link">{{donation.addressLink}}</a>
-    </div>
+<div
+  class="card shadow-sm rounded-4 border-0 h-100"
+  style="background-color: #FAF9F6; transition: transform 0.3s;"
+  (mouseover)="hover = true"
+  (mouseleave)="hover = false"
+  [ngStyle]="{ transform: hover ? 'scale(1.02)' : 'scale(1)' }"
+  (click)="viewDonationDetails(donation.id)"
+>
+  <div class="card-body">
+    <h5 class="card-title mb-1" style="color: #5B3711;">{{ donation.title }}</h5>
+    <h6 class="card-subtitle mb-2" [ngStyle]="{ color: donation.foodType === 'VEG' ? '#5B8C5A' : '#F77F00' }">
+      {{ donation.foodType }}
+    </h6>
+
+    <p class="mb-1"><strong>Feeds:</strong> {{ donation.quantity }} people</p>
+    <p class="mb-1"><strong>Address:</strong> {{ donation.address }}</p>
+    <p class="mb-1 d-flex align-items-center gap-2">
+      <strong>Status:</strong>
+      <span
+        class="badge rounded-pill px-3 py-2 fw-medium"
+        [ngStyle]="{
+          backgroundColor: donation.status === 'OPEN' ? '#5B8C5A' : '#adb5bd',
+          color: 'white'
+        }"
+      >
+        <i class="bi bi-check-circle-fill me-1" *ngIf="donation.status === 'OPEN'"></i>
+        <i class="bi bi-x-circle-fill me-1" *ngIf="donation.status === 'CLOSED'"></i>
+        {{ donation.status === 'OPEN' ? 'Available' : 'Closed' }}
+      </span>
+    </p>
+    <p class="mb-2"><strong>Expires at:</strong> {{ donation.expiryTime | date: 'short' }}</p>
+
+    <a
+      class="btn btn-sm rounded-pill"
+      style="background-color: #F77F00; color: white;"
+      [href]="donation.addressLink"
+      target="_blank"
+      (click)="$event.stopPropagation()"
+    >
+      View on Map
+    </a>
   </div>
+</div>

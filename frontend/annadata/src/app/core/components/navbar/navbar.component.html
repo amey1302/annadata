@@ -1,28 +1,29 @@
-<nav nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="#">Annadata</a>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" >My Request</a>
-          </li>
-        </ul>
-          <div class="d-flex">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" >Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" >MyName</a>
-            </li>
-          </ul>
-          </div>
-          
-       
-        
-      </div>
+<nav class="navbar navbar-expand-lg custom-navbar">
+  <div class="container-fluid">
+    <!-- Logo / Title -->
+    <a class="navbar-brand project-title" routerLink="/">Annadata</a>
+
+    <!-- Toggle Button (for small screens) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navigation Links -->
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/my-requests" routerLinkActive="active-link">My Requests</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active-link">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link username" href="#">MyName</a>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>

@@ -14,6 +14,6 @@ import java.util.UUID;
 public interface DonationRepository extends JpaRepository<Donation, UUID> {
 
 	 List<Donation> findByDonor_Id(UUID donorId);
-	    List<Donation> findByFoodCategoryOrAddressContainingIgnoreCase(FoodCategory foodCategory , String address);
+	    List<Donation> findByAddressContainingIgnoreCase( String address);
 
 }

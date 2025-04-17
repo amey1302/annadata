@@ -1,0 +1,63 @@
+/* Overall container styling */
+.container {
+    background-color: #F7F1E3;
+    border-radius: 16px;
+    padding: 24px;
+  }
+  
+  /* Add Donation Button */
+  .btn-saffron {
+    background-color: #F77F00;
+    color: white;
+    border: none;
+  }
+  
+  .btn-saffron:hover {
+    background-color: #e97100;
+  }
+  
+  /* Title color */
+  .text-deep-brown {
+    color: #5B3711;
+  }
+  
+  /* Modal Content */
+  .bg-off-white {
+    background-color: #FAF9F6;
+  }
+  
+  /* Card List Styling */
+  .app-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #FFFFFF;
+  }
+  
+  /* Card Hover Effect */
+  .app-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Card Title */
+  .card-title {
+    font-weight: bold;
+  }
+  
+  /* Form Label */
+  .form-label {
+    font-weight: 600;
+    color: #5B3711;
+  }
+  
+  /* Button Styling */
+  .btn-primary, .btn-secondary {
+    background-color: #5B8C5A;
+    border-color: #5B8C5A;
+  }
+  
+  .btn-primary:hover, .btn-secondary:hover {
+    background-color: #4A6E47;
+    border-color: #4A6E47;
+  }
+  

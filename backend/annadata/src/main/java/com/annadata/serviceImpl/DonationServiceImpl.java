@@ -108,8 +108,8 @@ public class DonationServiceImpl implements DonationService {
 	    }
 
 	    @Override
-	    public List<Donation> searchDonations(FoodCategory foodCategory, String address) {
-	        return donationRepository.findByFoodCategoryOrAddressContainingIgnoreCase(foodCategory,address);
+	    public List<Donation> searchDonations( String address) {
+	        return donationRepository.findByAddressContainingIgnoreCase(address);
 	    }
 
 	    @Override

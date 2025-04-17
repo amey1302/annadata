@@ -5,6 +5,7 @@ import { Donation } from '../model/Donation.model';
 import { environment } from '../../../environments/environment.development';
 import { Constant } from '../constant/Constant';
 import { ApiResponse } from '../model/ApiResponse.model';
+import { DonationSave } from '../model/DonationSave.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +13,8 @@ export class DonationService {
 
   constructor(private http: HttpClient) { }
 
-  saveDonation(obj:Donation):Observable<ApiResponse>{
+  saveDonation(obj:DonationSave):Observable<ApiResponse>{
+    console.log(obj);
       return this.http.post<ApiResponse>(environment.api_url+Constant.API_END_POINT.ADD_DONATION, obj);
   }
 
@@ -25,14 +27,15 @@ export class DonationService {
   }
 
   searchDonation(location:string){
-    return this.http.get<Donation[]>(environment.api_url+Constant.API_END_POINT.SEARCH_DONATION);
+
+    return this.http.get<Donation[]>(environment.api_url+Constant.API_END_POINT.SEARCH_DONATION+location);
   }
-  deleteDonationById(){
-
+  deleteDonationById(id:string){
+    return this.http.delete<string>(environment.api_url+Constant.API_END_POINT.DELETE_DONATION+"/"+id);
   }
 
-  updateDonationById(){
-
+  updateDonationById(obj: DonationSave){
+    return this.http.put<ApiResponse>(environment.api_url+Constant.API_END_POINT.ADD_DONATION, obj);
   }
 }
 

@@ -24,7 +24,7 @@ public interface DonationService {
 
     Donation updateDonation(UUID uuid,Donation donation);
 
-    List<Donation> searchDonations(FoodCategory foodCategory, String address);
+    List<Donation> searchDonations( String address);
 
     List<DonationDTO> getDonationsByDonorId(UUID donorId);
 }

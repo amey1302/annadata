@@ -26,6 +26,7 @@ public class DonationController {
 	    }
 	    @PostMapping
 	    public ResponseEntity<?> createDonation(@RequestBody DonationCreateDTO donationDTO) {
+	    	
 	        Donation saved = donationService.createDonation(donationDTO);
 	        return ResponseEntity.status(HttpStatus.CREATED)
 	                .body(Map.of("message", "Donation created successfully", "donation", new DonationDTO(saved)));
@@ -89,8 +90,8 @@ public class DonationController {
 
 	    @GetMapping("/search")
 	    @ResponseBody
-	    public ResponseEntity<List<DonationDTO>> getDonation(@RequestParam(required = false)FoodCategory foodCategory,@RequestParam(required = false)String address){
-	        List<Donation> donationList = donationService.searchDonations(foodCategory,address);
+	    public ResponseEntity<List<DonationDTO>> getDonation(@RequestParam(required = false)String address){
+	    	List<Donation> donationList = donationService.searchDonations(address);
 	        List<DonationDTO> donationDTOList = donationList.stream().map(DonationDTO::convertToDTO).collect(Collectors.toList());
 	        return ResponseEntity.ok(donationDTOList);
 	    }

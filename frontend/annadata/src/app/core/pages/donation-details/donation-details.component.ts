@@ -6,6 +6,9 @@ import { SafeUrlPipe } from '../../Pipe/safe-url.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { DonationService } from '../../services/donation.service';
 import { FormsModule } from '@angular/forms';
+import { Donation } from '../../model/Donation.model';
+import { Router } from '@angular/router';
+import { RequestSave } from '../../model/RequestSave.model';
 declare var bootstrap: any;
 
 @Component({
@@ -16,16 +19,18 @@ declare var bootstrap: any;
   styleUrl: './donation-details.component.scss'
 })
 export class DonationDetailsComponent implements OnInit{
-  donation: any;
+  donation: Donation = new Donation();
   timeRemaining: string = '';
   donorInitials = '';
-
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private donationService:DonationService) {}
+  request : RequestSave = new RequestSave();
+  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private donationService:DonationService, private router: Router) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-  
-    this.donation = this.donationService.getDonationById(id!);
+
+    this.donationService.getDonationById(id!).subscribe({
+      next:(res) => this.donation = res,
+    })
 
     this.calculateCountdown();
     this.setDonorInitials();
@@ -44,7 +49,7 @@ export class DonationDetailsComponent implements OnInit{
   calculateCountdown() {
     setInterval(() => {
       const now = new Date().getTime();
-      const expiry = new Date(this.donation?.expiry_time).getTime();
+      const expiry = new Date(this.donation?.expiryTime).getTime();
       const distance = expiry - now;
 
       if (distance > 0) {
@@ -70,11 +75,45 @@ export class DonationDetailsComponent implements OnInit{
     }
   }
 
-  updateDonation() {
+
+  saveRequest(){
     
   }
 
-  deleteDonation(id: number) {
-   
+
+  updateDonation() {
+    
   }
+  
+  showDeleteModal: boolean = false;
+  donationToDeleteId: string = '';
+
+deleteDonation(id: string) {
+  this.donationToDeleteId = id;
+  this.showDeleteModal = true;
+}
+
+confirmDelete() {
+  this.donationService.deleteDonationById(this.donationToDeleteId).subscribe({
+    next: () => {
+      this.showDeleteModal = false;
+      this.router.navigate(['/donor/homepage']).then(success => {
+        if (success) {
+          console.log('Navigation success');
+        } else {
+          console.log('Navigation failed');
+        }
+      });
+    },
+    error: err => {
+      console.error('Delete failed:', err);
+      this.showDeleteModal = false;
+    }
+  });
+}
+
+cancelDelete() {
+  this.showDeleteModal = false;
+}
+
 }
