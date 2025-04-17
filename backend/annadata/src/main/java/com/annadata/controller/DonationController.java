@@ -1,5 +1,6 @@
 package com.annadata.controller;
 
+import com.annadata.dto.DonationCreateDTO;
 import com.annadata.dto.DonationDTO;
 import com.annadata.entity.Donation;
 import com.annadata.service.DonationService;
@@ -21,13 +22,13 @@ public class DonationController {
     DonationController(DonationService donationService){
         this.donationService=donationService;
     }
-
     @PostMapping
-    public ResponseEntity<?> createDonation(@RequestBody Donation donation) {
-        Donation saved = donationService.createDonation(donation);
+    public ResponseEntity<?> createDonation(@RequestBody DonationCreateDTO donationDTO) {
+        Donation saved = donationService.createDonation(donationDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Map.of("message", "Donation created successfully", "donation", new DonationDTO(saved)));
     }
+
 
     @DeleteMapping("/{uuid}")
     public ResponseEntity<String> deleteDonation(@PathVariable UUID uuid) {
@@ -54,11 +55,13 @@ public class DonationController {
         }
     }
 
+
     @GetMapping
     public ResponseEntity<List<DonationDTO>> getAllDonations() {
         List<DonationDTO> donations = donationService.getAllDonations();
         return ResponseEntity.ok(donations);
     }
+
 
     @PutMapping("/{uuid}/closed")
     public ResponseEntity<DonationDTO> markAsCollected(@PathVariable UUID uuid) {
@@ -90,5 +93,9 @@ public class DonationController {
         return ResponseEntity.ok(donationDTOList);
     }
 
-
+    @GetMapping("/donor/{donorId}")
+    public ResponseEntity<List<DonationDTO>> getDonationsByDonor(@PathVariable UUID donorId) {
+        List<DonationDTO> donationList = donationService.getDonationsByDonorId(donorId);
+        return ResponseEntity.ok(donationList);
+    }
 }

@@ -19,14 +19,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Table(name = "donations")
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -34,6 +34,7 @@ public class Donation {
 
     @Id
     @GeneratedValue
+    @UuidGenerator
     private UUID id;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -69,5 +70,101 @@ public class Donation {
     @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public User getDonor() {
+        return donor;
+    }
+
+    public void setDonor(User donor) {
+        this.donor = donor;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public FoodCategory getFoodCategory() {
+        return foodCategory;
+    }
+
+    public void setFoodCategory(FoodCategory foodCategory) {
+        this.foodCategory = foodCategory;
+    }
+
+    public FoodType getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(FoodType foodType) {
+        this.foodType = foodType;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public LocalDateTime getExpiryTime() {
+        return expiryTime;
+    }
+
+    public void setExpiryTime(LocalDateTime expiryTime) {
+        this.expiryTime = expiryTime;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddressLink() {
+        return addressLink;
+    }
+
+    public void setAddressLink(String addressLink) {
+        this.addressLink = addressLink;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public DonationStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(DonationStatus status) {
+        this.status = status;
     }
 }

@@ -12,8 +12,8 @@ import java.util.UUID;
 @Repository
 public interface DonationRepository extends JpaRepository<Donation, UUID> {
 
-    List<Donation> findByStatus(DonationStatus status);
-
+    List<Donation> findByDonor_Id(UUID donorId);
     List<Donation> findByFoodCategoryOrAddressContainingIgnoreCase(FoodCategory foodCategory , String address);
 
 }
+

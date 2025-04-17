@@ -1,0 +1,403 @@
+{
+	"info": {
+		"_postman_id": "29bf4983-5d5d-44d6-bf1d-fa06e63c23df",
+		"name": "food_donation_app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38378872"
+	},
+	"item": [
+		{
+			"name": "Create User(Donor)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Sneha Sharma\",\r\n  \"email\": \"sneha@example.com\",\r\n  \"password\": \"sneha@123\",\r\n  \"phoneNumber\": \"9123456780\",\r\n  \"role\": \"DONOR\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Donor Requests",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/donor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"donor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Dontaions",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/donations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"donations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User(Reciever)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Sachin Vibute\",\r\n  \"email\": \"sachinv@gmail.com\",\r\n  \"password\": \"Sachin@123\",\r\n  \"phoneNumber\": \"8956456958\",\r\n  \"role\": \"RECEIVER\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/users/40ee75c1-bd24-437b-856d-afe27357d849",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"users",
+						"40ee75c1-bd24-437b-856d-afe27357d849"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Donation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"donor\": {\r\n    \"id\": \"40ee75c1-bd24-437b-856d-afe27357d849\"\r\n  },\r\n  \"title\": \"Fresh Fruits Donation\",\r\n  \"description\": \"5 crates of bananas and apples\",\r\n  \"foodCategory\": \"PERISHABLE\",\r\n  \"foodType\": \"VEG\",\r\n  \"quantity\": 5,\r\n  \"expiryTime\": \"2025-04-15T15:00:00\",\r\n  \"address\": \"Fruit Market, Sector 12, Mumbai\",\r\n  \"addressLink\": \"https://maps.google.com/?q=19.0760,72.8777\",\r\n  \"status\": \"OPEN\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/donations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"donations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Donations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/donations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"donations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Request by Receiver for Donation by Id",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/receiver/requests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"receiver",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "accept the user request",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/donor/requests/4bf33b37-3193-43d8-a827-76430ebfdb3e/accept",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"donor",
+						"requests",
+						"4bf33b37-3193-43d8-a827-76430ebfdb3e",
+						"accept"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Status of request as Collected",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/donor/requests/4bf33b37-3193-43d8-a827-76430ebfdb3e/collect-status?status=COLLECTED",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"donor",
+						"requests",
+						"4bf33b37-3193-43d8-a827-76430ebfdb3e",
+						"collect-status"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "COLLECTED"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get the receiver request by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/receiver/requests?receiverId=8df93d44-763b-4d83-b94e-6b860741d8ef",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"receiver",
+						"requests"
+					],
+					"query": [
+						{
+							"key": "receiverId",
+							"value": "8df93d44-763b-4d83-b94e-6b860741d8ef"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update the quantity of food remaining by donor",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"quantity\": 3\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/donor/requests/6d7c4cae-1e4d-4682-aac0-b8b1dca1c78a/update-quantity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"donor",
+						"requests",
+						"6d7c4cae-1e4d-4682-aac0-b8b1dca1c78a",
+						"update-quantity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close the donation",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/food-donation/api/v1/donor/donations/8595ab3f-43a3-4d1b-ad69-6b57335711f8/close",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food-donation",
+						"api",
+						"v1",
+						"donor",
+						"donations",
+						"8595ab3f-43a3-4d1b-ad69-6b57335711f8",
+						"close"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
