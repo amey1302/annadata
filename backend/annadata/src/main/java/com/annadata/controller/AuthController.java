@@ -65,23 +65,6 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
         }
     }
-    // private AuthService service;
-
-    // @PostMapping("/login")
-    // public ResponseEntity<String> login(@RequestBody Login loginRequest, HttpServletRequest request) {
-    //     try{
-    //         boolean isAuthenticated = service.authenticateUser(loginRequest);
-    //         if (isAuthenticated) {
-    //             createSessionWithSecurityContext(request, loginRequest.getEmail());
-    //             return new ResponseEntity<>("Login Successful", HttpStatus.OK);
-    //         } else {
-    //             return new ResponseEntity<>("Invalid Credentials", HttpStatus.UNAUTHORIZED);
-    //         }
-    //     }catch (IllegalArgumentException exception){
-    //         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-    //     }
-
-    // }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequestDTO request, HttpServletRequest requestContext) {
@@ -129,8 +112,6 @@ public class AuthController {
                 "Role",
                 role
         );
-        System.out.println("Role: " + session.getAttribute("Role"));
-        System.out.println("UserId: " + session.getAttribute("UserId"));
     }
 
 }
