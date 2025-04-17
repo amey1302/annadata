@@ -53,7 +53,7 @@ public class DonationServiceImpl implements DonationService {
     @Override
     public List<DonationDTO> getAllDonations() {
         List<Donation> donations = donationRepository.findAll();
-
+        
         return donations.stream()
                 .map(DonationDTO::new)
                 .collect(Collectors.toList());
