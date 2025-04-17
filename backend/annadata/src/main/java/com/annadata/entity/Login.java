@@ -1,5 +1,10 @@
 package com.annadata.entity;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
+import java.util.UUID;
+
 public class Login {
 
     private String email;

@@ -5,6 +5,7 @@ import com.annadata.entity.Login;
 import com.annadata.entity.User;
 import com.annadata.repository.UserRepository;
 import com.annadata.service.AuthService;
+import com.annadata.valueobject.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalArgumentException("Invalid role. Must be 'DONOR' or 'RECEIVER'");
         }
 
-        User.Role role = User.Role.valueOf(request.getRole().toUpperCase());
+        Role role = Role.valueOf(request.getRole().toUpperCase());
 
         User user = User.builder()
                 .name(request.getName())

@@ -19,6 +19,5 @@ public class ReceiverRequestViewDTO {
     private RequestStatus status;
     private CollectStatus collectStatus;
     private LocalDateTime createdAt;
-
     private String receiverOtp;
 }

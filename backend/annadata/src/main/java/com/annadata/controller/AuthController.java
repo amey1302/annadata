@@ -1,7 +1,4 @@
 package com.annadata.controller;
-
-
-import com.annadata.dto.RegisterUserDto;
 import com.annadata.entity.Login;
 import com.annadata.entity.User;
 import com.annadata.repository.UserRepository;
@@ -10,22 +7,23 @@ import com.annadata.service.UserService;
 import com.annadata.dto.RegisterRequestDTO;
 import com.annadata.entity.Login;
 import com.annadata.entity.User;
+import com.annadata.repository.UserRepository;
 import com.annadata.service.AuthService;
-
+import com.annadata.service.UserService;
 import com.annadata.serviceImpl.AuthServiceImpl;
-import com.annadata.serviceImpl.UserServiceImpl;
-
+import com.annadata.valueobject.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,62 +32,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import java.util.Collections;
-
-
 @RestController
 @RequestMapping("/api")
 public class AuthController {
 
     @Autowired
-    private AuthServiceImpl service;
-    
+    private AuthService service;
+
     @Autowired
-    private UserRepository userrepo;
-    
-    
+    private UserRepository repo;
+
     @PostMapping("/login")
-    public ResponseEntity<Map<String,Object>> login(@RequestBody Login loginRequest, HttpServletRequest httpServletRequest){
-        System.out.println("login called");
-        System.out.println(loginRequest.getEmail() + " : " + loginRequest.getPassword());
-        Map<String,Object> resp  = new HashMap<>();
-        boolean isAuthenticated = service.authenticateUser(loginRequest);
-        if(isAuthenticated){
-            HttpSession session = httpServletRequest.getSession();
-            session.setAttribute("USER_SESSION", loginRequest.getEmail());
-            System.out.println(session.getAttribute("USER_SESSION"));
-            
-//            uthUser user = this.userServiceImpl.getUserByEmail(loginRequest.getEmail());
-            User user = this.userrepo.findByEmail(loginRequest.getEmail());
-            
-            
-            resp.put("message", "Login Success");
-            resp.put("status", true);
-            resp.put("User", user);
-            return new ResponseEntity<>(resp, HttpStatus.OK);
-        }else{
-        	resp.put("message", "Invalid creadential");
-        	resp.put("status", false);
-            return new ResponseEntity<>(resp, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<Map<String,Object>> login(@RequestBody Login loginRequest, HttpServletRequest request) {
+        Map<String, Object> resp = new HashMap<>();
+
+        try {
+            boolean isAuthenticated = service.authenticateUser(loginRequest);
+            if (isAuthenticated) {
+                User user = repo.findByEmail(loginRequest.getEmail());
+                createSessionWithSecurityContext(request, loginRequest.getEmail(), user.getId(), user.getRole());
+                resp.put("message", "Login Success");
+                resp.put("status", true);
+                return new ResponseEntity<>(resp, HttpStatus.OK);
+            } else {
+                resp.put("message", "Invalid credential");
+                resp.put("status", false);
+                return new ResponseEntity<>(resp, HttpStatus.UNAUTHORIZED);
+            }
+        } catch (IllegalArgumentException exception) {
+            resp.put("message", exception.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
         }
     }
-    // private AuthService service;
-
-    // @PostMapping("/login")
-    // public ResponseEntity<String> login(@RequestBody Login loginRequest, HttpServletRequest request) {
-    //     try{
-    //         boolean isAuthenticated = service.authenticateUser(loginRequest);
-    //         if (isAuthenticated) {
-    //             createSessionWithSecurityContext(request, loginRequest.getEmail());
-    //             return new ResponseEntity<>("Login Successful", HttpStatus.OK);
-    //         } else {
-    //             return new ResponseEntity<>("Invalid Credentials", HttpStatus.UNAUTHORIZED);
-    //         }
-    //     }catch (IllegalArgumentException exception){
-    //         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-    //     }
-
-    // }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequestDTO request, HttpServletRequest requestContext) {
@@ -99,7 +73,7 @@ public class AuthController {
             }
 
             User user = service.registerUser(request);
-            createSessionWithSecurityContext(requestContext, user.getEmail());
+            createSessionWithSecurityContext(requestContext, user.getEmail(), user.getId(), user.getRole());
             return ResponseEntity.status(HttpStatus.CREATED).body("Registration successful");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -119,16 +93,23 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body("Logged out successfully");
     }
 
-
-
-    private void createSessionWithSecurityContext(HttpServletRequest request, String email) {
-        Authentication auth = new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
+    private void createSessionWithSecurityContext(HttpServletRequest request, String email, UUID id, Role role) {
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+        Authentication auth = new UsernamePasswordAuthenticationToken(email, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         HttpSession session = request.getSession(true);
         session.setAttribute(
                 HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                 SecurityContextHolder.getContext()
+        );
+        session.setAttribute(
+                "UserId",
+                id
+        );
+        session.setAttribute(
+                "Role",
+                role
         );
     }
 

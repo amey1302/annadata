@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+
 @RestController
 @RequestMapping("/food-donation/api/v1/donations")
 public class DonationController {
@@ -23,10 +24,12 @@ public class DonationController {
         this.donationService=donationService;
     }
     @PostMapping
+
     public ResponseEntity<?> createDonation(@RequestBody DonationCreateDTO donationDTO) {
         Donation saved = donationService.createDonation(donationDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Map.of("message", "Donation created successfully", "donation", new DonationDTO(saved)));
+
     }
 
 
@@ -62,7 +65,6 @@ public class DonationController {
         return ResponseEntity.ok(donations);
     }
 
-
     @PutMapping("/{uuid}/closed")
     public ResponseEntity<DonationDTO> markAsCollected(@PathVariable UUID uuid) {
         try {
@@ -75,15 +77,20 @@ public class DonationController {
         }
     }
 
+
     @PutMapping("/{uuid}")
-    public ResponseEntity<?> updateDonation(@PathVariable UUID uuid , @RequestBody Donation donation0){
-        Donation donation = donationService.updateDonation(uuid,donation0);
+    public ResponseEntity<?> updateDonation(@PathVariable UUID uuid , @RequestBody Donation donationRequest){
+        Donation donation = donationService.updateDonation(uuid,donationRequest);
         if (donation != null) {
             return ResponseEntity.status(HttpStatus.OK).body(new DonationDTO(donation));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Donation not found with ID: " + uuid);
         }
     }
+
+   
+
+   
 
     @GetMapping("/search")
     @ResponseBody
