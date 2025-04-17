@@ -112,8 +112,6 @@ public class AuthController {
                 "Role",
                 role
         );
-        System.out.println("Role: " + session.getAttribute("Role"));
-        System.out.println("UserId: " + session.getAttribute("UserId"));
     }
 
 }
