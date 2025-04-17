@@ -8,7 +8,8 @@ import { DonationService } from '../../services/donation.service';
 import { ApiResponse } from '../../model/ApiResponse.model';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
+import { User } from '../../model/User';
+import { UserService } from '../../services/UserService';
 @Component({
   selector: 'app-homepage',
   standalone: true,
@@ -16,13 +17,16 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
+
 export class HomepageComponent implements OnInit {
   donations! : Donation[];
   searchedLocation : string = '';
-  constructor(private donationService:DonationService){
+  constructor(private donationService:DonationService , private userService:UserService ){
 
   }
+   loginuser! : User;
   ngOnInit(): void {
+
     
    this.getDonation();
   }
@@ -52,4 +56,5 @@ export class HomepageComponent implements OnInit {
       });
     }
   }
+
 }

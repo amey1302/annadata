@@ -43,4 +43,11 @@ public class UserServiceImpl implements UserService {
             return "No Users Exists";
         }
     }
+    
+    
+//    public User getUserByEmail(String Email){
+//    	User user = userRepository.findByEmail(Email);
+//    	
+//    	return user;
+//    }
 }
