@@ -23,9 +23,9 @@ public class DonationController {
 
     @PostMapping
     public ResponseEntity<?> createDonation(@RequestBody Donation donation) {
-        Donation saved = donationService.createDonation(donation);
+        DonationDTO saved = donationService.createDonation(donation);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Map.of("message", "Donation created successfully", "donation", new DonationDTO(saved)));
+                .body(Map.of("message", "Donation created successfully", "donation", saved));
     }
 
     @GetMapping
@@ -33,6 +33,7 @@ public class DonationController {
         List<DonationDTO> donations = donationService.getAllDonations();
         return ResponseEntity.ok(donations);
     }
+
 
     @DeleteMapping
     public  ResponseEntity<String> deleteAllDonations(){
