@@ -2,6 +2,7 @@ package com.annadata.entity;
 
 import java.util.UUID;
 
+import com.annadata.valueobject.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -40,11 +41,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    public enum Role {
-        DONOR,
-        RECEIVER
-    }
 
     public UUID getId() {
         return id;

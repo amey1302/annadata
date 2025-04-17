@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class DonationServiceImpl implements DonationService {
 
-    private DonationRepository donationRepository;
+    private final DonationRepository donationRepository;
 
     @Autowired
     DonationServiceImpl(DonationRepository donationRepository){
