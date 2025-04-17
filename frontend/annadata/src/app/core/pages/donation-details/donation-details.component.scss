@@ -1,0 +1,60 @@
+body {
+    background-color: #F7F1E3; // Sand Beige
+  }
+  
+  .card {
+    background-color: #FAF9F6; // Off White
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .heading {
+    color: #5B3711; // Deep Brown
+    font-weight: 700;
+  }
+  
+  .label {
+    font-weight: 600;
+    color: #5B3711;
+  }
+  
+  .veg-badge {
+    background-color: #5B8C5A;
+    color: #fff;
+  }
+  
+  .nonveg-badge {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .status-open {
+    color: #5B8C5A;
+    font-weight: bold;
+  }
+  
+  .status-closed {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  
+  .btn-saffron {
+    background-color: #F77F00;
+    color: white;
+    border: none;
+  }
+  
+  .btn-saffron:hover {
+    background-color: #e76f00;
+  }
+  
+  a {
+    color: #F77F00;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  

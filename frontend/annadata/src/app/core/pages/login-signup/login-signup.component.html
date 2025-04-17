@@ -1,0 +1,54 @@
+<p class="d-inline-flex gap-1">
+
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample2">Login</button>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Sign up</button>
+  </p>
+  <div class="row">
+    <div class="col">
+      <div class="collapse multi-collapse" id="multiCollapseExample1">
+        <div class="card card-body">
+            <form (ngSubmit)="login()">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Email address</label>
+                  <input type="text" name="email" [(ngModel)]="Logindata.email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Password</label>
+                  <input type="password" name="password" [(ngModel)]="Logindata.password" class="form-control" id="exampleInputPassword1">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="collapse multi-collapse" id="multiCollapseExample2">
+        <div class="card card-body">
+            <form (ngSubmit)="signup()">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name: </label>
+                    <input type="text" class="form-control" name="name" [(ngModel)]="signupdata.name" id="name" >
+                    
+                  </div>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Email address</label>
+                  <input type="email" class="form-control"  name="email" [(ngModel)]="signupdata.email" id="exampleInputEmail1" >
+                  
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Password</label>
+                  <input type="password" class="form-control" name="password" [(ngModel)]="signupdata.password" id="exampleInputPassword1">
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">phone no: </label>
+                    <input type="text" class="form-control" name="phoneNumber"  [(ngModel)]="signupdata.phoneNumber" id="phone" >
+                    
+                  </div>
+                <button type="submit" class="btn btn-primary">Sign up</button>
+              </form>
+        </div>
+      </div>
+    </div>
+  </div>

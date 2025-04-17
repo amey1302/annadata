@@ -8,7 +8,6 @@ import com.annadata.repository.DonationRepository;
 import com.annadata.repository.UserRepository;
 import com.annadata.service.DonationService;
 import com.annadata.valueobject.DonationStatus;
-import com.annadata.valueobject.FoodCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +19,10 @@ import java.util.stream.Collectors;
 @Service
 public class DonationServiceImpl implements DonationService {
 
+
     private DonationRepository donationRepository;
     private UserRepository userRepository;
+
 
     @Autowired
     DonationServiceImpl(DonationRepository donationRepository,UserRepository userRepository){
@@ -48,15 +49,35 @@ public class DonationServiceImpl implements DonationService {
         donation.setStatus(DonationStatus.OPEN);
         donation.setCreatedAt(LocalDateTime.now());
         return donationRepository.save(donation);
+
     }
+    private DonationDTO mapToDTO(Donation donation) {
+        return DonationDTO.builder()
+                .id(donation.getId())
+                .title(donation.getTitle())
+                .description(donation.getDescription())
+                .foodCategory(donation.getFoodCategory())
+                .foodType(donation.getFoodType())
+                .quantity(donation.getQuantity())
+                .expiryTime(donation.getExpiryTime())
+                .address(donation.getAddress())
+                .addressLink(donation.getAddressLink())
+                .createdAt(donation.getCreatedAt())
+                .status(donation.getStatus())
+                .donorName(donation.getDonor().getName())
+                .donorEmail(donation.getDonor().getEmail())
+                .donorPhone(donation.getDonor().getPhoneNumber())
+                .build();
+    }
+
 
 
     @Override
     public List<DonationDTO> getAllDonations() {
         List<Donation> donations = donationRepository.findAll();
-
+        
         return donations.stream()
-                .map(DonationDTO::new) // constructor maps from entity
+                .map(DonationDTO::new)
                 .collect(Collectors.toList());
     }
 
@@ -102,8 +123,8 @@ public class DonationServiceImpl implements DonationService {
     }
 
     @Override
-    public List<Donation> searchDonations(FoodCategory foodCategory, String address) {
-        return donationRepository.findByFoodCategoryOrAddressContainingIgnoreCase(foodCategory,address);
+    public List<Donation> searchDonations(String location) {
+        return donationRepository.findByAddressContainingIgnoreCase(location);
     }
 
     @Override

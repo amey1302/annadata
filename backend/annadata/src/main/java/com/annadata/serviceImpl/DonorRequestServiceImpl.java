@@ -75,7 +75,6 @@ public class DonorRequestServiceImpl implements DonorRequestService {
 
         donation.setQuantity(quantity);
 
-        // Optionally: Close the donation if quantity == 0
         if (quantity <= 0) {
             donation.setStatus(DonationStatus.CLOSED);
         }

@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+
+
 @RestController
 @RequestMapping("/food-donation/api/v1/donations")
 public class DonationController {
@@ -23,10 +25,14 @@ public class DonationController {
         this.donationService=donationService;
     }
     @PostMapping
+
+
     public ResponseEntity<?> createDonation(@RequestBody DonationCreateDTO donationDTO) {
+
         Donation saved = donationService.createDonation(donationDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Map.of("message", "Donation created successfully", "donation", new DonationDTO(saved)));
+                .body(Map.of("message", "Donation created successfully", "donation", saved));
+
     }
 
 
@@ -63,6 +69,7 @@ public class DonationController {
     }
 
 
+
     @PutMapping("/{uuid}/closed")
     public ResponseEntity<DonationDTO> markAsCollected(@PathVariable UUID uuid) {
         try {
@@ -74,6 +81,7 @@ public class DonationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 
     @PutMapping("/{uuid}")
     public ResponseEntity<?> updateDonation(@PathVariable UUID uuid , @RequestBody Donation donation0){
@@ -87,8 +95,8 @@ public class DonationController {
 
     @GetMapping("/search")
     @ResponseBody
-    public ResponseEntity<List<DonationDTO>> getDonation(@RequestParam(required = false)FoodCategory foodCategory,@RequestParam(required = false)String address){
-        List<Donation> donationList = donationService.searchDonations(foodCategory,address);
+    public ResponseEntity<List<DonationDTO>> getDonation(@RequestParam(required = false)String location){
+        List<Donation> donationList = donationService.searchDonations(location);
         List<DonationDTO> donationDTOList = donationList.stream().map(DonationDTO::convertToDTO).collect(Collectors.toList());
         return ResponseEntity.ok(donationDTOList);
     }
