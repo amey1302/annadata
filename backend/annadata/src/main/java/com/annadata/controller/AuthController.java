@@ -15,24 +15,21 @@ import com.annadata.valueobject.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-
-import java.util.Collections;
-import java.util.UUID;
 
 
 @RestController
@@ -115,7 +112,8 @@ public class AuthController {
     }
 
     private void createSessionWithSecurityContext(HttpServletRequest request, String email, UUID id, Role role) {
-        Authentication auth = new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+        Authentication auth = new UsernamePasswordAuthenticationToken(email, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         HttpSession session = request.getSession(true);
@@ -131,6 +129,8 @@ public class AuthController {
                 "Role",
                 role
         );
+        System.out.println("Role: " + session.getAttribute("Role"));
+        System.out.println("UserId: " + session.getAttribute("UserId"));
     }
 
 }
