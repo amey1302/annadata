@@ -3,11 +3,13 @@ package com.annadata.service;
 import com.annadata.dto.DonationCreateDTO;
 import com.annadata.dto.DonationDTO;
 import com.annadata.entity.Donation;
+import com.annadata.valueobject.FoodCategory;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface DonationService {
+
 
     Donation createDonation(DonationCreateDTO donationDTO);
 

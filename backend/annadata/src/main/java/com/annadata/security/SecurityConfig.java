@@ -21,6 +21,7 @@ public class SecurityConfig {
 //                .requestMatchers("/food-donation/api/v1/receiver/**").hasRole("RECEIVER")
 //                .requestMatchers("/food-donation/api/v1/donor/**").hasRole("DONOR")
 //                .anyRequest().authenticated());
+
         http.authorizeHttpRequests(request -> request
                 .anyRequest()
                 .permitAll());

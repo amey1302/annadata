@@ -33,8 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/food-donation/api/v1")
-
+@RequestMapping("/api")
 public class AuthController {
 
     @Autowired

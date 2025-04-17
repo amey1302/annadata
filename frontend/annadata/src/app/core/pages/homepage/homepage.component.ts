@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CardComponent } from '../../components/card/card.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Donation } from '../../model/Donation.model';
 import { DonationService } from '../../services/donation.service';
 import { ApiResponse } from '../../model/ApiResponse.model';
@@ -13,7 +13,7 @@ import { UserService } from '../../services/UserService';
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [NavbarComponent, CardComponent,RouterModule,NgFor, HttpClientModule],
+  imports: [NavbarComponent, CardComponent,RouterModule,NgFor, HttpClientModule, FormsModule, NgIf],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
@@ -26,19 +26,35 @@ export class HomepageComponent implements OnInit {
   }
    loginuser! : User;
   ngOnInit(): void {
-    const userData= this.userService.getUser();
-    // console.log('calling servuce->',this.userService.getUser());
-    
-    if(userData){
-      this.loginuser = userData;
-    }
-    
-    this.donationService.getDonationList().subscribe((res:Donation[])=>{
-      this.donations = res;
-    })
-    // console.log('login user- > ', this.loginuser);
-  }
-  
 
-  
+    
+   this.getDonation();
+  }
+  noDonationFound = false;
+  getDonation(){
+    this.donationService.getDonationList().subscribe((res:Donation[])=>{
+
+      this.donations = res.filter((donation:Donation)=>donation.status==='OPEN');
+    })
+  }
+  searchedDonation :Donation[] = [];  
+  search() {
+    const location = this.searchedLocation.trim();
+    if (!location) {
+      this.getDonation();
+    } else {
+      this.donationService.searchDonation(location).subscribe((res: Donation[]) => {
+        res = res.filter((donation:Donation)=>donation.status==='OPEN');
+        if(res.length===0){
+          this.noDonationFound= true;
+          this.donations = res;
+        }else{
+          this.noDonationFound= false;
+          this.donations = res.filter((donation:Donation)=>donation.status==='OPEN');
+        }
+        
+      });
+    }
+  }
+
 }

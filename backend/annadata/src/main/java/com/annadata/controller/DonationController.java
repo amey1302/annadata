@@ -14,7 +14,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 
-
 @RestController
 @RequestMapping("/food-donation/api/v1/donations")
 public class DonationController {
@@ -26,12 +25,10 @@ public class DonationController {
     }
     @PostMapping
 
-
     public ResponseEntity<?> createDonation(@RequestBody DonationCreateDTO donationDTO) {
-
         Donation saved = donationService.createDonation(donationDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Map.of("message", "Donation created successfully", "donation", saved));
+                .body(Map.of("message", "Donation created successfully", "donation", new DonationDTO(saved)));
 
     }
 
@@ -68,8 +65,6 @@ public class DonationController {
         return ResponseEntity.ok(donations);
     }
 
-
-
     @PutMapping("/{uuid}/closed")
     public ResponseEntity<DonationDTO> markAsCollected(@PathVariable UUID uuid) {
         try {
@@ -93,10 +88,14 @@ public class DonationController {
         }
     }
 
+   
+
+   
+
     @GetMapping("/search")
     @ResponseBody
-    public ResponseEntity<List<DonationDTO>> getDonation(@RequestParam(required = false)String location){
-        List<Donation> donationList = donationService.searchDonations(location);
+    public ResponseEntity<List<DonationDTO>> getDonation(@RequestParam(required = false)String address){
+        List<Donation> donationList = donationService.searchDonations(address);
         List<DonationDTO> donationDTOList = donationList.stream().map(DonationDTO::convertToDTO).collect(Collectors.toList());
         return ResponseEntity.ok(donationDTOList);
     }
@@ -106,6 +105,4 @@ public class DonationController {
         List<DonationDTO> donationList = donationService.getDonationsByDonorId(donorId);
         return ResponseEntity.ok(donationList);
     }
-
-
 }

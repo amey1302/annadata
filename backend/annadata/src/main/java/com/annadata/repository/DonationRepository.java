@@ -13,6 +13,7 @@ import java.util.UUID;
 @Repository
 public interface DonationRepository extends JpaRepository<Donation, UUID> {
 
+
     List<Donation> findByDonor_Id(UUID donorId);
     List<Donation> findByAddressContainingIgnoreCase( String location);
 
@@ -20,4 +21,5 @@ public interface DonationRepository extends JpaRepository<Donation, UUID> {
 
 
 }
+
 

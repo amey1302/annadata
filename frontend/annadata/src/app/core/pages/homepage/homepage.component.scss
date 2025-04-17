@@ -1,0 +1,55 @@
+.home-container {
+    background-color: #F7F1E3;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  
+  .home-header {
+    margin-bottom: 2rem;
+  }
+  
+  .home-title {
+    font-weight: bold;
+    color: #5B3711;
+  }
+  
+  .home-subtext {
+    color: #5B3711;
+    font-size: 1rem;
+  }
+  
+  .search-form {
+    background-color: #FAF9F6;
+    border-radius: 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+  
+  .search-input {
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 2rem 0 0 2rem;
+    background-color: #FAF9F6;
+  }
+  
+  .search-input:focus {
+    box-shadow: none;
+    outline: none;
+  }
+  
+  .search-button {
+    background-color: #5B8C5A;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0 2rem 2rem 0;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .search-button:hover {
+    background-color: #4e7b4d;
+  }
+  
+  .donation-card {
+    cursor: pointer;
+  }
+  

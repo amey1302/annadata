@@ -8,7 +8,11 @@ import com.annadata.repository.DonationRepository;
 import com.annadata.repository.UserRepository;
 import com.annadata.service.DonationService;
 import com.annadata.valueobject.DonationStatus;
+
+import com.annadata.valueobject.FoodCategory;
+
 import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +39,14 @@ public class DonationServiceImpl implements DonationService {
     @Override
     public Donation createDonation(DonationCreateDTO donationDTO) {
         System.out.println(donationDTO.getAddress()+ " " + donationDTO.getDonorId());
+
+        boolean exists = userRepository.existsById(donationDTO.getDonorId());
+
+        System.out.println("Does donor exist? " + exists);
         User donor = userRepository.findById(donationDTO.getDonorId())
                 .orElseThrow(() -> new RuntimeException("Donor not found with ID: " + donationDTO.getDonorId()));
+
+
         Donation donation = new Donation();
         donation.setDonor(donor);
         donation.setTitle(donationDTO.getTitle());
@@ -50,7 +60,6 @@ public class DonationServiceImpl implements DonationService {
         donation.setStatus(DonationStatus.OPEN);
         donation.setCreatedAt(LocalDateTime.now());
         return donationRepository.save(donation);
-
     }
     private DonationDTO mapToDTO(Donation donation) {
         return DonationDTO.builder()
@@ -73,9 +82,11 @@ public class DonationServiceImpl implements DonationService {
 
 
 
+
     @Override
     public List<DonationDTO> getAllDonations() {
         List<Donation> donations = donationRepository.findAll();
+
         LocalDateTime now = LocalDateTime.now();
 
         donations.forEach(donation -> {
@@ -84,6 +95,7 @@ public class DonationServiceImpl implements DonationService {
                 donationRepository.save(donation);
             }
         });
+
         return donations.stream()
                 .map(DonationDTO::new)
                 .collect(Collectors.toList());
@@ -121,8 +133,10 @@ public class DonationServiceImpl implements DonationService {
         Donation donation = getDonationById(id);
         donation.setTitle(updatedDonation.getTitle());
         donation.setDescription(updatedDonation.getDescription());
+
         donation.setFoodCategory(updatedDonation.getFoodCategory());
         donation.setFoodType(updatedDonation.getFoodType());
+
         donation.setQuantity(updatedDonation.getQuantity());
         donation.setExpiryTime(updatedDonation.getExpiryTime());
         donation.setAddress(updatedDonation.getAddress());
@@ -131,8 +145,10 @@ public class DonationServiceImpl implements DonationService {
     }
 
     @Override
+
     public List<Donation> searchDonations(String location) {
         return donationRepository.findByAddressContainingIgnoreCase(location);
+
     }
 
     @Override
