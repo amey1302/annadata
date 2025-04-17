@@ -8,6 +8,7 @@ import com.annadata.repository.DonationRepository;
 import com.annadata.repository.UserRepository;
 import com.annadata.service.DonationService;
 import com.annadata.valueobject.DonationStatus;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,7 +76,14 @@ public class DonationServiceImpl implements DonationService {
     @Override
     public List<DonationDTO> getAllDonations() {
         List<Donation> donations = donationRepository.findAll();
-        
+        LocalDateTime now = LocalDateTime.now();
+
+        donations.forEach(donation -> {
+            if (donation.getStatus() == DonationStatus.OPEN && donation.getExpiryTime().isBefore(now)) {
+                donation.setStatus(DonationStatus.CLOSED);
+                donationRepository.save(donation);
+            }
+        });
         return donations.stream()
                 .map(DonationDTO::new)
                 .collect(Collectors.toList());
@@ -134,4 +142,6 @@ public class DonationServiceImpl implements DonationService {
                 .map(DonationDTO::new)
                 .collect(Collectors.toList());
     }
+
+
 }

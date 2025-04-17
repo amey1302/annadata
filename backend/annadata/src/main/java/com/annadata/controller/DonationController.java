@@ -84,8 +84,8 @@ public class DonationController {
 
 
     @PutMapping("/{uuid}")
-    public ResponseEntity<?> updateDonation(@PathVariable UUID uuid , @RequestBody Donation donation0){
-        Donation donation = donationService.updateDonation(uuid,donation0);
+    public ResponseEntity<?> updateDonation(@PathVariable UUID uuid , @RequestBody Donation donationRequest){
+        Donation donation = donationService.updateDonation(uuid,donationRequest);
         if (donation != null) {
             return ResponseEntity.status(HttpStatus.OK).body(new DonationDTO(donation));
         } else {
@@ -106,4 +106,6 @@ public class DonationController {
         List<DonationDTO> donationList = donationService.getDonationsByDonorId(donorId);
         return ResponseEntity.ok(donationList);
     }
+
+
 }
