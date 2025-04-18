@@ -1,6 +1,7 @@
 package com.annadata.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import com.annadata.valueobject.DonationStatus;
@@ -8,17 +9,7 @@ import com.annadata.valueobject.FoodCategory;
 import com.annadata.valueobject.FoodType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -38,7 +29,6 @@ public class Donation {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-
     @JoinColumn(name = "donor_id", nullable = false)
     private User donor;
 
@@ -66,6 +56,11 @@ public class Donation {
 
     @Enumerated(EnumType.STRING)
     private DonationStatus status;
+
+    @OneToMany(mappedBy = "donation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Request> requests;
+
 
     @PrePersist
     public void onCreate() {
