@@ -3,7 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { LoginServices } from '../../services/Login.services';
 import { User } from '../../model/User';
 import { Router } from '@angular/router'; // Make sure to import this
+
 import { NgClass, NgIf } from '@angular/common';
+
+import { UserService } from '../../services/UserService';
+
 
 @Component({
   selector: 'app-login-signup',
@@ -13,8 +17,11 @@ import { NgClass, NgIf } from '@angular/common';
   styleUrl: './login-signup.component.scss'
 })
 export class LoginSignupComponent implements OnInit{
-  constructor( private LoginServices:LoginServices ,private router: Router){}
+
   activeTab = 'login'; // Default tab is Login
+
+  constructor( private LoginServices:LoginServices ,private router: Router,  private userService: UserService ){}
+
 
 
   users : User[]=[]  //to fetch all users
@@ -72,11 +79,11 @@ export class LoginSignupComponent implements OnInit{
      login(){
       this.LoginServices.loginUser(this.Logindata).subscribe(
         (data)=>{
-          sessionStorage.setItem('user', JSON.stringify(data.User));
+          sessionStorage.setItem('user', JSON.stringify(data.user));
+          this.userService.setUser(data.user);
           if(data.status){
             this.router.navigate(['/home']); 
           }
-          // console.log(data);
         }
       )
      }

@@ -1,15 +1,10 @@
 package com.annadata.entity;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.annadata.valueobject.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,6 +36,13 @@ public class User{
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "donor", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Donation> donations;
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Request> requests;
+
 
     public UUID getId() {
         return id;

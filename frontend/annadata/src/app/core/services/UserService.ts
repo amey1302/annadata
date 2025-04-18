@@ -13,6 +13,8 @@ import { User } from '../model/User';
         
         if (user) {
             this.Currentuser = JSON.parse(user) 
+            console.log(this.Currentuser);
+            
         }
      }
 
@@ -21,8 +23,14 @@ import { User } from '../model/User';
         sessionStorage.setItem('user', JSON.stringify(user));
      }
      getUser(): User | null {
-        return this.Currentuser;
+      if (!this.Currentuser) {
+        const user = sessionStorage.getItem('user');
+        if (user) {
+          this.Currentuser = JSON.parse(user);
+        }
       }
+      return this.Currentuser;
+    }
       clearUser() {
         this.Currentuser = null;
         sessionStorage.removeItem('user');
