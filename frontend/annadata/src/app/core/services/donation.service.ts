@@ -26,12 +26,15 @@ export class DonationService {
     return this.http.get<Donation>(environment.api_url+Constant.API_END_POINT.GET_DONATION+'/'+id);
   }
 
+  getDonationByDonorId(id:string){
+    return this.http.get<Donation[]>(environment.api_url+ Constant.API_END_POINT.GET_DONATION_BY_DONOR+id);
+  }
   searchDonation(location:string){
 
     return this.http.get<Donation[]>(environment.api_url+Constant.API_END_POINT.SEARCH_DONATION+location);
   }
-  deleteDonationById(id:string){
-    return this.http.delete<string>(environment.api_url+Constant.API_END_POINT.DELETE_DONATION+"/"+id);
+  deleteDonationById(id:string) : Observable<string>{
+    return this.http.delete<string>(environment.api_url+Constant.API_END_POINT.DELETE_DONATION+"/"+id,{ responseType: 'text' as 'json' });
   }
 
   updateDonationById(id:string, obj: DonationSave){

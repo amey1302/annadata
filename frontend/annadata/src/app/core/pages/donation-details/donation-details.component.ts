@@ -127,7 +127,8 @@ export class DonationDetailsComponent implements OnInit {
 
   confirmDelete() {
     this.donationService.deleteDonationById(this.donationToDeleteId).subscribe({
-      next: () => {
+      next: (res) => {
+        console.log(res);
         this.showDeleteModal = false;
         this.router.navigate(['/donor/homepage']).then(success => {
           if (success) {

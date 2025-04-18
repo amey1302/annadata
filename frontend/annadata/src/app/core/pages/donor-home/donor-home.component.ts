@@ -40,7 +40,19 @@ export class DonorHomeComponent {
       });
       this.getDonation();
     }
-
+    hasOpenedGoogleMaps: boolean = false;
+    openGoogleMaps() {
+      if (!this.hasOpenedGoogleMaps) {
+        const userConfirmed = confirm(
+          "You'll be redirected to Google Maps. Select a location, copy the link or address, then paste it here."
+        );
+    
+        if (userConfirmed) {
+          window.open('https://www.google.com/maps', '_blank');
+          this.hasOpenedGoogleMaps = true;
+        }
+      }
+    }
     // mapUrl: SafeResourceUrl | null = null;
     // getLocation() {
     //   if (navigator.geolocation) {

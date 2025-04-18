@@ -63,8 +63,22 @@
               <!-- <button (click)="getLocation()">Get My Location</button> -->
               <div class="col-12">
                 <label for="addressLink" class="form-label">Google Maps Link</label>
+              <input
+  type="text"
+  [value]="donationObj.addressLink"
+  (click)="openGoogleMaps()"
+  [(ngModel)]="donationObj.addressLink"
+  name="addressLink"
+  placeholder="Click to open Maps, then paste link here"
+  id="addressLink"
+  class="form-control"
+/>
+</div>
+<!-- 
+              <div class="col-12">
+                <label for="addressLink" class="form-label">Google Maps Link</label>
                 <input type="text" [(ngModel)]="donationObj.addressLink" name="addressLink" class="form-control" id="addressLink">
-              </div>
+              </div> -->
               <!-- <iframe
   width="100%"
   height="400"

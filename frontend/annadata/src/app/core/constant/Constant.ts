@@ -8,5 +8,6 @@ export const Constant = {
         User : '/users',
         ADD_REQUEST:'/receiver/requests',
         UPDATE_QUANTITY:'/donor/requests/',
+        GET_DONATION_BY_DONOR:'/donations/donor/',
     }
 }
