@@ -47,6 +47,10 @@ public class GlobalExceptionHandler {
         ex.printStackTrace();
         return new ResponseEntity<>(buildError("Unexpected server error", HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<?> handleIllegalState(IllegalStateException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", ex.getMessage()));
+    }
 
 
     private Map<String, Object> buildError(String message, HttpStatus status) {
