@@ -93,20 +93,38 @@ public class AuthController {
     // }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequestDTO request, HttpServletRequest requestContext) {
+    public ResponseEntity<Map<String,Object>> register(@RequestBody RegisterRequestDTO request, HttpServletRequest requestContext) {
+    	Map<String,Object> resp  = new HashMap<>();
         try {
             if (service.userExists(request.getEmail()) != null) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
+            	 resp.put("user", null)      ;
+                 resp.put("Status", false)      ;
+                 resp.put("message", "User already exists" )      ;
+//                return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
+                 return new ResponseEntity<>(resp, HttpStatus.CONFLICT);
             }
 
             User user = service.registerUser(request);
             createSessionWithSecurityContext(requestContext, user.getEmail());
-            return ResponseEntity.status(HttpStatus.CREATED).body("Registration successful");
+            
+            resp.put("user", user)      ;
+            resp.put("Status", true)      ;
+            resp.put("message", "Registration successful" )      ;
+            
+//            return ResponseEntity.status(HttpStatus.CREATED).body("Registration successful");
+            return new ResponseEntity<>(resp, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        	 resp.put("user", null)      ;
+             resp.put("Status", false)      ;
+             resp.put("message", e.getMessage() )      ;
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
-
+        	resp.put("user", null);
+            resp.put("Status", false)      ;
+            resp.put("message", "Something went wrong" )      ;
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+        	return new ResponseEntity<>(resp, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -21,7 +21,7 @@ export class LoginSignupComponent implements OnInit{
        email: '',
        password: '',
        phoneNumber: '',
-       role: 'RECIVER'
+       role: 'RECEIVER'  // DONER
      }
 
      Logindata={
@@ -42,9 +42,19 @@ export class LoginSignupComponent implements OnInit{
 
      signup(){
         this.LoginServices.saveUser(this.signupdata).subscribe({
-
           next:(data)=>{
-            console.log(data);
+
+            if (data.status) {
+              sessionStorage.setItem('user', JSON.stringify(data.User));
+              this.router.navigate(['/home']);
+            }
+            else {
+              console.error('Signup failed:', data.message);
+            }
+            console.log('signnup data',data);
+          },
+          error: (err) => {
+            console.error('Signup failed:', err);
           }
         })
      }
@@ -52,9 +62,14 @@ export class LoginSignupComponent implements OnInit{
      login(){
       this.LoginServices.loginUser(this.Logindata).subscribe(
         (data)=>{
-          sessionStorage.setItem('user', JSON.stringify(data.User));
-          if(data.status){
-            this.router.navigate(['/home']); 
+          if (data.status) {
+            // Store user in session if login is successful
+            sessionStorage.setItem('user', JSON.stringify(data.User));
+            this.router.navigate(['/home']);
+          } else {
+            // Display error message if login failed
+            console.error('Login failed:', data.message);
+            // this.toastr.error(data.message);  // Assuming you use toastr for error notification
           }
           // console.log(data);
         }
