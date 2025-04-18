@@ -47,6 +47,21 @@
         <label for="signupPhone" class="form-label">Phone Number</label>
         <input type="text" class="form-control" id="signupPhone" name="phoneNumber" [(ngModel)]="signupdata.phoneNumber">
       </div>
+      <div class="mb-3">
+        <label for="userType">I am a:</label>
+        
+      <select
+      class="form-control"
+      id="userType"
+      name="userType"
+      [(ngModel)]="signupdata.role"
+      required
+    >
+      <option value="" disabled selected>Select your role</option>
+      <option value="DONOR">Donor</option>
+      <option value="Receiver">Receiver</option>
+    </select>
+  </div>
       <button type="submit" class="btn w-100 mt-3 login-button">Sign Up</button>
     </form>
   </div>

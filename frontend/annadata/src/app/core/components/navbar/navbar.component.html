@@ -1,4 +1,4 @@
-
+<app-popup #popup></app-popup>
 <nav class="navbar navbar-expand-lg custom-navbar">
   <div class="container-fluid">
     <!-- Logo / Title -->
@@ -30,7 +30,7 @@
 
         </li>
         <li class="nav-item"  *ngIf="loginuser" >
-          <a class="nav-link username"routerLink="/userProfile">Logout</a>
+          <a class="nav-link username" (click)="logout()">Logout</a>
           <a class="nav-link username"routerLink="/userProfile">{{loginuser.name}}</a>
         </li>
       </ul>

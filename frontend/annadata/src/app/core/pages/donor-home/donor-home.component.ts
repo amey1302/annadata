@@ -9,6 +9,8 @@ import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { signal } from '@angular/core';
 import { DomSanitizer , SafeResourceUrl } from '@angular/platform-browser';
+import { User } from '../../model/User';
+import { UserService } from '../../services/UserService';
 @Component({
   selector: 'app-donor-home',
   standalone: true,
@@ -19,26 +21,52 @@ import { DomSanitizer , SafeResourceUrl } from '@angular/platform-browser';
 export class DonorHomeComponent {
   public donationObj : DonationSave = new DonationSave();
   donations! : Donation[];
-  userId = signal("5fb5cf19-52be-4e85-8629-d9d534c8b29f");
-    constructor(private donationService:DonationService, private sanitizer: DomSanitizer){
+ 
+    constructor(private donationService:DonationService, private sanitizer: DomSanitizer, private userService: UserService){
+
+      this.user = this.userService.getUser()!;
   
     }
     ngOnInit(): void {
-      this.getDonation();
+      this.donationService.donations$.subscribe((donations)=>{
+        this.donations = donations;
+      })
+      //this.getDonationByDonor();
+      
+      this.donationService.loadDonationByDonor(this.user.id!);
+     // this.getDonation();
     }
-    getDonation(){
-      this.donationService.getDonationList().subscribe((res:Donation[])=>{
-        this.donations = res;
-      });
+    // getDonation(){
+    //   this.donationService.getDonationList().subscribe((res:Donation[])=>{
+    //     this.donations = res;
+    //   });
+    // }
+    user : User = new User();
+    getDonationByDonor(){
+     
+
+      if(this.user!=null){
+        
+        this.donationService.getDonationByDonorId(this.user.id!).subscribe({
+          next:(res)=>{
+            this.donations = res;
+            console.log(res);
+          }
+        })
+      }
+      
     }
     onSaveDonation(){
-      this.donationObj.donorId = this.userId()
+      this.donationObj.donorId = this.user?.id!;
       
       this.donationService.saveDonation(this.donationObj).subscribe({
-        next: (res) => console.log('POST Success:', res),
+        next: (res) => {
+          console.log('POST Success:', res),
+          this.donationService.loadDonationByDonor(this.user.id!);
+        } ,
         error: (err) => console.error('POST Error:', err)
       });
-      this.getDonation();
+      this.donationService.loadDonationByDonor(this.user.id!);
     }
     hasOpenedGoogleMaps: boolean = false;
     openGoogleMaps() {

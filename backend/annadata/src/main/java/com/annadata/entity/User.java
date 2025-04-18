@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.annadata.valueobject.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,9 +39,11 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "donor", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Donation> donations;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Request> requests;
 
@@ -63,7 +67,7 @@ public class User{
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }

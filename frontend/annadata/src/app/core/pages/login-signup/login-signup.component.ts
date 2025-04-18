@@ -30,7 +30,7 @@ export class LoginSignupComponent implements OnInit{
        email: '',
        password: '',
        phoneNumber: '',
-       role: 'RECIVER'
+       role: '',
      }
 
      Logindata={
