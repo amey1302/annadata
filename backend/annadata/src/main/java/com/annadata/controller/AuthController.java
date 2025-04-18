@@ -43,6 +43,7 @@ public class AuthController {
         Map<String, Object> resp = new HashMap<>();
 
         try {
+        	
             boolean isAuthenticated = service.authenticateUser(loginRequest);
             if (isAuthenticated) {
                 User user = repo.findByEmail(loginRequest.getEmail());

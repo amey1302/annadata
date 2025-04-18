@@ -1,54 +1,68 @@
-<p class="d-inline-flex gap-1">
+<div class="container py-5 d-flex justify-content-center align-items-center min-vh-100 login-page-bg">
+  <div class="card login-card shadow rounded-4 p-4 w-100">
 
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample2">Login</button>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Sign up</button>
-  </p>
-  <div class="row">
-    <div class="col">
-      <div class="collapse multi-collapse" id="multiCollapseExample1">
-        <div class="card card-body">
-            <form (ngSubmit)="login()">
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Email address</label>
-                  <input type="text" name="email" [(ngModel)]="Logindata.email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                </div>
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Password</label>
-                  <input type="password" name="password" [(ngModel)]="Logindata.password" class="form-control" id="exampleInputPassword1">
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
-        </div>
-      </div>
+    <div class="d-flex justify-content-center mb-4">
+      <button class="btn me-2 fw-semibold"
+              [ngClass]="{ 'active-tab': activeTab === 'login', 'inactive-tab': activeTab !== 'login' }"
+              (click)="activeTab = 'login'">
+        Login
+      </button>
+      <button class="btn fw-semibold"
+              [ngClass]="{ 'active-tab': activeTab === 'signup', 'inactive-tab': activeTab !== 'signup' }"
+              (click)="activeTab = 'signup'">
+        Sign Up
+      </button>
     </div>
-    <div class="col">
-      <div class="collapse multi-collapse" id="multiCollapseExample2">
-        <div class="card card-body">
-            <form (ngSubmit)="signup()">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name: </label>
-                    <input type="text" class="form-control" name="name" [(ngModel)]="signupdata.name" id="name" >
-                    
-                  </div>
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Email address</label>
-                  <input type="email" class="form-control"  name="email" [(ngModel)]="signupdata.email" id="exampleInputEmail1" >
-                  
-                </div>
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Password</label>
-                  <input type="password" class="form-control" name="password" [(ngModel)]="signupdata.password" id="exampleInputPassword1">
-                </div>
-                <div class="mb-3">
-                    <label for="phone" class="form-label">phone no: </label>
-                    <input type="text" class="form-control" name="phoneNumber"  [(ngModel)]="signupdata.phoneNumber" id="phone" >
-                    
-                  </div>
-                <button type="submit" class="btn btn-primary">Sign up</button>
-              </form>
-        </div>
+
+    <!-- Login Form -->
+    <form *ngIf="activeTab === 'login'" (ngSubmit)="login()">
+      <h4 class="text-center mb-4 login-title">Login</h4>
+      <div class="mb-3">
+        <label for="loginEmail" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="loginEmail" name="email" [(ngModel)]="Logindata.email">
       </div>
-    </div>
+      <div class="mb-3">
+        <label for="loginPassword" class="form-label">Password</label>
+        <input type="password" class="form-control" id="loginPassword" name="password" [(ngModel)]="Logindata.password">
+      </div>
+      <button type="submit" class="btn w-100 mt-3 login-button">Login</button>
+    </form>
+
+    <!-- Signup Form -->
+    <form *ngIf="activeTab === 'signup'" (ngSubmit)="signup()">
+      <h4 class="text-center mb-4 login-title">Sign Up</h4>
+      <div class="mb-3">
+        <label for="signupName" class="form-label">Name</label>
+        <input type="text" class="form-control" id="signupName" name="name" [(ngModel)]="signupdata.name">
+      </div>
+      <div class="mb-3">
+        <label for="signupEmail" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="signupEmail" name="email" [(ngModel)]="signupdata.email">
+      </div>
+      <div class="mb-3">
+        <label for="signupPassword" class="form-label">Password</label>
+        <input type="password" class="form-control" id="signupPassword" name="password" [(ngModel)]="signupdata.password">
+      </div>
+      <div class="mb-3">
+        <label for="signupPhone" class="form-label">Phone Number</label>
+        <input type="text" class="form-control" id="signupPhone" name="phoneNumber" [(ngModel)]="signupdata.phoneNumber">
+      </div>
+      <div class="mb-3">
+        <label for="userType">I am a:</label>
+        
+      <select
+      class="form-control"
+      id="userType"
+      name="userType"
+      [(ngModel)]="signupdata.role"
+      required
+    >
+      <option value="" disabled selected>Select your role</option>
+      <option value="DONOR">Donor</option>
+      <option value="Receiver">Receiver</option>
+    </select>
   </div>
+      <button type="submit" class="btn w-100 mt-3 login-button">Sign Up</button>
+    </form>
+  </div>
+</div>

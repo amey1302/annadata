@@ -88,9 +88,6 @@ public class DonationController {
         }
     }
 
-   
-
-   
 
     @GetMapping("/search")
     @ResponseBody
