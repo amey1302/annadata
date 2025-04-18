@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/food-donation/api/v1")
 public class AuthController {
 
     @Autowired
@@ -53,10 +53,12 @@ public class AuthController {
                 createSessionWithSecurityContext(request, loginRequest.getEmail(), user.getId(), user.getRole());
                 resp.put("message", "Login Success");
                 resp.put("status", true);
+                resp.put("user", user);
                 return new ResponseEntity<>(resp, HttpStatus.OK);
             } else {
                 resp.put("message", "Invalid credential");
                 resp.put("status", false);
+                
                 return new ResponseEntity<>(resp, HttpStatus.UNAUTHORIZED);
             }
         } catch (IllegalArgumentException exception) {

@@ -15,14 +15,18 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/my-requests" routerLinkActive="active-link">My Requests</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/donor/homepage" routerLinkActive="active-link">My Donations</a>
+        </li>
       </ul>
 
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login" routerLinkActive="active-link">Login</a>
+        <li class="nav-item" *ngIf="!loginuser">
+          <a class="nav-link" routerLink="/login"   routerLinkActive="active-link">Login</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link username" routerLink="/userProfile">MyName</a>
+        <li class="nav-item"  *ngIf="loginuser" >
+          <a class="nav-link username"routerLink="/userProfile">Logout</a>
+          <a class="nav-link username"routerLink="/userProfile">{{loginuser.name}}</a>
         </li>
       </ul>
 

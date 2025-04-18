@@ -7,12 +7,13 @@ import { Constant } from '../constant/Constant';
 import { ApiResponse } from '../model/ApiResponse.model';
 import { User } from '../model/User';
 import { Login } from '../model/Login';
+import {UserService} from './UserService';
 @Injectable({
   providedIn: 'root'
 })
 export class LoginServices {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient ) { }
 
 //   saveDonation(obj:Donation):Observable<ApiResponse>{
 //       return this.http.post<ApiResponse>(environment.api_url+Constant.API_END_POINT.User, obj);
