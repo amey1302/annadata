@@ -1,5 +1,6 @@
 package com.annadata.controller;
 
+import com.annadata.dto.UserResponseDTO;
 import com.annadata.entity.User;
 import com.annadata.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserResponseDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
