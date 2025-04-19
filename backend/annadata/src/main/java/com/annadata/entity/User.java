@@ -1,15 +1,12 @@
 package com.annadata.entity;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.annadata.valueobject.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,6 +39,15 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "donor", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Donation> donations;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Request> requests;
+
+
     public UUID getId() {
         return id;
     }
@@ -61,7 +67,7 @@ public class User{
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }

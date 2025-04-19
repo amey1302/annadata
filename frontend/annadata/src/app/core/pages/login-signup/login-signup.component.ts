@@ -3,18 +3,25 @@ import { FormsModule } from '@angular/forms';
 import { LoginServices } from '../../services/Login.services';
 import { User } from '../../model/User';
 import { Router } from '@angular/router'; // Make sure to import this
-import { NgIf } from '@angular/common';
+
+import { NgClass, NgIf } from '@angular/common';
+
 import { UserService } from '../../services/UserService';
+
 
 @Component({
   selector: 'app-login-signup',
   standalone: true,
-  imports: [FormsModule, NgIf],
+  imports: [FormsModule, NgIf, NgClass],
   templateUrl: './login-signup.component.html',
   styleUrl: './login-signup.component.scss'
 })
 export class LoginSignupComponent implements OnInit{
+
+  activeTab = 'login'; // Default tab is Login
+
   constructor( private LoginServices:LoginServices ,private router: Router,  private userService: UserService ){}
+
 
 
   users : User[]=[]  //to fetch all users
@@ -23,7 +30,9 @@ export class LoginSignupComponent implements OnInit{
        email: '',
        password: '',
        phoneNumber: '',
-       role: 'DONOR'  // DONOR   RECIVER
+      //  role: 'DONOR'  // DONOR   RECIVER
+
+       role: '',
      }
 
      Logindata={

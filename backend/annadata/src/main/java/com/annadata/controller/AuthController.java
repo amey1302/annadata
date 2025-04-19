@@ -1,22 +1,13 @@
 package com.annadata.controller;
-import com.annadata.entity.Login;
-import com.annadata.entity.User;
-import com.annadata.repository.UserRepository;
-import com.annadata.service.UserService;
 
 import com.annadata.dto.RegisterRequestDTO;
 import com.annadata.entity.Login;
 import com.annadata.entity.User;
 import com.annadata.repository.UserRepository;
 import com.annadata.service.AuthService;
-import com.annadata.service.UserService;
-import com.annadata.serviceImpl.AuthServiceImpl;
 import com.annadata.valueobject.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
-import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +22,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/food-donation/api/v1")
@@ -43,10 +39,11 @@ public class AuthController {
     private UserRepository repo;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String,Object>> login(@RequestBody Login loginRequest, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Login loginRequest, HttpServletRequest request) {
         Map<String, Object> resp = new HashMap<>();
 
         try {
+        	
             boolean isAuthenticated = service.authenticateUser(loginRequest);
             if (isAuthenticated) {
                 User user = repo.findByEmail(loginRequest.getEmail());
@@ -58,7 +55,7 @@ public class AuthController {
             } else {
                 resp.put("message", "Invalid credential");
                 resp.put("status", false);
-                
+
                 return new ResponseEntity<>(resp, HttpStatus.UNAUTHORIZED);
             }
         } catch (IllegalArgumentException exception) {

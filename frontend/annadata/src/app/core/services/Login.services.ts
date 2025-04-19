@@ -28,11 +28,12 @@ export class LoginServices {
     }
 
     saveUser(User:User):Observable<ApiResponse>{
-      return this.http.post<ApiResponse>(environment.api_url+Constant.API_END_POINT.User, User);
+      return this.http.post<ApiResponse>(environment.api_url+Constant.API_END_POINT.REGISTER, User);
     }
 
     loginUser( Login :Login):Observable<ApiResponse>{
-      return this.http.post<ApiResponse>(environment.api_url+"/login", Login);
+      console.log(Login.password);
+      return this.http.post<ApiResponse>(environment.api_url + Constant.API_END_POINT.LOGIN, Login);
     }
   
 }

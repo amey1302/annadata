@@ -1,5 +1,6 @@
 package com.annadata.serviceImpl;
 
+import com.annadata.dto.UserResponseDTO;
 import com.annadata.entity.User;
 import com.annadata.repository.UserRepository;
 import com.annadata.service.UserService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,8 +26,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponseDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+
+    }
+    private UserResponseDTO mapToDTO(User user) {
+        return UserResponseDTO.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
+                .password(user.getPassword())
+                .role(String.valueOf(user.getRole()))
+                .build();
     }
 
     @Override

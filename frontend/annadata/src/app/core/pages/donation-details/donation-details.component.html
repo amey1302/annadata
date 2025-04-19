@@ -1,3 +1,4 @@
+<app-popup #popup></app-popup>
 <div class="container-fluid py-4" style="background-color: #F7F1E3; min-height: 100vh;">
   <div class="container bg-white p-4 rounded-4 shadow" style="background-color: #FAF9F6;">
 
@@ -11,17 +12,14 @@
         {{ donation.foodType }}
       </span>
 
-      <!-- ////// this button only show for doner -->
-      <span class="badge rounded-pill px-3 py-2" >
-        <button
-        *ngIf="loginuser?.role=='DONOR'"
-        class="btn w-100" style="background-color: #5B8C5A; color: white;" (click)="viewRequestPage()">
-          View Request
-        </button>   
-         </span>
-
-
+      
+      
       <div class="d-flex align-items-center">
+        <button *ngIf="loginuser?.role === 'DONOR'"
+        class="btn w-100" style="background-color: #5B8C5A; color: white;"
+        routerLink="/login"
+        (click)="viewRequestPage()"
+        >view request</button>
         <i class="bi bi-pencil-square text-primary me-3" role="button" (click)="openEditModal(donation)"></i>
         <i class="bi bi-trash text-danger" role="button" (click)="deleteDonation(donation.id)"></i>
       </div>
@@ -113,14 +111,13 @@
 
         <!-- Request Button -->
         <div class="mt-4">
-          <button
-          *ngIf="request.receiverId && loginuser?.role !== 'DONOR'"
-
-          class="btn w-100" style="background-color: #5B8C5A; color: white;" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">
+          <button *ngIf="loginuser"
+          class="btn w-100" style="background-color: #5B8C5A; color: white;" data-bs-toggle="modal" 
+          data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">
             Request This Donation 🍱
           </button>
 
-          <button *ngIf="!request.receiverId"
+          <button *ngIf="!loginuser"
           class="btn w-100" style="background-color: #5B8C5A; color: white;"
           routerLink="/login"
           (click)="redirectToLogin()"
@@ -203,7 +200,7 @@
 
         <div class="modal-footer bg-light">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn" style="background-color: #5B8C5A; color: white;">Save Changes</button>
+          <button type="submit" class="btn" style="background-color: #5B8C5A; color: white;" data-bs-dismiss="modal">Save Changes</button>
         </div>
       </form>
     </div>

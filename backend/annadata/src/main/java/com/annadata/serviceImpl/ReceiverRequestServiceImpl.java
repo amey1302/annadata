@@ -35,6 +35,15 @@ public class ReceiverRequestServiceImpl implements ReceiverRequestService {
         User receiver = userRepository.findById(dto.getReceiverId())
                 .orElseThrow(() -> new EntityNotFoundException("Receiver not found"));
 
+        UUID donationId = dto.getDonationId();
+        UUID receiverId = dto.getReceiverId();
+
+        int existingCount = requestRepository.countRequestsByReceiverAndDonation(donationId, receiverId);
+
+        if (existingCount >= 1) {
+            throw new IllegalStateException("You can only request this donation a maximum of one time.");
+        }
+
         Request request = Request.builder()
                 .donation(donation)
                 .receiver(receiver)
