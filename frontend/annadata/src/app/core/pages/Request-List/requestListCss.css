@@ -1,0 +1,25 @@
+.table-container {
+    border: 2px solid #ccc; /* or any color you want */
+    border-radius: 8px;      /* optional */
+    overflow: hidden;  
+    margin-top: 15px;
+    margin: 40px;
+
+          /* to contain rounded corners */
+  }
+  .custom-table {
+    border: 2px solid #ccc;
+    border-collapse: collapse;
+  }
+
+  .table-gradient-container {
+    background: linear-gradient(to right, #fff5e6, #ffe0b2); /* light orange gradient */
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .table-gradient-container2 {
+    background: linear-gradient(to right, #d0e6c9, #95eb93); /* light orange gradient */
+    padding: 10px;
+    border-radius: 8px;
+  }

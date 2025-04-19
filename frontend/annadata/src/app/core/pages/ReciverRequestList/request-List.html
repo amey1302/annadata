@@ -1,0 +1,58 @@
+
+<app-navbar></app-navbar>
+
+<div class="table-container">
+    <mat-card class="p-3">
+        <h4 class="mb-3">Pending request</h4>
+      
+    <div class="table-responsive table-gradient-container">
+      <table mat-table [dataSource]="dataSource" matSort class="custom-tabletable table-bordered table-striped">
+  
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+          <td mat-cell *matCellDef="let user; let i = index">{{ i+1 }}</td>
+        </ng-container>
+  
+  
+        <ng-container matColumnDef="QtyRequest">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>QtyRequest</th>
+          <td mat-cell *matCellDef="let user">{{ user.quantityRequested  }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Message">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Message</th>
+            <td mat-cell *matCellDef="let user">{{ user.message }}</td>
+          </ng-container>
+
+       
+          <ng-container matColumnDef="Status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+
+            <td mat-cell *matCellDef="let user">
+                <span
+                [ngStyle]="{
+                  color: user.status === 'PENDING' ? 'red' : user.collectStatus === 'COLLECTED' ? 'blue' : 'green',
+                  'font-weight': 'bold'
+                }"
+              >
+                {{ user.collectStatus === 'COLLECTED' ? 'Collected' : user.status === 'PENDING' ? 'Pending' : 'Approved' }}
+              </span>
+             
+              </td>
+          </ng-container>
+          <ng-container matColumnDef="otp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>OTP</th>
+            <td mat-cell *matCellDef="let user">{{ user?.receiverOtp }}</td>
+          </ng-container>
+  
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  
+    <!-- <mat-paginator [pageSizeOptions]="[4, 10, 20]"></mat-paginator> -->
+  </mat-card>
+  
+</div>

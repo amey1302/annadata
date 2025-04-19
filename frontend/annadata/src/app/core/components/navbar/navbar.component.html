@@ -27,6 +27,9 @@
         <li class="nav-item"  *ngIf="loginuser" >
           <a class="nav-link username"routerLink="/userProfile">Logout</a>
           <a class="nav-link username"routerLink="/userProfile">{{loginuser.name}}</a>
+          <span *ngIf="loginuser?.role=='DONOR'" class="badge rounded-pill px-3 py-2" style="background-color: #5B8C5A; color: white;">Donor</span>
+          <span *ngIf="loginuser?.role!='DONOR'" class="badge rounded-pill px-3 py-2" style="background-color: #5B8C5A; color: white;">Receiver</span>
+
         </li>
       </ul>
 

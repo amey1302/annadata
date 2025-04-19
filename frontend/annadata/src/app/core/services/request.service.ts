@@ -20,5 +20,18 @@ export class RequestService {
     saveRequest(obj:RequestSave):Observable<ApiResponse>{
       return this.http.post<ApiResponse>(environment.api_url+ Constant.API_END_POINT.ADD_REQUEST, obj);
     }
-  
+    getRequestList(donationId: string):Observable<any>{
+      return this.http.get<RequestSave[]>(environment.api_url+'/donor/donations/'+ donationId+ '/requests') ;
+    }
+
+    getRequestListReceiver(receiverId: string):Observable<any>{
+      // return this.http.get<RequestSave[]>(`environment.api_url+'/receiver/requests?receiverId=${receiverId}`) ;
+      return this.http.get<any>(
+        `${environment.api_url}/receiver/requests?receiverId=${receiverId}`
+      );
+
+    }
 }
+//   /food-donation/api/v1/donor         /donations/{donationId}/requests 
+
+// /food-donation/api/v1/receiver    /requests

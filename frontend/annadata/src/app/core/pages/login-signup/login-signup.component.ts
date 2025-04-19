@@ -23,7 +23,7 @@ export class LoginSignupComponent implements OnInit{
        email: '',
        password: '',
        phoneNumber: '',
-       role: 'RECIVER'
+       role: 'DONOR'  // DONOR   RECIVER
      }
 
      Logindata={

@@ -10,12 +10,15 @@ import { Donation } from '../../model/Donation.model';
 import { Router } from '@angular/router';
 import { RequestSave } from '../../model/RequestSave.model';
 import { RequestService } from '../../services/request.service';
+import { RouterModule } from '@angular/router';
+import { UserService } from '../../services/UserService';
+import {User} from '../../model/User'
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-donation-details',
   standalone: true,
-  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule],
+  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule,RouterModule],
   templateUrl: './donation-details.component.html',
   styleUrl: './donation-details.component.scss'
 })
@@ -29,16 +32,23 @@ export class DonationDetailsComponent implements OnInit {
     private sanitizer: DomSanitizer, 
     private donationService: DonationService,
      private router: Router, 
-     private requestService: RequestService
+     private requestService: RequestService,
+     private userService: UserService
     ) { }
 
+    loginuser! : User|null
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
     this.donationService.getDonationById(id!).subscribe({
       next: (res) => this.donation = res,
     })
-
+    this.request.receiverId = this.userService.getUser()?.id;
+    this.loginuser = this.userService.getUser();
+    console.log(this.loginuser);
+    
+    console.log(this.request.receiverId);
+    
     this.calculateCountdown();
     this.setDonorInitials();
   }
@@ -106,7 +116,7 @@ export class DonationDetailsComponent implements OnInit {
   }
   saveRequest() {
     this.request.donationId = this.donation.id;
-    this.request.receiverId = "00d0f28f-500d-40b5-866b-4ff158830037";
+    // this.request.receiverId
     console.log(this.request.quantityRequested);
     this.requestService.saveRequest(this.request).subscribe({
       next: (res) =>{
@@ -146,6 +156,16 @@ export class DonationDetailsComponent implements OnInit {
 
   cancelDelete() {
     this.showDeleteModal = false;
+  }
+
+  viewRequestPage() {
+    // this.router.navigate(['/donation', this.donation.id, '/request']);
+    this.router.navigate(['/donation', this.donation.id, 'request']);
+
+  }
+
+  redirectToLogin(){
+    this.router.navigate(['/login']);
   }
 
 }
