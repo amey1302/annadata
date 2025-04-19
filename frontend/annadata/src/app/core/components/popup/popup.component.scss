@@ -1,0 +1,84 @@
+.custom-modal {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-dialog {
+    max-width: 420px;
+  }
+  
+  .modal-content {
+    background-color: #FAF9F6; // Off White
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-header {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    padding: 1rem 1.5rem;
+  
+    &.bg-success {
+      background-color: #5B8C5A; // Leafy Green
+    }
+  
+    &.bg-danger {
+      background-color: #C0392B; // Soft Red (custom fallback)
+    }
+  
+    &.bg-info {
+      background-color: #2980B9; // Soft Blue (custom fallback)
+    }
+  
+    &.bg-warning {
+      background-color: #F77F00; // Warm Saffron
+    }
+  
+    .modal-title {
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+  
+  .modal-body {
+    color: #5B3711; // Deep Brown
+    padding: 1rem 1.5rem;
+  }
+  
+  .modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: none;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  
+    .btn-primary {
+      background-color: #F77F00;
+      border: none;
+      color: white;
+  
+      &:hover {
+        background-color: #e06f00;
+      }
+    }
+  
+    .btn-danger {
+      background-color: #C0392B;
+      border: none;
+      color: white;
+  
+      &:hover {
+        background-color: #a93226;
+      }
+    }
+  
+    .btn-secondary {
+      background-color: #ddd;
+      color: #5B3711;
+  
+      &:hover {
+        background-color: #ccc;
+      }
+    }
+  }
+  

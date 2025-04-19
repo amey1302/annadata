@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { DonationSave } from '../../model/DonationSave.model';
 import { Donation } from '../../model/Donation.model';
 import { DonationService } from '../../services/donation.service';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { signal } from '@angular/core';
 import { DomSanitizer , SafeResourceUrl } from '@angular/platform-browser';
@@ -14,7 +14,7 @@ import { UserService } from '../../services/UserService';
 @Component({
   selector: 'app-donor-home',
   standalone: true,
-  imports: [NavbarComponent, CardComponent, RouterModule, NgFor, FormsModule],
+  imports: [NavbarComponent, CardComponent, RouterModule, NgFor, FormsModule, NgIf],
   templateUrl: './donor-home.component.html',
   styleUrl: './donor-home.component.scss'
 })
@@ -28,6 +28,7 @@ export class DonorHomeComponent {
   
     }
     ngOnInit(): void {
+      
       this.donationService.donations$.subscribe((donations)=>{
         this.donations = donations;
       })
@@ -79,6 +80,20 @@ export class DonorHomeComponent {
           window.open('https://www.google.com/maps', '_blank');
           this.hasOpenedGoogleMaps = true;
         }
+      }
+    }
+    validateXSS(field: string, control: any): void {
+      const xssPattern =
+        /<script|<\/script|javascript|onerror|onload|<img|alert\(|<iframe/i;
+      if (xssPattern.test(control.value)) {
+        alert('${field} contains invalid characters (potential XSS). ' );
+        control.setValue('');
+      }
+    }
+    blockInvalidKeys(event: KeyboardEvent): void {
+      const invalidKeys = ['-', '+', 'e', 'E', '.', ','];
+      if (invalidKeys.includes(event.key)) {
+        event.preventDefault();
       }
     }
     // mapUrl: SafeResourceUrl | null = null;

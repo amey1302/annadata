@@ -3,66 +3,122 @@
 
     <div class="d-flex justify-content-center mb-4">
       <button class="btn me-2 fw-semibold"
-              [ngClass]="{ 'active-tab': activeTab === 'login', 'inactive-tab': activeTab !== 'login' }"
-              (click)="activeTab = 'login'">
+        [ngClass]="{ 'active-tab': activeTab === 'login', 'inactive-tab': activeTab !== 'login' }"
+        (click)="activeTab = 'login'">
         Login
       </button>
       <button class="btn fw-semibold"
-              [ngClass]="{ 'active-tab': activeTab === 'signup', 'inactive-tab': activeTab !== 'signup' }"
-              (click)="activeTab = 'signup'">
+        [ngClass]="{ 'active-tab': activeTab === 'signup', 'inactive-tab': activeTab !== 'signup' }"
+        (click)="activeTab = 'signup'">
         Sign Up
       </button>
     </div>
 
     <!-- Login Form -->
-    <form *ngIf="activeTab === 'login'" (ngSubmit)="login()">
+    <form *ngIf="activeTab === 'login'" (ngSubmit)="login()" #loginForm="ngForm">
       <h4 class="text-center mb-4 login-title">Login</h4>
       <div class="mb-3">
         <label for="loginEmail" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="loginEmail" name="email" [(ngModel)]="Logindata.email">
+        <input type="email" class="form-control" id="loginEmail" name="email" [(ngModel)]="Logindata.email" required
+          #loginEmail="ngModel" (blur)="loginEmailTouched = true" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+        <div *ngIf="loginEmail.invalid && loginEmailTouched" class="text-danger">
+          Please enter a valid email address.
+        </div>
+
       </div>
       <div class="mb-3">
         <label for="loginPassword" class="form-label">Password</label>
-        <input type="password" class="form-control" id="loginPassword" name="password" [(ngModel)]="Logindata.password">
+        <input type="password" class="form-control" id="loginPassword" name="password" [(ngModel)]="Logindata.password"
+          required #loginPassword="ngModel" (blur)="loginPasswordTouched = true">
+        <div *ngIf="loginPassword.invalid && loginPasswordTouched" class="text-danger">
+          Password is required.
+        </div>
+
       </div>
-      <button type="submit" class="btn w-100 mt-3 login-button">Login</button>
+      <button type="submit" class="btn w-100 mt-3 login-button" [disabled]="loginForm.invalid">Login</button>
     </form>
 
     <!-- Signup Form -->
-    <form *ngIf="activeTab === 'signup'" (ngSubmit)="signup()">
+    <form *ngIf="activeTab === 'signup'" (ngSubmit)="signup()" #signupForm="ngForm">
       <h4 class="text-center mb-4 login-title">Sign Up</h4>
       <div class="mb-3">
         <label for="signupName" class="form-label">Name</label>
-        <input type="text" class="form-control" id="signupName" name="name" [(ngModel)]="signupdata.name">
+        <input type="text" class="form-control" id="name" name="name" [(ngModel)]="signupdata.name"
+          pattern="^[a-zA-Z ]*$" #name="ngModel" (blur)="nameTouched = true" required>
+        <div *ngIf="name.invalid && nameTouched" class="text-danger">
+          Name is required and should not contain numbers or special
+          characters.
+        </div>
+
       </div>
       <div class="mb-3">
         <label for="signupEmail" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="signupEmail" name="email" [(ngModel)]="signupdata.email">
+        <input type="email" class="form-control" id="signupEmail" name="email" [(ngModel)]="signupdata.email" required
+          email #email="ngModel" (blur)="emailTouched = true" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+        <div *ngIf="email.invalid && emailTouched" class="text-danger">
+          Please enter a valid email address.
+        </div>
+
       </div>
       <div class="mb-3">
         <label for="signupPassword" class="form-label">Password</label>
-        <input type="password" class="form-control" id="signupPassword" name="password" [(ngModel)]="signupdata.password">
+        <input type="password" class="form-control" id="signupPassword" name="password"
+          [(ngModel)]="signupdata.password" required (input)="checkPasswordStrength()" (blur)="passwordTouched = true"
+          #password="ngModel">
+        <div class="form-text" *ngIf="signupdata.password">
+          <ul class="text-muted">
+            <li [class.text-success]="passwordCriteria.minLength">
+              Minimum 8 characters
+            </li>
+            <li [class.text-success]="passwordCriteria.uppercase">
+              At least one uppercase letter
+            </li>
+            <li [class.text-success]="passwordCriteria.lowercase">
+              At least one lowercase letter
+            </li>
+            <li [class.text-success]="passwordCriteria.number">
+              At least one number
+            </li>
+            <li [class.text-success]="passwordCriteria.specialChar">
+              At least one special character (!&#64;#$%^&amp;*()_+=-)
+            </li>
+          </ul>
+        </div>
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="confirmPassword"
+            id="confirmPassword" (blur)="confirmPasswordTouched = true" />
+          <div *ngIf="
+                confirmPasswordTouched &&
+                confirmPassword !== signupdata.password
+              " class="text-danger">
+            Passwords do not match.
+          </div>
+        </div>
+
+
       </div>
       <div class="mb-3">
         <label for="signupPhone" class="form-label">Phone Number</label>
-        <input type="text" class="form-control" id="signupPhone" name="phoneNumber" [(ngModel)]="signupdata.phoneNumber">
+        <input type="text" class="form-control" id="signupPhone" name="phoneNumber" [(ngModel)]="signupdata.phoneNumber"
+          required pattern="^[6-9][0-9]{9}$" #phone="ngModel" (blur)="phoneTouched = true">
+        <div *ngIf="phone.invalid && phoneTouched" class="text-danger">
+          Please enter a valid 10-digit phone number starting with 6-9.
+        </div>
+
       </div>
       <div class="mb-3">
         <label for="userType">I am a:</label>
-        
-      <select
-      class="form-control"
-      id="userType"
-      name="userType"
-      [(ngModel)]="signupdata.role"
-      required
-    >
-      <option value="" disabled selected>Select your role</option>
-      <option value="DONOR">Donor</option>
-      <option value="Receiver">Receiver</option>
-    </select>
-  </div>
-      <button type="submit" class="btn w-100 mt-3 login-button">Sign Up</button>
+
+        <select class="form-control" id="userType" name="userType" [(ngModel)]="signupdata.role" required>
+          <option value="" disabled selected>Select your role</option>
+          <option value="DONOR">Donor</option>
+          <option value="Receiver">Receiver</option>
+        </select>
+      </div>
+      <button type="submit" class="btn w-100 mt-3 login-button" [disabled]="
+      signupForm.invalid || confirmPassword !== signupdata.password
+    ">Sign Up</button>
     </form>
   </div>
 </div>

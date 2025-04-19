@@ -43,12 +43,10 @@ export class LoginSignupComponent implements OnInit{
       this.LoginServices.getUserList().subscribe({
         next:(data)=>{
           this.users = data
-          console.log('this are users',this.users);
+        
         }
       })
      }
-
-     confirmPassword: string = '';
 
      loginEmailTouched: boolean = false;
      loginPasswordTouched: boolean = false;
@@ -58,6 +56,8 @@ export class LoginSignupComponent implements OnInit{
      confirmPasswordTouched: boolean = false;
      phoneTouched: boolean = false;
    
+     confirmPassword: string = '';
+   
      passwordCriteria = {
        minLength: false,
        uppercase: false,
@@ -66,12 +66,24 @@ export class LoginSignupComponent implements OnInit{
        specialChar: false,
      };
    
+
+     checkPasswordStrength() {
+      const password = this.signupdata.password;
+      this.passwordCriteria.minLength = password.length >= 8;
+      this.passwordCriteria.uppercase = /[A-Z]/.test(password);
+      this.passwordCriteria.lowercase = /[a-z]/.test(password);
+      this.passwordCriteria.number = /[0-9]/.test(password);
+      this.passwordCriteria.specialChar = /[!@#$%^&*()_+=\-]/.test(password);
+    }
+  
+  
    
      signup(){
         this.LoginServices.saveUser(this.signupdata).subscribe({
 
           next:(data)=>{
-            console.log(data);
+            
+            this.router.navigate(['/login'])
           }
         })
      }
@@ -82,7 +94,12 @@ export class LoginSignupComponent implements OnInit{
           sessionStorage.setItem('user', JSON.stringify(data.user));
           this.userService.setUser(data.user);
           if(data.status){
-            this.router.navigate(['/home']); 
+            if(data.user.role==='DONOR'){
+              this.router.navigate(['/donor/homepage']);
+            }else{
+              this.router.navigate(['/home']); 
+            }
+           
           }
         }
       )

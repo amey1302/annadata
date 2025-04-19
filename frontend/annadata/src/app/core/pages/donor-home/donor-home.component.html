@@ -20,61 +20,101 @@
         </div>
 
         <div class="modal-body">
-          <form>
+          <form #donationForm="ngForm">
             <div class="row g-3">
               <div class="col-md-6">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" [(ngModel)]="donationObj.title" name="title" class="form-control" id="title">
+                <input type="text" [(ngModel)]="donationObj.title" name="title" class="form-control" id="title" required
+                pattern="^[a-zA-Z0-9\s\.,!?'-]*$"
+                #title="ngModel"
+                (blur)="validateXSS('title', title)">
+                <div *ngIf="title.invalid && title.touched" class="text-danger">
+                  Title is required and can only contain alphanumeric characters and
+                  punctuation.
+                </div>
               </div>
               <div class="col-md-6">
                 <label for="foodType" class="form-label">Food Type</label>
-                <input type="text" [(ngModel)]="donationObj.foodType" name="foodType" class="form-control" id="foodType">
+                <input type="text" [(ngModel)]="donationObj.foodType" name="foodType" class="form-control"
+                  id="foodType" >
               </div>
 
               <div class="col-md-6">
                 <label for="foodCategory" class="form-label">Food Category</label>
-                <input type="text" [(ngModel)]="donationObj.foodCategory" name="foodCategory" class="form-control" id="foodCategory">
+                <input type="text" [(ngModel)]="donationObj.foodCategory" name="foodCategory" class="form-control"
+                  id="foodCategory">
               </div>
 
               <div class="col-md-6">
                 <label for="quantity" class="form-label">Quantity (People)</label>
-                <input type="number" [(ngModel)]="donationObj.quantity" name="quantity" class="form-control" id="quantity">
+                <input type="number" [(ngModel)]="donationObj.quantity" name="quantity" class="form-control"
+                  id="quantity"  required
+                  min="1" 
+                  #quantity="ngModel">
+                  <div
+              *ngIf="quantity.invalid && quantity.touched"
+              class="text-danger"
+            >
+              Quantity must be a number greater than 0.
+            </div>
               </div>
 
               <div class="col-md-6">
                 <label for="expiryTime" class="form-label">Expiry Time</label>
-                <input type="datetime-local" [(ngModel)]="donationObj.expiryTime" name="expiryTime" class="form-control" id="expiryTime">
+                <input type="datetime-local" [(ngModel)]="donationObj.expiryTime" name="expiryTime" class="form-control"
+                  id="expiryTime"  
+                  required
+                  #expiryTime="ngModel">
+                  <div
+              *ngIf="expiryTime.invalid && expiryTime.touched"
+              class="text-danger"
+            >
+              Expiry Date & Time must not be in the past.
+            </div>
               </div>
 
-              <div class="col-md-6">
+              <!-- <div class="col-md-6">
                 <label for="createdAt" class="form-label">Created At</label>
-                <input type="datetime-local" [(ngModel)]="donationObj.createdAt" name="createdAt" class="form-control" id="createdAt">
-              </div>
+                <input type="datetime-local" [(ngModel)]="donationObj.createdAt" name="createdAt" class="form-control"
+                  id="createdAt">
+              </div> -->
 
               <div class="col-12">
                 <label for="description" class="form-label">Description</label>
-                <textarea [(ngModel)]="donationObj.description" name="description" class="form-control" id="description" rows="3"></textarea>
+                <textarea [(ngModel)]="donationObj.description" name="description" class="form-control" id="description"
+                  rows="3"  required
+                  pattern="^[a-zA-Z0-9\s\.,!?'-]*$"
+                  #description="ngModel"
+                  (blur)="validateXSS('description', description)"></textarea>
+                  <div
+                  *ngIf="description.invalid && description.touched"
+                  class="text-danger"
+                >
+                  Description is required and can only contain alphanumeric
+                  characters and punctuation.
+                </div>
               </div>
 
               <div class="col-12">
                 <label for="address" class="form-label">Address</label>
-                <textarea [(ngModel)]="donationObj.address" name="address" class="form-control" id="address" rows="2"></textarea>
+                <textarea [(ngModel)]="donationObj.address" name="address" class="form-control" id="address"
+                  rows="2" required
+                  pattern="^[a-zA-Z0-9\s\.,!?'-]*$"
+                  #address="ngModel"
+                  (blur)="validateXSS('address', address)"></textarea>
+                  <div *ngIf="address.invalid && address.touched" class="text-danger">
+                    Address is required and can only contain alphanumeric characters
+                    and punctuation.
+                  </div>
               </div>
               <!-- <button (click)="getLocation()">Get My Location</button> -->
               <div class="col-12">
                 <label for="addressLink" class="form-label">Google Maps Link</label>
-              <input
-  type="text"
-  [value]="donationObj.addressLink"
-  (click)="openGoogleMaps()"
-  [(ngModel)]="donationObj.addressLink"
-  name="addressLink"
-  placeholder="Click to open Maps, then paste link here"
-  id="addressLink"
-  class="form-control"
-/>
-</div>
-<!-- 
+                <input type="text" [value]="donationObj.addressLink" (click)="openGoogleMaps()"
+                  [(ngModel)]="donationObj.addressLink" name="addressLink"
+                  placeholder="Click to open Maps, then paste link here" id="addressLink" class="form-control" />
+              </div>
+              <!-- 
               <div class="col-12">
                 <label for="addressLink" class="form-label">Google Maps Link</label>
                 <input type="text" [(ngModel)]="donationObj.addressLink" name="addressLink" class="form-control" id="addressLink">
@@ -95,7 +135,8 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-success" (click)="onSaveDonation()" data-bs-dismiss="modal">Add Donation</button>
+          <button type="button" class="btn btn-success" (click)="onSaveDonation()" data-bs-dismiss="modal" [disabled]="donationForm.invalid"> Add
+            Donation</button>
         </div>
       </div>
     </div>

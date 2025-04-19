@@ -27,8 +27,8 @@ export class LoginServices {
       return this.http.get<User[]>(environment.api_url+Constant.API_END_POINT.User);
     }
 
-    saveUser(User:User):Observable<ApiResponse>{
-      return this.http.post<ApiResponse>(environment.api_url+Constant.API_END_POINT.REGISTER, User);
+    saveUser(User:User):Observable<string>{
+      return this.http.post<string>(environment.api_url+Constant.API_END_POINT.REGISTER, User, { responseType: 'text' as 'json' });
     }
 
     loginUser( Login :Login):Observable<ApiResponse>{
