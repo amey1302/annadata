@@ -1,4 +1,4 @@
-<div class="container py-5 d-flex justify-content-center align-items-center min-vh-100 login-page-bg">
+<div class="container-fluid py-5 d-flex justify-content-center align-items-center min-vh-100 login-page-bg">
   <div class="card login-card shadow rounded-4 p-4 w-100">
 
     <div class="d-flex justify-content-center mb-4">
@@ -34,6 +34,9 @@
           Password is required.
         </div>
 
+      </div>
+      <div class="mb-3">
+        <p style="color:red">{{errorMessage()}}</p>
       </div>
       <button type="submit" class="btn w-100 mt-3 login-button" [disabled]="loginForm.invalid">Login</button>
     </form>
@@ -115,6 +118,9 @@
           <option value="DONOR">Donor</option>
           <option value="Receiver">Receiver</option>
         </select>
+      </div>
+      <div class="mb-3">
+        <p style="color:red">{{errorMessage()}}</p>
       </div>
       <button type="submit" class="btn w-100 mt-3 login-button" [disabled]="
       signupForm.invalid || confirmPassword !== signupdata.password

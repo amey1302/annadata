@@ -53,3 +53,33 @@
     cursor: pointer;
   }
   
+  .filter-toggle .btn {
+    background-color: #FAF9F6;
+    color: #5B3711;
+    border: 1px solid #d4cfc4;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .filter-toggle .btn:hover {
+    background-color: #eabd6f;
+  }
+  
+  .filter-toggle .active-veg {
+    background-color: #5B8C5A;
+    color: #fff;
+    border: none;
+  }
+  
+  .filter-toggle .active-nonveg {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+  }
+  
+  .filter-toggle .active-all {
+    background-color: #fcaa1d;
+    color: #fff;
+    border: none;
+  }
+  

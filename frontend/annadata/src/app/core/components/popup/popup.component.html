@@ -7,7 +7,7 @@
           'bg-info': type === 'info',
           'bg-warning': type === 'confirm'
         }">
-          <h5 class="modal-title text-white">{{ type | titlecase }}</h5>
+          <h5 class="modal-title text-white" style="font-size: 16px;">{{ type | titlecase }}</h5>
           <button type="button" class="btn-close" (click)="close()"></button>
         </div>
         <div class="modal-body">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LoginServices } from '../../services/Login.services';
 import { User } from '../../model/User';
@@ -42,6 +42,7 @@ export class LoginSignupComponent implements OnInit{
 
 
      ngOnInit(): void {
+     
       this.LoginServices.getUserList().subscribe({
         next:(data)=>{
           this.users = data
@@ -86,13 +87,19 @@ export class LoginSignupComponent implements OnInit{
           next:(data)=>{
             
             this.router.navigate(['/login'])
+          },
+          error:(err)=>{
+            this.errorMessage.set(err.error);
+            setTimeout(() => {
+              this.errorMessage.set('');
+            }, 3000);
           }
         })
      }
-
+     errorMessage = signal('');
      login(){
-      this.LoginServices.loginUser(this.Logindata).subscribe(
-        (data)=>{
+      this.LoginServices.loginUser(this.Logindata).subscribe({
+        next: (data)=>{
           sessionStorage.setItem('user', JSON.stringify(data.user));
           this.userService.setUser(data.user);
           if(data.status){
@@ -103,8 +110,14 @@ export class LoginSignupComponent implements OnInit{
             }
            
           }
+        },
+        error:(err)=>{
+          this.errorMessage.set(err.error.message);
+          setTimeout(() => {
+            this.errorMessage.set('');
+          }, 3000);
         }
-      )
+     })
      }
 
 

@@ -96,6 +96,8 @@ export class DonorHomeComponent {
         event.preventDefault();
       }
     }
+
+  
     // mapUrl: SafeResourceUrl | null = null;
     // getLocation() {
     //   if (navigator.geolocation) {

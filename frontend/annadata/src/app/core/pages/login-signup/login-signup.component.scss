@@ -2,6 +2,10 @@
     background-color: #F7F1E3; /* Sand Beige */
     min-height: 100vh;
     display: flex;
+    width: 100%;
+     margin: 0;
+    padding: 0;
+    overflow-x: hidden;
     align-items: center;
     justify-content: center;
   }
@@ -31,7 +35,7 @@
   }
   
   .active-tab {
-    background-color: #F77F00; /* Warm Saffron */
+    background-color: #fcaa1d;/* Warm Saffron */
     color: white;
     border: none;
     border-radius: 8px;
@@ -40,8 +44,8 @@
   
   .inactive-tab {
     background-color: transparent;
-    color: #F77F00; /* Warm Saffron */
-    border: 2px solid #F77F00;
+    color: #fcaa1d; /* Warm Saffron */
+    border: 2px solid #fcaa1d;
     border-radius: 8px;
     padding: 8px 20px;
   }

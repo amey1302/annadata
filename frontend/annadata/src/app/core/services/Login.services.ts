@@ -15,14 +15,6 @@ export class LoginServices {
 
   constructor(private http: HttpClient ) { }
 
-//   saveDonation(obj:Donation):Observable<ApiResponse>{
-//       return this.http.post<ApiResponse>(environment.api_url+Constant.API_END_POINT.User, obj);
-//   }
-
-//   getUserList():Observable<User[]>{
-//     return this.http.get<User[]>(environment.api_url+Constant.API_END_POINT.User);
-//   }
-
     getUserList():Observable<User[]>{
       return this.http.get<User[]>(environment.api_url+Constant.API_END_POINT.User);
     }
@@ -32,7 +24,7 @@ export class LoginServices {
     }
 
     loginUser( Login :Login):Observable<ApiResponse>{
-      console.log(Login.password);
+      
       return this.http.post<ApiResponse>(environment.api_url + Constant.API_END_POINT.LOGIN, Login);
     }
   
