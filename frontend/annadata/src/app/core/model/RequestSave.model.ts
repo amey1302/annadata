@@ -1,6 +1,6 @@
 export class RequestSave{
-    donationId:string;
-    receiverId:string
+    donationId:any;
+    receiverId:any
     quantityRequested:number;
     message:string;
 

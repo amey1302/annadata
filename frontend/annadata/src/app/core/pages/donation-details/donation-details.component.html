@@ -11,7 +11,15 @@
       }">
         {{ donation.foodType }}
       </span>
-      <div class="d-flex align-items-center" *ngIf="user.email === donation.donorEmail">
+
+      
+      
+      <div class="d-flex align-items-center">
+        <button *ngIf="loginuser?.role === 'DONOR'"
+        class="btn w-100" style="background-color: #5B8C5A; color: white;"
+        routerLink="/login"
+        (click)="viewRequestPage()"
+        >view request</button>
         <i class="bi bi-pencil-square text-primary me-3" role="button" (click)="openEditModal(donation)"></i>
         <i class="bi bi-trash text-danger" role="button" (click)="deleteDonation(donation.id)"></i>
       </div>
@@ -102,10 +110,19 @@
         </div>
 
         <!-- Request Button -->
-        <div class="mt-4" *ngIf="!(user.email === donation.donorEmail)">
-          <button class="btn w-100" style="background-color: #5B8C5A; color: white;" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">
+        <div class="mt-4">
+          <button *ngIf="!(loginuser.email===' ')"
+          class="btn w-100" style="background-color: #5B8C5A; color: white;" data-bs-toggle="modal" 
+          data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">
             Request This Donation 🍱
           </button>
+
+          <button *ngIf="!loginuser"
+          class="btn w-100" style="background-color: #5B8C5A; color: white;"
+          routerLink="/login"
+          (click)="redirectToLogin()"
+          >Login to Order</button>
+
         </div>
       </div>
     </div>

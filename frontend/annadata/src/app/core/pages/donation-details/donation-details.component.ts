@@ -10,6 +10,9 @@ import { Donation } from '../../model/Donation.model';
 import { Router } from '@angular/router';
 import { RequestSave } from '../../model/RequestSave.model';
 import { RequestService } from '../../services/request.service';
+import { RouterModule } from '@angular/router';
+// import { UserService } from '../../services/UserService';
+// import {User} from '../../model/User'
 import { UserService } from '../../services/UserService';
 import { User } from '../../model/User';
 import { PopupComponent } from '../../components/popup/popup.component';
@@ -18,7 +21,9 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-donation-details',
   standalone: true,
-  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule, PopupComponent],
+  //  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule,RouterModule],
+  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule, PopupComponent,RouterModule],
+
   templateUrl: './donation-details.component.html',
   styleUrl: './donation-details.component.scss'
 })
@@ -28,15 +33,18 @@ export class DonationDetailsComponent implements OnInit {
   donorInitials = '';
   request: RequestSave = new RequestSave();
   @ViewChild('popup') popupComponent!: PopupComponent;
+      loginuser! : User|null
   constructor(
     private route: ActivatedRoute, 
     private sanitizer: DomSanitizer, 
     private donationService: DonationService,
      private router: Router, 
      private requestService: RequestService,
+
      private userService: UserService,
     ) { 
       
+
       this.user =  this.userService.getUser()!;
       if(this.user===null){
         this.user  = new User();
@@ -44,6 +52,7 @@ export class DonationDetailsComponent implements OnInit {
     }
     user: User;
     id :string = '';
+
   ngOnInit(): void {
     
     this.user =  this.userService.getUser()!;
@@ -55,6 +64,12 @@ export class DonationDetailsComponent implements OnInit {
     this.donationService.donation$.subscribe((donation)=>{
       this.donation = donation;
     })
+    this.request.receiverId = this.userService.getUser()?.id;
+    this.loginuser = this.userService.getUser();
+    console.log(this.loginuser);
+    
+    console.log(this.request.receiverId);
+    
     this.donationService.loadDonationById(id!);
 
     this.calculateCountdown();
@@ -135,7 +150,9 @@ export class DonationDetailsComponent implements OnInit {
   }
   saveRequest() {
     this.request.donationId = this.donation.id;
+
     this.request.receiverId = this.user.id!;
+    
     console.log(this.request.quantityRequested);
     this.requestService.saveRequest(this.request).subscribe({
       next: (res) =>{
@@ -176,6 +193,16 @@ export class DonationDetailsComponent implements OnInit {
 
   cancelDelete() {
     this.showDeleteModal = false;
+  }
+
+  viewRequestPage() {
+    // this.router.navigate(['/donation', this.donation.id, '/request']);
+    this.router.navigate(['/donation', this.donation.id, 'request']);
+
+  }
+
+  redirectToLogin(){
+    this.router.navigate(['/login']);
   }
 
 }
