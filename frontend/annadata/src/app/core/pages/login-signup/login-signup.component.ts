@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LoginServices } from '../../services/Login.services';
 import { User } from '../../model/User';
@@ -42,15 +42,14 @@ export class LoginSignupComponent implements OnInit{
 
 
      ngOnInit(): void {
+     
       this.LoginServices.getUserList().subscribe({
         next:(data)=>{
           this.users = data
-          console.log('this are users',this.users);
+        
         }
       })
      }
-
-     confirmPassword: string = '';
 
      loginEmailTouched: boolean = false;
      loginPasswordTouched: boolean = false;
@@ -60,6 +59,8 @@ export class LoginSignupComponent implements OnInit{
      confirmPasswordTouched: boolean = false;
      phoneTouched: boolean = false;
    
+     confirmPassword: string = '';
+   
      passwordCriteria = {
        minLength: false,
        uppercase: false,
@@ -68,26 +69,55 @@ export class LoginSignupComponent implements OnInit{
        specialChar: false,
      };
    
+
+     checkPasswordStrength() {
+      const password = this.signupdata.password;
+      this.passwordCriteria.minLength = password.length >= 8;
+      this.passwordCriteria.uppercase = /[A-Z]/.test(password);
+      this.passwordCriteria.lowercase = /[a-z]/.test(password);
+      this.passwordCriteria.number = /[0-9]/.test(password);
+      this.passwordCriteria.specialChar = /[!@#$%^&*()_+=\-]/.test(password);
+    }
+  
+  
    
      signup(){
         this.LoginServices.saveUser(this.signupdata).subscribe({
 
           next:(data)=>{
-            console.log(data);
+            
+            this.router.navigate(['/login'])
+          },
+          error:(err)=>{
+            this.errorMessage.set(err.error);
+            setTimeout(() => {
+              this.errorMessage.set('');
+            }, 3000);
           }
         })
      }
-
+     errorMessage = signal('');
      login(){
-      this.LoginServices.loginUser(this.Logindata).subscribe(
-        (data)=>{
+      this.LoginServices.loginUser(this.Logindata).subscribe({
+        next: (data)=>{
           sessionStorage.setItem('user', JSON.stringify(data.user));
           this.userService.setUser(data.user);
           if(data.status){
-            this.router.navigate(['/home']); 
+            if(data.user.role==='DONOR'){
+              this.router.navigate(['/donor/homepage']);
+            }else{
+              this.router.navigate(['/home']); 
+            }
+           
           }
+        },
+        error:(err)=>{
+          this.errorMessage.set(err.error.message);
+          setTimeout(() => {
+            this.errorMessage.set('');
+          }, 3000);
         }
-      )
+     })
      }
 
 

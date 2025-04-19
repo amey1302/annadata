@@ -1,0 +1,72 @@
+/* Custom modal overlay background */
+.custom-modal {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Override Bootstrap background classes to match your theme */
+.bg-success {
+  background-color: #5B8C5A !important; /* Leafy Green */
+  color: #fff !important;
+}
+
+.bg-danger {
+  background-color: #d75461 !important; /* Soft Red */
+  color: #fff !important;
+  font-size: 20px;
+}
+
+.bg-info {
+  background-color: #2980B9 !important; /* Soft Blue */
+  color: #fff !important;
+}
+
+.bg-warning {
+  background-color: #ffd183 !important; /* Saffron for Confirm */
+  color: #fff !important;
+}
+
+/* Modal content styling */
+.modal-content {
+  background-color: #FAF9F6; /* Off White */
+  border-radius: 1rem;
+  border: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Body text */
+.modal-body {
+  color: #5B3711; /* Deep Brown */
+  font-weight: 500;
+}
+
+/* Footer buttons */
+.modal-footer .btn-primary {
+  background-color: #f9ca7a;
+  color: #fff;
+  border: none;
+}
+
+.modal-footer .btn-primary:hover {
+  background-color: #FFE8A1;
+  color: #5B3711;
+}
+
+.modal-footer .btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+}
+
+.modal-footer .btn-danger:hover {
+  background-color: #c82333;
+}
+
+.modal-footer .btn-secondary {
+  background-color: #ccc;
+  color: #5B3711;
+  border: none;
+}
+
+.modal-footer .btn-secondary:hover {
+  background-color: #bbb;
+}

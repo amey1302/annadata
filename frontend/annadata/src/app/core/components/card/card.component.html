@@ -7,8 +7,8 @@
   (click)="viewDonationDetails(donation.id)"
 >
   <div class="card-body">
-    <h5 class="card-title mb-1" style="color: #5B3711;">{{ donation.title }}</h5>
-    <h6 class="card-subtitle mb-2" [ngStyle]="{ color: donation.foodType === 'VEG' ? '#5B8C5A' : '#F77F00' }">
+    <h5 class="card-title mb-1" style="color: #5B3711; font-size: large;">{{ donation.title }}</h5>
+    <h6 class="card-subtitle mb-2" style=" font-size:medium"[ngStyle]="{ color: donation.foodType === 'VEG' ? '#5B8C5A' : '#F77F00' }">
       {{ donation.foodType }}
     </h6>
 
@@ -32,7 +32,7 @@
 
     <a
       class="btn btn-sm rounded-pill"
-      style="background-color: #F77F00; color: white;"
+    
       [href]="donation.addressLink"
       target="_blank"
       (click)="$event.stopPropagation()"

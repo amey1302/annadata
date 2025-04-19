@@ -2,7 +2,7 @@ import { Component ,OnInit, ViewChild  } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/UserService';
 import { User } from '../../model/User';
-import { CommonModule, NgClass, NgIf, TitleCasePipe } from '@angular/common'; // ✅ import this
+import { CommonModule, NgClass, NgIf, TitleCasePipe } from '@angular/common'; 
 import { PopupComponent } from '../popup/popup.component';
 @Component({
   selector: 'app-navbar',
@@ -13,7 +13,9 @@ import { PopupComponent } from '../popup/popup.component';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private userService:UserService, private router:Router){}
+  constructor(private userService:UserService, private router:Router){
+    
+  }
   loginuser!: User | null;
     ngOnInit(): void {
      
@@ -21,14 +23,13 @@ export class NavbarComponent implements OnInit {
       console.log('From navbar ngOnInit:', userData);
       this.loginuser = userData;
       // this.loginuser = userData ?? null; 
-      
+     
     }
-
+   
     @ViewChild('popup') popupComponent!: PopupComponent;
     logout(){
       this.popupComponent.open('Are you sure you want to logout?', 'confirm', () => {
-       
-        console.log("logout");
+   
         this.userService.clearUser();
         this.router.navigate(['/home'])
       });
