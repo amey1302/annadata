@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; 
 
 import {RequestService} from '../../services/request.service';
@@ -33,18 +33,20 @@ export class ReciverRequestList implements OnInit {
    
     dataSource = new MatTableDataSource();
     constructor(private  requestService: RequestService,
-        private userService: UserService
+        private userService: UserService, private router:Router
     ) {}
     displayedColumns: string[] = ['id', 'QtyRequest' , 'Message','Status','otp'];
 
     ngOnInit(): void {
         const userid : any = this.userService.getUser()
+        if(userid===null){
+          this.router.navigate(['/home']);
+        }
         this.requestService.getRequestListReceiver(userid.id)
           .subscribe({
             next: (res) => {
-              console.log('Response:', res); // Check what backend is sending
-              this.dataSource.data = res; // or res depending on your backend response
-              console.log('Updated dataSource:', this.dataSource.data);
+            
+              this.dataSource.data = res; 
             },
             error: (err) => {
               console.error('Error fetching request list:', err);

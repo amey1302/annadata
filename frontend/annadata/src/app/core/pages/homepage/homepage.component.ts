@@ -2,7 +2,7 @@ import { Component, OnInit , signal} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CardComponent } from '../../components/card/card.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf, SlicePipe } from '@angular/common';
 import { Donation } from '../../model/Donation.model';
 import { DonationService } from '../../services/donation.service';
 import { ApiResponse } from '../../model/ApiResponse.model';
@@ -13,7 +13,7 @@ import { UserService } from '../../services/UserService';
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [NavbarComponent, CardComponent,RouterModule,NgFor, HttpClientModule, FormsModule, NgIf, NgClass],
+  imports: [NavbarComponent, CardComponent,RouterModule,NgFor, HttpClientModule, FormsModule, NgIf, NgClass, SlicePipe],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })

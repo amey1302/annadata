@@ -1,7 +1,7 @@
 import { Component, Signal } from '@angular/core';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { CardComponent } from '../../components/card/card.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DonationSave } from '../../model/DonationSave.model';
 import { Donation } from '../../model/Donation.model';
 import { DonationService } from '../../services/donation.service';
@@ -19,67 +19,100 @@ import { UserService } from '../../services/UserService';
   styleUrl: './donor-home.component.scss'
 })
 export class DonorHomeComponent {
-  public donationObj: DonationSave = new DonationSave();
-  donations!: Donation[];
-  user: User = new User();
+
+  public donationObj : DonationSave = new DonationSave();
+  donations! : Donation[];
+  user : User | null;
   hasOpenedGoogleMaps: boolean = false;
+    constructor(private donationService:DonationService, private sanitizer: DomSanitizer, private userService: UserService,private router: Router){
 
-  constructor(
-    private donationService: DonationService,
-    private sanitizer: DomSanitizer,
-    private userService: UserService
-  ) {
-    this.user = this.userService.getUser()!;
-  }
-
-  ngOnInit(): void {
-    this.donationService.donations$.subscribe((donations) => {
-      this.donations = donations;
-    });
-
-    this.donationService.loadDonationByDonor(this.user.id!);
-  }
-
-  getDonation(): void {
-    this.donationService.getDonationList().subscribe((res: Donation[]) => {
-      this.donations = res;
-    });
-  }
-
-  getDonationByDonor(): void {
-    if (this.user) {
-      this.donationService.getDonationByDonorId(this.user.id!).subscribe({
-        next: (res) => {
-          this.donations = res;
-          console.log(res);
-        }
-      });
-    }
-  }
-
-  onSaveDonation(): void {
-    this.donationObj.donorId = this.user?.id!;
-    this.donationService.saveDonation(this.donationObj).subscribe({
-      next: (res) => {
-        console.log('POST Success:', res);
-        this.donationService.loadDonationByDonor(this.user.id!);
-      },
-      error: (err) => console.error('POST Error:', err)
-    });
-  }
-
-  openGoogleMaps(): void {
-    if (!this.hasOpenedGoogleMaps) {
-      const userConfirmed = confirm(
-        "You'll be redirected to Google Maps. Select a location, copy the link or address, then paste it here."
-      );
-
-      if (userConfirmed) {
-        window.open('https://www.google.com/maps', '_blank');
-        this.hasOpenedGoogleMaps = true;
+      this.user = this.userService.getUser()!;
+      if(this.user===null){
+        this.router.navigate(['/home']);
+      }
+      if(this.user.role==='RECEIVER'){
+        this.router.navigate(['/home']);
       }
     }
-  }
+    ngOnInit(): void {
+      this.setMinDateTime();
+      this.donationService.donations$.subscribe((donations)=>{
+        this.donations = donations;
+      })
+      //this.getDonationByDonor();
+      
+      this.donationService.loadDonationByDonor(this.user?.id!);
+     // this.getDonation();
+    }
+    // getDonation(){
+    //   this.donationService.getDonationList().subscribe((res:Donation[])=>{
+    //     this.donations = res;
+    //   });
+    // }
+   
+    getDonationByDonor(){
+     
+
+      if(this.user!=null){
+        
+        this.donationService.getDonationByDonorId(this.user.id!).subscribe({
+          next:(res)=>{
+            this.donations = res;
+          
+          }
+        })
+      }
+      
+    }
+
+    minDateTime: string = '';
+
+
+setMinDateTime(): void {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); 
+  this.minDateTime = now.toISOString().slice(0, 16); 
+  console.log(this.minDateTime)
+}
+
+isFutureTimeValid(): boolean {
+  if (!this.donationObj.expiryTime) return false;
+  const now = new Date();
+  const selected = new Date(this.donationObj.expiryTime);
+  return selected.getTime() > now.getTime();
+}
+
+
+    onSaveDonation(){
+      this.donationObj.donorId = this.user?.id!;
+      
+      this.donationService.saveDonation(this.donationObj).subscribe({
+        next: (res) => {
+          console.log('POST Success:', res),
+          this.donationService.loadDonationByDonor(this.user?.id!);
+        } ,
+        error: (err) => console.error('POST Error:', err)
+      });
+      this.donationService.loadDonationByDonor(this.user?.id!);
+    }
+   
+    openGoogleMaps() {
+      if (!this.hasOpenedGoogleMaps) {
+        const userConfirmed = confirm(
+          "You'll be redirected to Google Maps. Select a location, copy the link or address, then paste it here."
+        );
+    
+        if (userConfirmed) {
+          window.open('https://www.google.com/maps', '_blank');
+          this.hasOpenedGoogleMaps = true;
+
+        }
+      };
+    }
+  
+
+
+ 
 
   validateXSS(field: string, control: any): void {
     const xssPattern = /<script|<\/script|javascript|onerror|onload|<img|alert\(|<iframe/i;

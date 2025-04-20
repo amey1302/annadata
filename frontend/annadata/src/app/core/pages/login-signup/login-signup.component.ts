@@ -43,12 +43,12 @@ export class LoginSignupComponent implements OnInit{
 
      ngOnInit(): void {
      
-      this.LoginServices.getUserList().subscribe({
-        next:(data)=>{
-          this.users = data
+      // this.LoginServices.getUserList().subscribe({
+      //   next:(data)=>{
+      //     this.users = data
         
-        }
-      })
+      //   }
+      // })
      }
 
      loginEmailTouched: boolean = false;
@@ -86,7 +86,7 @@ export class LoginSignupComponent implements OnInit{
 
           next:(data)=>{
             
-            this.router.navigate(['/login'])
+            this.activeTab = 'login';
           },
           error:(err)=>{
             this.errorMessage.set(err.error);
@@ -95,6 +95,7 @@ export class LoginSignupComponent implements OnInit{
             }, 3000);
           }
         })
+        
      }
      errorMessage = signal('');
      login(){

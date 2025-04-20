@@ -29,9 +29,11 @@ export class NavbarComponent implements OnInit {
     @ViewChild('popup') popupComponent!: PopupComponent;
     logout(){
       this.popupComponent.open('Are you sure you want to logout?', 'confirm', () => {
-   
+        this.router.navigateByUrl('/logout', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/home']);
+        });
         this.userService.clearUser();
-        this.router.navigate(['/home'])
+        
       });
     }
 }
