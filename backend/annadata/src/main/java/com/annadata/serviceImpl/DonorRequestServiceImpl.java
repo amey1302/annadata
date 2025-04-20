@@ -25,7 +25,7 @@ public class DonorRequestServiceImpl implements DonorRequestService {
     private final DonationRepository donationRepository;
 
     @Override
-    public List<DonorRequestViewDTO> getRequestsByDonation(UUID donationId) {
+    public List<DonorRequestViewDTO> getListOfRequestsByDonation(UUID donationId) {
        List<Request> saved = requestRepository.findByDonationId(donationId);
 
        return mapToDTO(saved);
@@ -102,11 +102,18 @@ public class DonorRequestServiceImpl implements DonorRequestService {
         return donationRepository.save(donation);
     }
 
+    @Override
+    public long getRequestCountForDonation(UUID donationId) {
+        return requestRepository.countRequestsByDonationId(donationId);
+    }
+
     private DonorRequestViewDTO mapToDTO(Request request) {
         return DonorRequestViewDTO.builder()
                 .id(request.getId())
                 .donationId(request.getDonation().getId())
                 .receiverId(request.getReceiver().getId())
+                .receiverName(request.getReceiver().getName())
+                .receiverContact(request.getReceiver().getPhoneNumber())
                 .quantityRequested(request.getQuantityRequested())
                 .message(request.getMessage())
                 .status(request.getStatus())

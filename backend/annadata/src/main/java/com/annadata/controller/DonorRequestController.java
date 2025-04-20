@@ -3,10 +3,8 @@ package com.annadata.controller;
 import com.annadata.dto.DonorRequestViewDTO;
 import com.annadata.dto.UpdateQuantityDTO;
 import com.annadata.entity.Donation;
-import com.annadata.entity.Request;
 import com.annadata.service.DonorRequestService;
 import com.annadata.valueobject.CollectStatus;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +22,8 @@ public class DonorRequestController {
     private final DonorRequestService donorRequestService;
 
     @GetMapping("/donations/{donationId}/requests")
-    public List<DonorRequestViewDTO> getRequestsForDonation(@PathVariable UUID donationId) {
-        return donorRequestService.getRequestsByDonation(donationId);
+    public List<DonorRequestViewDTO> getListOfRequestsForDonation(@PathVariable UUID donationId) {
+        return donorRequestService.getListOfRequestsByDonation(donationId);
     }
 
     @PutMapping("/requests/{id}/accept")
@@ -53,6 +51,10 @@ public class DonorRequestController {
         return donorRequestService.closeDonation(donationId);
     }
 
+    @GetMapping("/requests/{donationId}")
+    public long getRequestsCountForDonation(@PathVariable UUID donationId){
+        return donorRequestService.getRequestCountForDonation(donationId);
+    }
 
     @DeleteMapping
     public ResponseEntity<String> deleteAllRequests(){
