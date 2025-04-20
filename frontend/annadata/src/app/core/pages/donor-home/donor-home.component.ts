@@ -5,98 +5,112 @@ import { RouterModule } from '@angular/router';
 import { DonationSave } from '../../model/DonationSave.model';
 import { Donation } from '../../model/Donation.model';
 import { DonationService } from '../../services/donation.service';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { signal } from '@angular/core';
-import { DomSanitizer , SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { User } from '../../model/User';
 import { UserService } from '../../services/UserService';
+
 @Component({
   selector: 'app-donor-home',
   standalone: true,
-  imports: [NavbarComponent, CardComponent, RouterModule, NgFor, FormsModule],
+  imports: [NavbarComponent, CardComponent, RouterModule, NgFor, FormsModule, NgIf],
   templateUrl: './donor-home.component.html',
   styleUrl: './donor-home.component.scss'
 })
 export class DonorHomeComponent {
-  public donationObj : DonationSave = new DonationSave();
-  donations! : Donation[];
- 
-    constructor(private donationService:DonationService, private sanitizer: DomSanitizer, private userService: UserService){
+  public donationObj: DonationSave = new DonationSave();
+  donations!: Donation[];
+  user: User = new User();
+  hasOpenedGoogleMaps: boolean = false;
 
-      this.user = this.userService.getUser()!;
-  
-    }
-        ngOnInit(): void {
-          this.donationService.donations$.subscribe((donations)=>{
-            this.donations = donations;
-          })
-          //this.getDonationByDonor();
-          
-          this.donationService.loadDonationByDonor(this.user.id!);
-        // this.getDonation();
-        }
+  constructor(
+    private donationService: DonationService,
+    private sanitizer: DomSanitizer,
+    private userService: UserService
+  ) {
+    this.user = this.userService.getUser()!;
+  }
 
-    /////////////////////////////////////////
-    getDonation(){
-      this.donationService.getDonationList().subscribe((res:Donation[])=>{
-        this.donations = res;
-      });
-    }
-    user : User = new User();
-    getDonationByDonor(){
-     
+  ngOnInit(): void {
+    this.donationService.donations$.subscribe((donations) => {
+      this.donations = donations;
+    });
 
-      if(this.user!=null){
-        
-        this.donationService.getDonationByDonorId(this.user.id!).subscribe({
-          next:(res)=>{
-            this.donations = res;
-            console.log(res);
-          }
-        })
-      }
-      
-    }
-    onSaveDonation(){
-      this.donationObj.donorId = this.user?.id!;
-      
-      this.donationService.saveDonation(this.donationObj).subscribe({
+    this.donationService.loadDonationByDonor(this.user.id!);
+  }
+
+  getDonation(): void {
+    this.donationService.getDonationList().subscribe((res: Donation[]) => {
+      this.donations = res;
+    });
+  }
+
+  getDonationByDonor(): void {
+    if (this.user) {
+      this.donationService.getDonationByDonorId(this.user.id!).subscribe({
         next: (res) => {
-          console.log('POST Success:', res),
-          this.donationService.loadDonationByDonor(this.user.id!);
-        } ,
-        error: (err) => console.error('POST Error:', err)
-      });
-      this.donationService.loadDonationByDonor(this.user.id!);
-    }
-    hasOpenedGoogleMaps: boolean = false;
-    openGoogleMaps() {
-      if (!this.hasOpenedGoogleMaps) {
-        const userConfirmed = confirm(
-          "You'll be redirected to Google Maps. Select a location, copy the link or address, then paste it here."
-        );
-    
-        if (userConfirmed) {
-          window.open('https://www.google.com/maps', '_blank');
-          this.hasOpenedGoogleMaps = true;
+          this.donations = res;
+          console.log(res);
         }
+      });
+    }
+  }
+
+  onSaveDonation(): void {
+    this.donationObj.donorId = this.user?.id!;
+    this.donationService.saveDonation(this.donationObj).subscribe({
+      next: (res) => {
+        console.log('POST Success:', res);
+        this.donationService.loadDonationByDonor(this.user.id!);
+      },
+      error: (err) => console.error('POST Error:', err)
+    });
+  }
+
+  openGoogleMaps(): void {
+    if (!this.hasOpenedGoogleMaps) {
+      const userConfirmed = confirm(
+        "You'll be redirected to Google Maps. Select a location, copy the link or address, then paste it here."
+      );
+
+      if (userConfirmed) {
+        window.open('https://www.google.com/maps', '_blank');
+        this.hasOpenedGoogleMaps = true;
       }
     }
-    // mapUrl: SafeResourceUrl | null = null;
-    // getLocation() {
-    //   if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition((position) => {
-    //       const lat = position.coords.latitude;
-    //       const lng = position.coords.longitude;
-    //       const embedUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
-    //       this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
-    //       this.donationObj.addressLink =    this.mapUrl;
-    //     }, (error) => {
-    //       alert('Location permission denied or unavailable.');
-    //     });
-    //   } else {
-    //     alert('Geolocation is not supported by this browser.');
-    //   }
-    // }
+  }
+
+  validateXSS(field: string, control: any): void {
+    const xssPattern = /<script|<\/script|javascript|onerror|onload|<img|alert\(|<iframe/i;
+    if (xssPattern.test(control.value)) {
+      alert(`${field} contains invalid characters (potential XSS).`);
+      control.setValue('');
+    }
+  }
+
+  blockInvalidKeys(event: KeyboardEvent): void {
+    const invalidKeys = ['-', '+', 'e', 'E', '.', ','];
+    if (invalidKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  // Optional: Restore map code if needed
+  // mapUrl: SafeResourceUrl | null = null;
+  // getLocation() {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       const lat = position.coords.latitude;
+  //       const lng = position.coords.longitude;
+  //       const embedUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
+  //       this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+  //       this.donationObj.addressLink = this.mapUrl;
+  //     }, (error) => {
+  //       alert('Location permission denied or unavailable.');
+  //     });
+  //   } else {
+  //     alert('Geolocation is not supported by this browser.');
+  //   }
+  // }
 }

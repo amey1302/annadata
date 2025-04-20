@@ -5,7 +5,7 @@
   <!-- 🧭 Title + Subtext -->
   <div class="home-header text-center">
     <h2 class="home-title">Explore Food Donations</h2>
-    <p class="home-subtext">Helping bridge the gap between abundance and need in Pune 🍲</p>
+    <p class="home-subtext"> In our culture, feeding and receiving are both acts of grace.</p>
   </div>
 
 
@@ -45,6 +45,13 @@
   </div>
 
 <!--  -->
+=======
+  
+  <div class="text-center mb-4">
+    <button class="btn me-2" [ngClass]="{'btn-saffron': selectedFilter() === 'ALL', 'btn-outline-secondary': selectedFilter() !== 'ALL'}" (click)="filterBy('ALL')">All</button>
+    <button class="btn me-2" [ngClass]="{'btn-success': selectedFilter() === 'VEG', 'btn-outline-success': selectedFilter() !== 'VEG'}" (click)="filterBy('VEG')">Veg</button>
+    <button class="btn" [ngClass]="{'btn-danger': selectedFilter() === 'NON_VEG', 'btn-outline-danger': selectedFilter() !== 'NON_VEG'}" (click)="filterBy('NON_VEG')">Non-Veg</button>
+  </div>
   <div class="text-center p-5 bg-light rounded-4 shadow-sm mt-4" *ngIf="noDonationFound" style="color: #5B3711;">
     <i class="bi bi-emoji-frown fs-1 mb-3" style="color: #F77F00;"></i>
     <h5 class="fw-bold">No Donations Found</h5>

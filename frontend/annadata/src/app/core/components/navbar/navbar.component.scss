@@ -1,30 +1,36 @@
 .custom-navbar {
-    background-color: #f8cb5a !important; /* Warm Saffron */
+// <<<<<<< HEAD
+//     background-color: #f8cb5a !important; /* Warm Saffron */
+// =======
+    background-color: #FFA500!important; /* Warm Saffron */
+// >>>>>>> main
     padding: 0.75rem 1.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   }
   
   .project-title {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     font-weight: bold;
     color: white;
   }
   
-  .project-title:hover {
-    color: #FAF9F6;
-    text-decoration: none;
-  }
+  // .project-title:hover {
+  //   color:#F5F5F5;
+  //   text-decoration: none;
+    
+  // }
   
   .nav-link {
     color: white !important;
     font-weight: 500;
+    font-size: 1.2rem;
     margin: 0 0.5rem;
     transition: color 0.2s ease-in-out;
   }
   
   .nav-link:hover,
   .active-link {
-    color: #F7F1E3 !important; /* Sand Beige */
+    color:#FFE8A1!important; /* Sand Beige */
   }
   
   .username {

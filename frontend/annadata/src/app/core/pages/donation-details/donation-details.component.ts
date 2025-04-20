@@ -44,19 +44,24 @@ export class DonationDetailsComponent implements OnInit {
      private router: Router, 
      private requestService: RequestService,
 
-     private userService: UserService
-    ) 
+     private userService: UserService,
+    ) { 
+      
 
-// =======
-//      private userService: UserService,
-//     ) 
-    { 
       this.user =  this.userService.getUser()!;
+      if(this.user===null){
+        this.user  = new User();
+      }
     }
-    user: User = new User();
+    user: User;
     id :string = '';
-// >>>>>>> main
+
   ngOnInit(): void {
+    
+    this.user =  this.userService.getUser()!;
+    if(this.user===null){
+      this.user  = new User();
+    }
     const id = this.route.snapshot.paramMap.get('id');
     this.id = id!;
     this.donationService.donation$.subscribe((donation)=>{
