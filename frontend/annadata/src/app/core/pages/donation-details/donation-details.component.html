@@ -1,4 +1,5 @@
 <app-navbar></app-navbar>
+
 <app-popup #popup></app-popup>
 <div class="container-fluid py-4" style="background-color: #F7F1E3; min-height: 100vh;">
   <div class="container bg-white p-4 rounded-4 shadow" style="background-color: #FAF9F6;">
@@ -11,7 +12,7 @@
       
       
       <div class="d-flex align-items-center" >
-        <span *ngIf="loginuser?.role === 'DONOR'"
+        <span *ngIf="loginuser?.email === donation.donorEmail"
       class="badge rounded-pill px-3 py-2 me-3" style="background-color: #5B8C5A; color: white; font-size: 13px;"
       routerLink="/login"
       (click)="viewRequestPage()"
@@ -23,7 +24,7 @@
           {{ donation.foodType }}
         </span>
        
-        <i class="bi bi-pencil-square text-primary px-1 py-2 me-2" *ngIf="loginuser?.email===donation.donorEmail" role="button" (click)="openEditModal(donation)" style="font-size: 17px;"></i>
+        <i class="bi bi-pencil-square text-primary px-1 py-2 me-2" *ngIf="(loginuser?.email===donation.donorEmail) && (donation.status==='OPEN')" role="button" (click)="openEditModal(donation)" style="font-size: 17px;"></i>
         <i class="bi bi-trash text-dange px-1 py-2 me-2" *ngIf="loginuser?.email===donation.donorEmail" role="button" (click)="deleteDonation(donation.id)" style="font-size: 17px;"></i>
       </div>
     </div>
@@ -87,7 +88,7 @@
       <div class="col-lg-5 ">
         <!-- Donor Card -->
         <div class="border p-3 rounded-4 mb-4 bg-light shadow-sm">
-          <h6 class="text-muted">👤 Donor</h6>
+          <h6 class="text-muted" style="font-size: 15px;">👤 Donor</h6>
           <div class="d-flex align-items-center">
             <div class="me-3">
               <div class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center"
@@ -130,7 +131,7 @@
         <!-- Request Button -->
         <div class="mt-4 d-flex justify-content-center" >
           <div *ngIf="!(loginuser===null)">
-          <button *ngIf="!(loginuser.email===donation.donorEmail)"
+          <button *ngIf="!(loginuser.role==='DONOR')"
           class="btn " style="background-color: #5B8C5A; color: white; width: 300px; " data-bs-toggle="modal" 
           data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">
             Request This Donation 🍱
@@ -226,7 +227,18 @@
           </div>
           <div class="col-md-6">
             <label for="expiryTime" class="form-label">Expiry Time</label>
-            <input type="datetime-local" [(ngModel)]="editableDonation.expiryTime" name="expiryTime" class="form-control" id="expiryTime">
+            <input type="datetime-local" [(ngModel)]="editableDonation.expiryTime" name="expiryTime" class="form-control" id="expiryTime"   required
+            [min]="minDateTime"
+            #expiryTime="ngModel">
+            <div *ngIf="editableDonation.expiryTime && !isFutureTimeValid()" class="text-danger">
+              Please select a time after the current time.
+            </div>
+            <div
+        *ngIf="expiryTime.invalid && expiryTime.touched"
+        class="text-danger"
+      >
+        Expiry Date & Time must not be in the past.
+      </div>
           </div>
           <div class="mb-3">
             <label class="form-label text-muted">Address</label>
@@ -266,7 +278,7 @@
 <div class="modal fade" id="editQuantityModal" tabindex="-1" aria-labelledby="editQuantityModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content rounded-4 shadow-sm border-0">
-      <form (ngSubmit)="updateQuantity()">
+      <form (ngSubmit)="updateQuantity()" #quantityForm="ngForm">
         <div class="modal-header" style="background-color: #F7F1E3;">
           <h5 class="modal-title" style="color: #5B3711; font-size: 20px;">Edit Quantity</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -275,18 +287,29 @@
         <div class="modal-body bg-white">
          
           <div class="mb-3">
-            <label class="form-label text-muted">Quantity</label>
-            <input type="number" class="form-control rounded-3" [(ngModel)]="quantity" name="quantity" [min]="1"  #quantityCheck="ngModel"
-            (blur)="quantityTouched = true" required>
-            <div *ngIf="quantityCheck.invalid && quantityTouched" class="text-danger">
+             <label class="form-label text-muted">Quantity</label>
+            <input type="number" class="form-control rounded-3" [(ngModel)]="quantityEdit" name="quantity"  required
+            [min]="1"
+          
+            #quantityCheck="ngModel"
+            >
+            <div *ngIf="quantityEdit<1 " class="text-danger">
               Quantity must be a positive number.
             </div>
+            <!-- <label class="form-label text-muted">Quantity</label>
+            <input type="number" class="form-control rounded-3" [(ngModel)]="quantityEdit" name="quantity" [min]="1"  #quantityCheck="ngModel"
+           required >
+            <div *ngIf="quantityCheck.invalid" class="text-danger">
+              Quantity must be a positive number.
+            </div>
+        -->
           </div>
+       
         </div>
 
         <div class="modal-footer bg-light">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn" style="background-color: #5B8C5A; color: white;" data-bs-dismiss="modal" [disabled]="quantityCheck.invalid">Save Changes</button>
+          <button type="submit" class="btn" style="background-color: #5B8C5A; color: white;" data-bs-dismiss="modal" [disabled]="quantityForm.invalid">Save Changes</button>
         </div>
       </form>
     </div>

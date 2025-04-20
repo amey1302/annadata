@@ -23,3 +23,9 @@
     padding: 10px;
     border-radius: 8px;
   }
+
+  .center-text {
+    text-align: center  !important;
+    vertical-align: middle;
+  }
+  

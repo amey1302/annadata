@@ -7,10 +7,10 @@ import { Donation } from '../../model/Donation.model';
 import { DonationService } from '../../services/donation.service';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { signal } from '@angular/core';
-import { DomSanitizer , SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { User } from '../../model/User';
 import { UserService } from '../../services/UserService';
+
 @Component({
   selector: 'app-donor-home',
   standalone: true,
@@ -19,9 +19,11 @@ import { UserService } from '../../services/UserService';
   styleUrl: './donor-home.component.scss'
 })
 export class DonorHomeComponent {
+
   public donationObj : DonationSave = new DonationSave();
   donations! : Donation[];
- 
+  user : User | null;
+  hasOpenedGoogleMaps: boolean = false;
     constructor(private donationService:DonationService, private sanitizer: DomSanitizer, private userService: UserService,private router: Router){
 
       this.user = this.userService.getUser()!;
@@ -47,7 +49,7 @@ export class DonorHomeComponent {
     //     this.donations = res;
     //   });
     // }
-    user : User | null;
+   
     getDonationByDonor(){
      
 
@@ -56,7 +58,7 @@ export class DonorHomeComponent {
         this.donationService.getDonationByDonorId(this.user.id!).subscribe({
           next:(res)=>{
             this.donations = res;
-            console.log(res);
+          
           }
         })
       }
@@ -93,7 +95,7 @@ isFutureTimeValid(): boolean {
       });
       this.donationService.loadDonationByDonor(this.user?.id!);
     }
-    hasOpenedGoogleMaps: boolean = false;
+   
     openGoogleMaps() {
       if (!this.hasOpenedGoogleMaps) {
         const userConfirmed = confirm(
@@ -103,39 +105,45 @@ isFutureTimeValid(): boolean {
         if (userConfirmed) {
           window.open('https://www.google.com/maps', '_blank');
           this.hasOpenedGoogleMaps = true;
-        }
-      }
-    }
-    validateXSS(field: string, control: any): void {
-      const xssPattern =
-        /<script|<\/script|javascript|onerror|onload|<img|alert\(|<iframe/i;
-      if (xssPattern.test(control.value)) {
-        alert('${field} contains invalid characters (potential XSS). ' );
-        control.setValue('');
-      }
-    }
-    blockInvalidKeys(event: KeyboardEvent): void {
-      const invalidKeys = ['-', '+', 'e', 'E', '.', ','];
-      if (invalidKeys.includes(event.key)) {
-        event.preventDefault();
-      }
-    }
 
+        }
+      };
+    }
   
-    // mapUrl: SafeResourceUrl | null = null;
-    // getLocation() {
-    //   if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition((position) => {
-    //       const lat = position.coords.latitude;
-    //       const lng = position.coords.longitude;
-    //       const embedUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
-    //       this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
-    //       this.donationObj.addressLink =    this.mapUrl;
-    //     }, (error) => {
-    //       alert('Location permission denied or unavailable.');
-    //     });
-    //   } else {
-    //     alert('Geolocation is not supported by this browser.');
-    //   }
-    // }
+
+
+ 
+
+  validateXSS(field: string, control: any): void {
+    const xssPattern = /<script|<\/script|javascript|onerror|onload|<img|alert\(|<iframe/i;
+    if (xssPattern.test(control.value)) {
+      alert(`${field} contains invalid characters (potential XSS).`);
+      control.setValue('');
+    }
+  }
+
+  blockInvalidKeys(event: KeyboardEvent): void {
+    const invalidKeys = ['-', '+', 'e', 'E', '.', ','];
+    if (invalidKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  // Optional: Restore map code if needed
+  // mapUrl: SafeResourceUrl | null = null;
+  // getLocation() {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       const lat = position.coords.latitude;
+  //       const lng = position.coords.longitude;
+  //       const embedUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
+  //       this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+  //       this.donationObj.addressLink = this.mapUrl;
+  //     }, (error) => {
+  //       alert('Location permission denied or unavailable.');
+  //     });
+  //   } else {
+  //     alert('Geolocation is not supported by this browser.');
+  //   }
+  // }
 }

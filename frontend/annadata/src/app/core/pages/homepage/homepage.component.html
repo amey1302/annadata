@@ -8,6 +8,8 @@
     <p class="home-subtext"> In our culture, feeding and receiving are both acts of grace.</p>
   </div>
 
+
+
   <!-- 🔍 Search Bar -->
   <div class="row justify-content-center mb-5">
     <div class="col-md-6">
@@ -31,6 +33,18 @@
       </form>
     </div>
   </div>
+
+
+  <!-- ///////////////// -->
+
+  <div id="splash-screen" *ngIf="isLoading">
+    <div class="splash-content">
+      <h1 class="splash-title">Anna Daan is Maha Daan – Share your surplus, spread a smile.</h1>
+      <div class="loader"></div>
+    </div>
+  </div>
+
+<!--  -->
   
   <div class="text-center mb-4">
     <button class="btn me-2" [ngClass]="{'btn-saffron': selectedFilter() === 'ALL', 'btn-outline-secondary': selectedFilter() !== 'ALL'}" (click)="filterBy('ALL')">All</button>
@@ -44,7 +58,7 @@
   </div>
   <!-- 📦 Donation Cards Grid -->
   <div class="row g-4">
-    <div class="col-md-4" *ngFor="let donation of donations">
+    <div class="col-md-4" *ngFor="let donation of donations | slice:0:20">
       <app-card
         [donation]="donation"
         [routerLink]="['/donation', donation.id]"

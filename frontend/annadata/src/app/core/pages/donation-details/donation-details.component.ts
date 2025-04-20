@@ -23,7 +23,9 @@ declare var bootstrap: any;
   selector: 'app-donation-details',
   standalone: true,
   //  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule,RouterModule],
+
   imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule, PopupComponent,RouterModule, NavbarComponent],
+
 
   templateUrl: './donation-details.component.html',
   styleUrl: './donation-details.component.scss'
@@ -55,7 +57,7 @@ export class DonationDetailsComponent implements OnInit {
     id :string = '';
 
   ngOnInit(): void {
-    
+    this.setMinDateTime();
     this.user =  this.userService.getUser()!;
     if(this.user===null){
       this.user  = new User();
@@ -131,18 +133,33 @@ export class DonationDetailsComponent implements OnInit {
     })
     
   }
-  quantity : number =0;
+  quantityEdit :number = 0;
   openEditQuantityModal(){
-    this.quantity =  this.donation.quantity
+    this.quantityEdit = this.donation.quantity;
     const modalElement = document.getElementById('editQuantityModal');
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
     }
   }
+  minDateTime: string = '';
+  setMinDateTime(): void {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); 
+    this.minDateTime = now.toISOString().slice(0, 16); 
+    console.log(this.minDateTime)
+  }
+  
+  isFutureTimeValid(): boolean {
+    if (!this.editableDonation.expiryTime) return false;
+    const now = new Date();
+    const selected = new Date(this.editableDonation.expiryTime);
+    return selected.getTime() > now.getTime();
+  }
+  
   updateQuantity(){
     this.popupComponent.open('Are you sure you want to update','confirm', ()=>{
-      this.donationService.updateQuantity(this.donation.id, this.quantity).subscribe({
+      this.donationService.updateQuantity(this.donation.id, this.quantityEdit).subscribe({
         next: ()=>{
           this.donationService.loadDonationById(this.id)
           this.popupComponent.open('Successfully updated the quantity', 'success');
