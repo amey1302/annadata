@@ -90,7 +90,7 @@ public class DonationServiceImpl implements DonationService {
         LocalDateTime now = LocalDateTime.now();
 
         donations.forEach(donation -> {
-            if (donation.getStatus() == DonationStatus.OPEN && donation.getExpiryTime().isBefore(now)) {
+            if ((donation.getStatus() == DonationStatus.OPEN && donation.getExpiryTime().isBefore(now)) || (donation.getQuantity() <= 0)) {
                 donation.setStatus(DonationStatus.CLOSED);
                 donationRepository.save(donation);
             }
