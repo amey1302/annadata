@@ -36,6 +36,7 @@ public class DonationDTO {
     private String donorEmail;
     private String donorPhone;
 
+
     public DonationDTO(com.annadata.entity.Donation donation) {
         this.id = donation.getId();
         this.title = donation.getTitle();

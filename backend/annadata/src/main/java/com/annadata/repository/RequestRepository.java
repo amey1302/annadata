@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,7 @@ import com.annadata.entity.Request;
 
 
 @Repository
+@EnableJpaRepositories
 public interface RequestRepository extends JpaRepository<Request, UUID> {
     List<Request> findByDonationId(UUID donationId);
 
@@ -20,5 +22,8 @@ public interface RequestRepository extends JpaRepository<Request, UUID> {
     @Query("SELECT COUNT(r) FROM Request r WHERE r.donation.id = :donationId AND r.receiver.id = :receiverId")
     int countRequestsByReceiverAndDonation(@Param("donationId") UUID donationId,
                                            @Param("receiverId") UUID receiverId);
+
+    @Query("SELECT COUNT(*) FROM Request r WHERE r.donation.id = :donationId")
+    long countRequestsByDonationId(UUID donationId);
 
 }
