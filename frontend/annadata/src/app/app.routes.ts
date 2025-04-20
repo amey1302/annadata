@@ -5,6 +5,7 @@ import { DonorHomeComponent } from './core/pages/donor-home/donor-home.component
 import { LoginSignupComponent } from './core/pages/login-signup/login-signup.component';
 import { RequestList } from './core/pages/Request-List/requestList';
 import { ReciverRequestList } from './core/pages/ReciverRequestList/Reciver-request.component'; 
+import { LogoutComponent } from './core/pages/logout/logout.component';
 export const routes: Routes = [
     {
         path:'',
@@ -32,6 +33,9 @@ export const routes: Routes = [
     {
         path:'my-requests',
         component : ReciverRequestList
+    },{
+        path:'logout',
+        component:LogoutComponent
     }
     //,{
     //     path:'signup'

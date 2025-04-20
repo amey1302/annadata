@@ -40,7 +40,10 @@ export class RequestList implements OnInit {
 
     constructor(private route: ActivatedRoute , private requestService: RequestService,
        private acceptrequestService : AcceptRequestService 
-    ) {}
+    ) {
+
+      
+    }
     dataSource = new MatTableDataSource();
     
     displayedColumns: string[] = ['id', 'QtyRequest' , 'Message','Status'];

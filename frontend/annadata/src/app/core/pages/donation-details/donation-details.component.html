@@ -1,3 +1,4 @@
+<app-navbar></app-navbar>
 <app-popup #popup></app-popup>
 <div class="container-fluid py-4" style="background-color: #F7F1E3; min-height: 100vh;">
   <div class="container bg-white p-4 rounded-4 shadow" style="background-color: #FAF9F6;">
@@ -10,19 +11,20 @@
       
       
       <div class="d-flex align-items-center" >
+        <span *ngIf="loginuser?.role === 'DONOR'"
+      class="badge rounded-pill px-3 py-2 me-3" style="background-color: #5B8C5A; color: white; font-size: 13px;"
+      routerLink="/login"
+      (click)="viewRequestPage()"
+      >view request</span>
         <span class="badge rounded-pill px-3 py-2 me-3"  [ngStyle]="{
           backgroundColor: donation.foodType === 'VEG' ? '#5B8C5A' : '#F77F00',
           color: 'white'
-        }">
+        }" style="font-size: 13px;">
           {{ donation.foodType }}
         </span>
-        <button *ngIf="loginuser?.role === 'DONOR'"
-        class="btn w-100" style="background-color: #5B8C5A; color: white;"
-        routerLink="/login"
-        (click)="viewRequestPage()"
-        >view request</button>
-        <i class="bi bi-pencil-square text-primary px-1 py-2 me-2" *ngIf="loginuser?.email===donation.donorEmail" role="button" (click)="openEditModal(donation)"></i>
-        <i class="bi bi-trash text-dange px-1 py-2 me-2" *ngIf="loginuser?.email===donation.donorEmail" role="button" (click)="deleteDonation(donation.id)"></i>
+       
+        <i class="bi bi-pencil-square text-primary px-1 py-2 me-2" *ngIf="loginuser?.email===donation.donorEmail" role="button" (click)="openEditModal(donation)" style="font-size: 17px;"></i>
+        <i class="bi bi-trash text-dange px-1 py-2 me-2" *ngIf="loginuser?.email===donation.donorEmail" role="button" (click)="deleteDonation(donation.id)" style="font-size: 17px;"></i>
       </div>
     </div>
 
@@ -50,7 +52,7 @@
           </div>
         </div>
         <div>
-        <div class="mb-2"><strong class="text-muted">🍽 Quantity:</strong> {{ donation.quantity }} people  <i *ngIf="user.email === donation.donorEmail" class="bi bi-pencil-square text-primary me-3" role="button" (click)="openEditQuantityModal()" style="padding-left: 5px;"></i></div>
+        <div class="mb-2"><strong class="text-muted">🍽 Quantity:</strong> {{ donation.quantity }} people  <i *ngIf="(user.email === donation.donorEmail) && (donation.status==='OPEN')" class="bi bi-pencil-square text-primary me-3" role="button" (click)="openEditQuantityModal()" style="padding-left: 5px;"></i></div>
        
       </div>
         <div class="mb-2"><strong class="text-muted">📅 Expiry:</strong> {{ donation.expiryTime | date:'short' }}</div>
@@ -65,7 +67,13 @@
              {{ donation.status }}
           </span>
         </div>
+        <div class="mb-2">
+          <strong class="text-muted">🏠 Address:</strong>
+          <div class="border rounded-4 p-3 bg-light shadow-sm mt-2" style="white-space: pre-line;">
+            {{ donation.address }}
+          </div>
 
+        </div>
         <!-- View on Map -->
         <div class="mt-4">
           <a *ngIf="donation?.addressLink" class="btn btn-sm" href="{{ donation.addressLink }}" target="_blank"
@@ -96,10 +104,19 @@
 
         <!-- Map Embed -->
         <div *ngIf="donation?.addressLink" class="rounded-4 overflow-hidden shadow-sm" style="height: 300px;">
-          <iframe
+          <!-- <iframe
             width="100%" height="100%" frameborder="0" style="border:0;"
             [src]="donation.addressLink | safeUrl" allowfullscreen>
-          </iframe>
+          </iframe> -->\
+          <iframe 
+          [src]="getMapUrl(donation.address) | safeUrl" 
+          width="100%" 
+          height="300" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
           <!-- <iframe
   width="100%"
   height="400"
@@ -144,13 +161,16 @@
         <form #requestForm="ngForm">
           <div class="mb-3">
             <label for="quantity" class="form-label">Quantity:</label>
-            <input type="number" [(ngModel)]="request.quantityRequested" name="quantity" class="form-control rounded-3" id="quantity" placeholder="Enter quantity required" max="donation.quantity" min="1">
+            <input type="number" [(ngModel)]="request.quantityRequested" name="quantity" class="form-control rounded-3" id="quantity" placeholder="Enter quantity required"  [max]="donation.quantity" [min]="1" required #quantity="ngModel">
+            <div *ngIf="quantity.invalid && quantity.touched" class="text-danger">
+              Quantity must be between 1 and {{donation.quantity}}.
+            </div>
           </div>
           <div class="mb-3">
             <label for="message" class="form-label">Message:</label>
             <textarea class="form-control rounded-3" [(ngModel)]="request.message" name="message" id="message" rows="3" placeholder="Add any message for the donor..." required></textarea>
           </div>
-          
+         
         </form >
       </div>
       <div class="modal-footer bg-light rounded-bottom-4">
@@ -166,7 +186,7 @@
 <div class="modal fade" id="editDonationModal" tabindex="-1" aria-labelledby="editDonationLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content rounded-4 shadow-sm border-0">
-      <form (ngSubmit)="updateDonation()">
+      <form (ngSubmit)="updateDonation()" #editForm="ngForm">
         <div class="modal-header" style="background-color: #F7F1E3;">
           <h5 class="modal-title" style="color: #5B3711; font-size: 20px;">Edit Donation</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -175,15 +195,34 @@
         <div class="modal-body bg-white">
           <div class="mb-3">
             <label class="form-label text-muted" style="font-size: 16px;">Title</label>
-            <input type="text" class="form-control rounded-3" [(ngModel)]="editableDonation.title" name="title">
+            <input type="text" class="form-control rounded-3" [(ngModel)]="editableDonation.title" name="title"  required
+            pattern="^[a-zA-Z0-9 .,!?'-]{2,500}$"
+            #title="ngModel"
+            (blur)="titleTouched = true">
+            <div *ngIf="title.invalid && titleTouched" class="text-danger">
+              Title must be alphanumeric and between 2-500 characters. No HTML tags allowed.
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label text-muted">Description</label>
-            <textarea class="form-control rounded-3" [(ngModel)]="editableDonation.description" name="description"></textarea>
+            <textarea class="form-control rounded-3" [(ngModel)]="editableDonation.description" name="description"   required
+            pattern="^[a-zA-Z0-9 .,!?'-]{2,300}$"
+            #description="ngModel"
+            (blur)="descTouched = true"></textarea>
+            <div *ngIf="description.invalid && descTouched" class="text-danger">
+              Description must be alphanumeric and between 2-300 characters. No HTML tags allowed.
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label text-muted">Quantity</label>
-            <input type="number" class="form-control rounded-3" [(ngModel)]="editableDonation.quantity" name="quantity">
+            <input type="number" class="form-control rounded-3" [(ngModel)]="editableDonation.quantity" name="quantity"  required
+            [min]="1"
+          
+            #quantityCheck="ngModel"
+            (blur)="quantityTouched = true">
+            <div *ngIf="quantityCheck.invalid && quantityTouched" class="text-danger">
+              Quantity must be a positive number.
+            </div>
           </div>
           <div class="col-md-6">
             <label for="expiryTime" class="form-label">Expiry Time</label>
@@ -191,7 +230,17 @@
           </div>
           <div class="mb-3">
             <label class="form-label text-muted">Address</label>
-            <textarea class="form-control rounded-3" [(ngModel)]="editableDonation.address" name="address"></textarea>
+            <textarea class="form-control rounded-3" [(ngModel)]="editableDonation.address" name="address" #address="ngModel"
+            required
+            minlength="10"
+            maxlength="150"
+            pattern="^[a-zA-Z0-9\s,.-]+$" ></textarea>
+            <div *ngIf="address.invalid && address.touched" class="text-danger">
+              <div >Enter a valid address.</div>
+              <div *ngIf="address.errors?.['minlength']">Address must be at least 10 characters.</div>
+              <div *ngIf="address.errors?.['maxlength']">Address cannot exceed 150 characters.</div>
+              <div *ngIf="address.errors?.['pattern']">Only letters, numbers, commas, periods, hyphens, and spaces are allowed.</div>
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label text-muted">Address Link:</label>
@@ -203,7 +252,7 @@
 
         <div class="modal-footer bg-light">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn" style="background-color: #5B8C5A; color: white;" data-bs-dismiss="modal">Save Changes</button>
+          <button type="submit" class="btn" style="background-color: #5B8C5A; color: white;" data-bs-dismiss="modal" [disabled]="editForm.invalid">Save Changes</button>
         </div>
       </form>
     </div>
@@ -227,13 +276,17 @@
          
           <div class="mb-3">
             <label class="form-label text-muted">Quantity</label>
-            <input type="number" class="form-control rounded-3" [(ngModel)]="quantity" name="quantity" min="1">
+            <input type="number" class="form-control rounded-3" [(ngModel)]="quantity" name="quantity" [min]="1"  #quantityCheck="ngModel"
+            (blur)="quantityTouched = true" required>
+            <div *ngIf="quantityCheck.invalid && quantityTouched" class="text-danger">
+              Quantity must be a positive number.
+            </div>
           </div>
         </div>
 
         <div class="modal-footer bg-light">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn" style="background-color: #5B8C5A; color: white;" data-bs-dismiss="modal">Save Changes</button>
+          <button type="submit" class="btn" style="background-color: #5B8C5A; color: white;" data-bs-dismiss="modal" [disabled]="quantityCheck.invalid">Save Changes</button>
         </div>
       </form>
     </div>

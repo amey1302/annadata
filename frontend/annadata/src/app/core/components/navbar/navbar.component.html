@@ -13,10 +13,10 @@
     <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
       <ul class="navbar-nav  me-auto align-items-center" >
         <li class="nav-item" *ngIf="loginuser">
-          <a class="nav-link" routerLink="/my-requests" routerLinkActive="active-link">My Requests</a>
+          <a class="nav-link" routerLink="/my-requests" routerLinkActive="active-link" *ngIf="loginuser.role==='RECEIVER'" style="font-size: 17px;">My Requests</a>
         </li>
         <li class="nav-item" *ngIf="loginuser">
-          <a class="nav-link" routerLink="/donor/homepage" routerLinkActive="active-link" *ngIf="loginuser.role==='DONOR'" >My Donations</a>
+          <a class="nav-link" routerLink="/donor/homepage" routerLinkActive="active-link" *ngIf="loginuser.role==='DONOR'" style="font-size: 17px;">My Donations</a>
         </li>
       </ul>
 
@@ -25,6 +25,9 @@
         <li class="nav-item" *ngIf="!loginuser">
           <a class="nav-link" routerLink="/login" routerLinkActive="active-link">I want to donate</a>
         </li>
+        <li  *ngIf="loginuser">
+          <a class="nav-link username"routerLink="/userProfile">Hi, {{loginuser.name}}</a>
+        </li>
         <li class="nav-item" *ngIf="!loginuser">
           <a class="nav-link" routerLink="/login" routerLinkActive="active-link">Login</a>
 
@@ -32,9 +35,7 @@
         <li class="nav-item"  *ngIf="loginuser" >
           <a class="nav-link username" (click)="logout()">Logout</a>
         </li>
-        <li  *ngIf="loginuser">
-          <a class="nav-link username"routerLink="/userProfile">{{loginuser.name}}</a>
-        </li>
+        
         <li  *ngIf="loginuser">
           <span *ngIf="loginuser?.role=='DONOR'" class="badge rounded-pill px-3 py-2" style="background-color: #5B8C5A; color: white;">Donor</span>
           <span *ngIf="loginuser?.role!='DONOR'" class="badge rounded-pill px-3 py-2" style="background-color: #5B8C5A; color: white;">Receiver</span>

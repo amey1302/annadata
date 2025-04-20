@@ -1,7 +1,7 @@
 import { Component, Signal } from '@angular/core';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { CardComponent } from '../../components/card/card.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DonationSave } from '../../model/DonationSave.model';
 import { Donation } from '../../model/Donation.model';
 import { DonationService } from '../../services/donation.service';
@@ -22,19 +22,24 @@ export class DonorHomeComponent {
   public donationObj : DonationSave = new DonationSave();
   donations! : Donation[];
  
-    constructor(private donationService:DonationService, private sanitizer: DomSanitizer, private userService: UserService){
+    constructor(private donationService:DonationService, private sanitizer: DomSanitizer, private userService: UserService,private router: Router){
 
       this.user = this.userService.getUser()!;
-  
+      if(this.user===null){
+        this.router.navigate(['/home']);
+      }
+      if(this.user.role==='RECEIVER'){
+        this.router.navigate(['/home']);
+      }
     }
     ngOnInit(): void {
-      
+      this.setMinDateTime();
       this.donationService.donations$.subscribe((donations)=>{
         this.donations = donations;
       })
       //this.getDonationByDonor();
       
-      this.donationService.loadDonationByDonor(this.user.id!);
+      this.donationService.loadDonationByDonor(this.user?.id!);
      // this.getDonation();
     }
     // getDonation(){
@@ -42,7 +47,7 @@ export class DonorHomeComponent {
     //     this.donations = res;
     //   });
     // }
-    user : User = new User();
+    user : User | null;
     getDonationByDonor(){
      
 
@@ -57,17 +62,36 @@ export class DonorHomeComponent {
       }
       
     }
+
+    minDateTime: string = '';
+
+
+setMinDateTime(): void {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); 
+  this.minDateTime = now.toISOString().slice(0, 16); 
+  console.log(this.minDateTime)
+}
+
+isFutureTimeValid(): boolean {
+  if (!this.donationObj.expiryTime) return false;
+  const now = new Date();
+  const selected = new Date(this.donationObj.expiryTime);
+  return selected.getTime() > now.getTime();
+}
+
+
     onSaveDonation(){
       this.donationObj.donorId = this.user?.id!;
       
       this.donationService.saveDonation(this.donationObj).subscribe({
         next: (res) => {
           console.log('POST Success:', res),
-          this.donationService.loadDonationByDonor(this.user.id!);
+          this.donationService.loadDonationByDonor(this.user?.id!);
         } ,
         error: (err) => console.error('POST Error:', err)
       });
-      this.donationService.loadDonationByDonor(this.user.id!);
+      this.donationService.loadDonationByDonor(this.user?.id!);
     }
     hasOpenedGoogleMaps: boolean = false;
     openGoogleMaps() {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { SafeUrlPipe } from '../../Pipe/safe-url.pipe';
@@ -16,13 +16,14 @@ import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/UserService';
 import { User } from '../../model/User';
 import { PopupComponent } from '../../components/popup/popup.component';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-donation-details',
   standalone: true,
   //  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule,RouterModule],
-  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule, PopupComponent,RouterModule],
+  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule, PopupComponent,RouterModule, NavbarComponent],
 
   templateUrl: './donation-details.component.html',
   styleUrl: './donation-details.component.scss'
@@ -114,7 +115,9 @@ export class DonationDetailsComponent implements OnInit {
       modal.show();
     }
   }
-
+  titleTouched: boolean = false;
+  descTouched: boolean = false;
+  quantityTouched: boolean = false;
   
   updateDonation() {
     this.popupComponent.open('Are you sure want to update the changes', 'confirm', ()=>{
@@ -148,6 +151,10 @@ export class DonationDetailsComponent implements OnInit {
     })
     
   }
+  getMapUrl(address: string): string {
+    const query = encodeURIComponent(address);
+    return `https://www.google.com/maps?q=${query}&output=embed`;
+  }
   saveRequest() {
     this.request.donationId = this.donation.id;
 
@@ -157,6 +164,10 @@ export class DonationDetailsComponent implements OnInit {
     this.requestService.saveRequest(this.request).subscribe({
       next: (res) =>{
         console.log(res.data);
+      },
+      error:(err)=>{
+       this.popupComponent.open(err.error.error,'error');
+        
       }
     })
   }
@@ -168,7 +179,19 @@ export class DonationDetailsComponent implements OnInit {
 
   deleteDonation(id: string) {
     this.donationToDeleteId = id;
-    this.showDeleteModal = true;
+    this.popupComponent.open('Are you sure want to delete this donation', 'confirm', ()=>{
+      this.donationService.deleteDonationById(this.donationToDeleteId).subscribe({
+        next: (res) => {
+          //console.log(res);
+          // this.showDeleteModal = false;
+          this.router.navigate(['/donor/homepage']);
+        },
+        error: err => {
+          console.error('Delete failed:', err);
+          
+        }
+      });
+    })
   }
 
   confirmDelete() {
