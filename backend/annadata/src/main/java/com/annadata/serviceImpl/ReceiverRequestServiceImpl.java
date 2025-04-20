@@ -85,6 +85,8 @@ public class ReceiverRequestServiceImpl implements ReceiverRequestService {
                 .id(request.getId())
                 .donationId(request.getDonation().getId())
                 .receiverId(request.getReceiver().getId())
+                .receiverName(request.getReceiver().getName())
+                .receiverContact(request.getReceiver().getPhoneNumber())
                 .quantityRequested(request.getQuantityRequested())
                 .message(request.getMessage())
                 .status(request.getStatus())
