@@ -53,3 +53,52 @@
     cursor: pointer;
   }
   
+  /* styles.css */
+  #splash-screen {
+    transition: opacity 0.5s ease;
+  }
+  
+  #splash-screen.ng-animating-leave {
+    opacity: 0;
+  }
+
+.loader {
+  width: 40px;
+  height: 40px;
+  margin: 20px auto;
+  border: 4px solid #3498db;
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.splash-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #5B3711;
+  padding: 1rem 2rem;
+  background: linear-gradient(to right, #FFB347, #FFCC33);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInUp 1s ease-in-out;
+  text-align: center;
+  max-width: 90%;
+  margin: 0 auto;
+  line-height: 1.4;
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

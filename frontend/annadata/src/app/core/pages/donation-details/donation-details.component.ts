@@ -16,13 +16,16 @@ import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/UserService';
 import { User } from '../../model/User';
 import { PopupComponent } from '../../components/popup/popup.component';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-donation-details',
   standalone: true,
   //  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule,RouterModule],
-  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule, PopupComponent,RouterModule],
+  imports: [CommonModule, SafeUrlPipe, HttpClientModule, FormsModule, PopupComponent,RouterModule,
+    NavbarComponent
+  ],
 
   templateUrl: './donation-details.component.html',
   styleUrl: './donation-details.component.scss'

@@ -8,6 +8,8 @@
     <p class="home-subtext">Helping bridge the gap between abundance and need in Pune 🍲</p>
   </div>
 
+
+
   <!-- 🔍 Search Bar -->
   <div class="row justify-content-center mb-5">
     <div class="col-md-6">
@@ -31,6 +33,18 @@
       </form>
     </div>
   </div>
+
+
+  <!-- ///////////////// -->
+
+  <div id="splash-screen" *ngIf="isLoading">
+    <div class="splash-content">
+      <h1 class="splash-title">Anna Daan is Maha Daan – Share your surplus, spread a smile.</h1>
+      <div class="loader"></div>
+    </div>
+  </div>
+
+<!--  -->
   <div class="text-center p-5 bg-light rounded-4 shadow-sm mt-4" *ngIf="noDonationFound" style="color: #5B3711;">
     <i class="bi bi-emoji-frown fs-1 mb-3" style="color: #F77F00;"></i>
     <h5 class="fw-bold">No Donations Found</h5>

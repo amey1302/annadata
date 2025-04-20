@@ -27,20 +27,22 @@ export class DonorHomeComponent {
       this.user = this.userService.getUser()!;
   
     }
-    ngOnInit(): void {
-      this.donationService.donations$.subscribe((donations)=>{
-        this.donations = donations;
-      })
-      //this.getDonationByDonor();
-      
-      this.donationService.loadDonationByDonor(this.user.id!);
-     // this.getDonation();
+        ngOnInit(): void {
+          this.donationService.donations$.subscribe((donations)=>{
+            this.donations = donations;
+          })
+          //this.getDonationByDonor();
+          
+          this.donationService.loadDonationByDonor(this.user.id!);
+        // this.getDonation();
+        }
+
+    /////////////////////////////////////////
+    getDonation(){
+      this.donationService.getDonationList().subscribe((res:Donation[])=>{
+        this.donations = res;
+      });
     }
-    // getDonation(){
-    //   this.donationService.getDonationList().subscribe((res:Donation[])=>{
-    //     this.donations = res;
-    //   });
-    // }
     user : User = new User();
     getDonationByDonor(){
      

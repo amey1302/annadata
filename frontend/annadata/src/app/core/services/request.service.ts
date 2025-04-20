@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RequestSave } from '../model/RequestSave.model';
-import { Observable } from 'rxjs';
+import { Observable ,BehaviorSubject} from 'rxjs';
 import { ApiResponse } from '../model/ApiResponse.model';
 import { environment } from '../../../environments/environment.development';
 import { Constant } from '../constant/Constant';
@@ -10,6 +10,9 @@ import { Constant } from '../constant/Constant';
   providedIn: 'root'
 })
 export class RequestService {
+
+  private requestListSubject = new BehaviorSubject<RequestSave[]>([]);
+  public requestList$ = this.requestListSubject.asObservable();
 
   constructor(private http:HttpClient) { }
 // saveDonation(obj:DonationSave):Observable<ApiResponse>{
@@ -31,6 +34,15 @@ export class RequestService {
       );
 
     }
+
+
+    loadRequestList(donationId: string) {
+      this.getRequestList(donationId).subscribe((res) => {
+        this.requestListSubject.next(res);
+      });
+    }
+
+    
 }
 //   /food-donation/api/v1/donor         /donations/{donationId}/requests 
 

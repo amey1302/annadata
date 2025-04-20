@@ -25,7 +25,27 @@ export class HomepageComponent implements OnInit {
 
   }
    loginuser! : User;
+   isLoading: boolean = true;
+
   ngOnInit(): void {
+    // document.body.style.overflow = 'hidden';
+  // ⏳ Wait at least 1 second before hiding splash
+  const splashShown = sessionStorage.getItem('splashShown');
+
+  if (!splashShown && this.isLoading) {
+    this.isLoading = true;
+    
+    setTimeout(() => {
+      sessionStorage.setItem('splashShown', 'true');
+      this.getDonation();
+      this.isLoading = false;
+    }, 2500); // splash duration in milliseconds (1.5 sec)
+  } else {
+    this.getDonation();
+    this.isLoading = false; // Skip splash screen
+  }
+
+  
     const userData= this.userService.getUser();
     console.log('calling servuce->',this.userService.getUser());
     
@@ -33,15 +53,15 @@ export class HomepageComponent implements OnInit {
       this.loginuser = userData;
     }
     console.log(this.loginuser);
-    
-    
-   this.getDonation();
+ 
   }
   noDonationFound = false;
   getDonation(){
     this.donationService.getDonationList().subscribe((res:Donation[])=>{
 
       this.donations = res.filter((donation:Donation)=>donation.status==='OPEN');
+      this.isLoading = false; // 👈 hide splash when data is ready
+
     })
   }
   searchedDonation :Donation[] = [];  

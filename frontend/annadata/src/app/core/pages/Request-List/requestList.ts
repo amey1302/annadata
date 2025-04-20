@@ -46,27 +46,50 @@ export class RequestList implements OnInit {
     displayedColumns: string[] = ['id', 'QtyRequest' , 'Message','Status'];
 
 
-    ngOnInit(): void {
+    // ngOnInit(): void {
 
+    //     this.donationId = this.route.snapshot.paramMap.get('id') || '';
+    //     console.log(this.donationId);
+    //     this.requestService.getRequestList(this.donationId).subscribe({
+    //         next: (res) => {
+    //           this.requestList = res;
+    //         //   console.log('Fetched Requests:', this.requestList);
+    //         console.log(this.requestList);
+    //         this.dataSource.data = this.requestList.filter((request: any) => request.status === 'PENDING' && request.
+    //         collectStatus === 'NOT_COLLECTED');
+    //         this.acceptedDataSource.data = this.requestList.filter((request: any) => request.status === 'ACCEPTED' && request.
+    //         collectStatus === 'NOT_COLLECTED');
+            
+    //     }
+    //     ,
+    //         error: (err) => {
+    //           console.error('Error fetching requests:', err);
+    //         }
+    //       });
+    //     }
+
+    ngOnInit(): void {
         this.donationId = this.route.snapshot.paramMap.get('id') || '';
-        console.log(this.donationId);
-        this.requestService.getRequestList(this.donationId).subscribe({
+        this.requestService.loadRequestList(this.donationId);
+
+       
+        this.requestService.requestList$.subscribe({
             next: (res) => {
               this.requestList = res;
-            //   console.log('Fetched Requests:', this.requestList);
-            console.log(this.requestList);
-            this.dataSource.data = this.requestList.filter((request: any) => request.status === 'PENDING' && request.
-            collectStatus === 'NOT_COLLECTED');
-            this.acceptedDataSource.data = this.requestList.filter((request: any) => request.status === 'ACCEPTED' && request.
-            collectStatus === 'NOT_COLLECTED');
-            
-        },
-            error: (err) => {
-              console.error('Error fetching requests:', err);
-            }
-          });
-        }
 
+            this.dataSource.data = this.requestList.filter((request: any) => request.status === 'PENDING' && request.
+              collectStatus === 'NOT_COLLECTED');
+            
+
+            this.acceptedDataSource.data = this.requestList.filter(
+              (request: any) =>
+                request.status === 'ACCEPTED' && request.collectStatus === 'NOT_COLLECTED'
+            );
+            }
+        })
+          
+    }
+ 
 
         acceptRequest(requestId: string) {
             console.log(requestId);
@@ -74,12 +97,13 @@ export class RequestList implements OnInit {
             this.acceptrequestService.AcceptRequest(requestId).subscribe({
               next: (res) => {
                 console.log('Request accepted successfully:', res);
+                this.requestService.loadRequestList(this.donationId);
+
               },
               error: (err) => {
                 console.error('Error accepting request:', err);
               }
             })
-           
           }
 
           completeRequest(requestId: string) {
@@ -87,6 +111,8 @@ export class RequestList implements OnInit {
             this.acceptrequestService.CollectionRequest(requestId, status='COLLECTED').subscribe({
               next: (res) => {
                 console.log('Request Collection successfully:', res);
+                this.requestService.loadRequestList(this.donationId);
+
               },
               error: (err) => {
                 console.error('Error Collection request:', err);
