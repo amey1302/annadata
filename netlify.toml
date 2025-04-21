@@ -1,0 +1,12 @@
+[build]
+  base = "frontend/annadata"
+  publish = "dist/annadata/browser"
+  command = "npm run build -- --output-path=dist/annadata"
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api-proxy/:splat"
+  status = 200
