@@ -11,11 +11,22 @@
   
         <!-- ID Column -->
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="center-text">ID</th>
-          <td mat-cell *matCellDef="let user" class="center-text">{{ user.id }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+          <td mat-cell *matCellDef="let user; let i = index">{{ i+1 }}</td>
         </ng-container>
   
   
+        <ng-container matColumnDef="receiverName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>receiverName</th>
+          <td mat-cell *matCellDef="let user">{{ user.receiverName  }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="reciverContact">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>reciverContact</th>
+          <td mat-cell *matCellDef="let user">{{ user.receiverContact  }}</td>
+        </ng-container>
+
+
         <ng-container matColumnDef="QtyRequest">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>QtyRequest</th>
           <td mat-cell *matCellDef="let user">{{ user.quantityRequested  }}</td>
@@ -81,9 +92,21 @@
           <!-- ID Column -->
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-            <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+            <td mat-cell *matCellDef="let user; let i = index">{{ i+1 }}</td>
           </ng-container>
   
+
+          <ng-container matColumnDef="reciverName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>reciverName</th>
+            <td mat-cell *matCellDef="let user">{{ user.receiverName  }}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="reciverContact">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>reciverContact</th>
+            <td mat-cell *matCellDef="let user">{{ user.receiverContact  }}</td>
+          </ng-container>
+
+          
           <!-- Name Column -->
           <ng-container matColumnDef="QtyRequest">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>MobileNumber</th>

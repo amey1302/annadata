@@ -30,6 +30,7 @@ public class DonationDTO {
     private String addressLink;
     private LocalDateTime createdAt;
     private DonationStatus status;
+    
 
     // Donor info (flattened)
     private String donorName;
@@ -43,6 +44,7 @@ public class DonationDTO {
         this.description = donation.getDescription();
         this.foodCategory = donation.getFoodCategory();
         this.foodType = donation.getFoodType();
+        
         this.quantity = donation.getQuantity();
         this.expiryTime = donation.getExpiryTime();
         this.address = donation.getAddress();

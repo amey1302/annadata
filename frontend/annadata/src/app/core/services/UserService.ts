@@ -13,7 +13,7 @@ import { User } from '../model/User';
         
         if (user) {
             this.Currentuser = JSON.parse(user) 
-            console.log(this.Currentuser);
+            // console.log(this.Currentuser);
             
         }
      }

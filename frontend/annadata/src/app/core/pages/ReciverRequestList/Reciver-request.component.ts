@@ -35,7 +35,7 @@ export class ReciverRequestList implements OnInit {
     constructor(private  requestService: RequestService,
         private userService: UserService, private router:Router
     ) {}
-    displayedColumns: string[] = ['id', 'QtyRequest' , 'Message','Status','otp'];
+    displayedColumns: string[] = ['id','DonorName' , "DonorContact" , 'QtyRequest' , 'Message','Status','otp'];
 
     ngOnInit(): void {
         const userid : any = this.userService.getUser()

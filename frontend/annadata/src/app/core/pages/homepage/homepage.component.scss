@@ -78,6 +78,16 @@
   }
 }
 
+
+.splash-content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical center */
+  align-items: center;     /* horizontal center */
+  text-align: center;
+}
+
 .splash-title {
   font-size: 2rem;
   font-weight: 700;

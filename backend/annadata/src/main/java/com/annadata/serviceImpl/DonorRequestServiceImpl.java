@@ -115,6 +115,7 @@ public class DonorRequestServiceImpl implements DonorRequestService {
                 .receiverName(request.getReceiver().getName())
                 .receiverContact(request.getReceiver().getPhoneNumber())
                 .quantityRequested(request.getQuantityRequested())
+                
                 .message(request.getMessage())
                 .status(request.getStatus())
                 .collectStatus(request.getCollectStatus())

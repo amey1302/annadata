@@ -8,11 +8,14 @@ import com.annadata.entity.User;
 import com.annadata.repository.DonationRepository;
 import com.annadata.repository.RequestRepository;
 import com.annadata.repository.UserRepository;
+import com.annadata.service.DonationService;
 import com.annadata.service.ReceiverRequestService;
 import com.annadata.valueobject.CollectStatus;
 import com.annadata.valueobject.RequestStatus;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -79,14 +82,19 @@ public class ReceiverRequestServiceImpl implements ReceiverRequestService {
             return "No Users Exists";
         }
     }
-
+    @Autowired
+    private DonationService donationService;
     private ReceiverRequestViewDTO mapToDTO(Request request) {
-        return ReceiverRequestViewDTO.builder()
+        Donation don = donationService.getDonationById(request.getDonation().getId());
+    	return  ReceiverRequestViewDTO.builder()
                 .id(request.getId())
                 .donationId(request.getDonation().getId())
                 .receiverId(request.getReceiver().getId())
                 .receiverName(request.getReceiver().getName())
                 .receiverContact(request.getReceiver().getPhoneNumber())
+                .donorName(don.getDonor().getName())
+                .donerContactNumber(don.getDonor().getPhoneNumber())
+//                .donerContactNumber(request.getDonation().getPhoneNumber())
                 .quantityRequested(request.getQuantityRequested())
                 .message(request.getMessage())
                 .status(request.getStatus())
@@ -95,5 +103,6 @@ public class ReceiverRequestServiceImpl implements ReceiverRequestService {
                 .receiverOtp(request.getReceiverOtp())
                 .build();
     }
-
 }
+//private String donorName;
+//private String donerContactNumber;

@@ -15,6 +15,8 @@ public class ReceiverRequestViewDTO {
     private UUID donationId;
     private UUID receiverId;
     private String receiverName;
+    private String donorName;
+    private String donerContactNumber;
     private String receiverContact;
     private Integer quantityRequested;
     private String message;

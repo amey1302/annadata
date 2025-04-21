@@ -36,7 +36,7 @@ export class RequestList implements OnInit {
 
 
     acceptedDataSource = new MatTableDataSource();
-    acceptedColumns : string[] = ['id', 'QtyRequest' , 'Message','otp','Status'];
+    acceptedColumns : string[] = ['id','reciverName','reciverContact', 'QtyRequest' , 'Message','otp','Status'];
 
     constructor(private route: ActivatedRoute , private requestService: RequestService,
        private acceptrequestService : AcceptRequestService 
@@ -46,7 +46,7 @@ export class RequestList implements OnInit {
     }
     dataSource = new MatTableDataSource();
     
-    displayedColumns: string[] = ['id', 'QtyRequest' , 'Message','Status'];
+    displayedColumns: string[] = ['id','receiverName','reciverContact', 'QtyRequest' , 'Message','Status'];
 
 
     // ngOnInit(): void {

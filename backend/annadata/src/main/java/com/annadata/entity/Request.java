@@ -43,6 +43,7 @@ public class Request {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id", nullable = false)
     private User receiver;
+    
 
     private Integer quantityRequested;
 

@@ -49,12 +49,12 @@ export class HomepageComponent implements OnInit {
 
   
     const userData= this.userService.getUser();
-    console.log('calling servuce->',this.userService.getUser());
+    // console.log('calling servuce->',this.userService.getUser());
     
     if(userData){
       this.loginuser = userData;
     }
-    console.log(this.loginuser);
+    // console.log(this.loginuser);
  
   }
   noDonationFound = false;
@@ -62,13 +62,13 @@ export class HomepageComponent implements OnInit {
     const filter = this.selectedFilter();
     
     if (filter === 'ALL') {
-      console.log(filter);
+      // console.log(filter);
       this.donations = [...this.allDonations];
     } else {
       console.log(filter)
       this.donations = this.allDonations.filter(d => d.foodType === filter);
     }
-    console.log(this.donations)
+    // console.log(this.donations)
     this.noDonationFound = this.donations.length === 0;
   }
 
@@ -84,7 +84,7 @@ export class HomepageComponent implements OnInit {
       this.donations = res.filter((donation:Donation)=>donation.status==='OPEN');
       this.isLoading = false; // 👈 hide splash when data is ready
 
-      console.log("All Donations Fetched:", this.allDonations);
+      // console.log("All Donations Fetched:", this.allDonations);
       this.applyFilter();
     })
   }
