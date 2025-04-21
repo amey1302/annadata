@@ -1,0 +1,9 @@
+[build]
+  base = "frontend/annadata"
+  publish = "dist/annadata/browser"
+  command = "npm run build -- --output-path=dist/annadata"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
