@@ -15,6 +15,7 @@ public class WebConfig {
                 registry.addMapping("/**")
                         .allowedOrigins("https://annadata-v1.netlify.app")
                         .allowedOrigins("https://annadata-v0.netlify.app/home")
+                        .allowedOrigins("https://annadata-cc52f.web.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
