@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "Y",
+    "public": "dist/annadata/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
