@@ -35,7 +35,9 @@ public class DonorRequestServiceImpl implements DonorRequestService {
     public DonorRequestViewDTO acceptRequest(UUID requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new EntityNotFoundException("Request not found"));
-
+        int quantityRequested = request.getQuantityRequested();
+        int donationQuantity = request.getDonation().getQuantity();
+        request.getDonation().setQuantity(donationQuantity - quantityRequested);
         request.setStatus(RequestStatus.ACCEPTED);
 
         // Generate OTPs
