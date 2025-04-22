@@ -1,14 +1,12 @@
-# Use OpenJDK base image
-FROM openjdk:17-jdk-slim
-
-# Set working directory
+# Stage 1: Build the JAR
+FROM maven:3.8.5-openjdk-17-slim AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the jar file (update name if different)
-COPY target/annadata-0.0.1-SNAPSHOT.jar app.jar
-
-# Expose port (optional)
+# Stage 2: Run the app
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Run the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
