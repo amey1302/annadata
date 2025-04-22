@@ -74,7 +74,7 @@
               {{ donation.status }}
             </button>
             
-            <ul class="dropdown-menu">
+            <ul *ngIf="loginuser && loginuser.email===donation.donorEmail" class="dropdown-menu">
               <li *ngFor="let s of statusOptions">
                 <a class="dropdown-item"
                    (click)="updateStatus(s)">
