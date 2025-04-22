@@ -18,7 +18,7 @@ import { User } from '../../model/User';
 import { PopupComponent } from '../../components/popup/popup.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 declare var bootstrap: any;
-
+type StatusType = 'OPEN' | 'CLOSED' | 'PENDING'; 
 @Component({
   selector: 'app-donation-details',
   standalone: true,
@@ -53,20 +53,23 @@ export class DonationDetailsComponent implements OnInit {
         this.user  = new User();
       }
     }
+    
     user: User;
     id :string = '';
-
+    statusDon:string = ''
   ngOnInit(): void {
     this.setMinDateTime();
     this.user =  this.userService.getUser()!;
     if(this.user===null){
       this.user  = new User();
     }
+    
     const id = this.route.snapshot.paramMap.get('id');
     this.id = id!;
     this.donationService.donation$.subscribe((donation)=>{
       this.donation = donation;
     })
+    this.statusDon = this.donation.status;
     this.request.receiverId = this.userService.getUser()?.id;
     this.loginuser = this.userService.getUser();
     console.log(this.loginuser);
@@ -77,6 +80,22 @@ export class DonationDetailsComponent implements OnInit {
 
     this.calculateCountdown();
     this.setDonorInitials();
+  }
+
+ 
+
+  statusOptions: StatusType[] = ['CLOSED'];
+
+  updateStatus(newStatus: StatusType) {
+    //this.donation.status = newStatus;
+    if(newStatus==='CLOSED'){
+      this.donationService.updateStatus(this.donation.id).subscribe({
+        next:()=>{
+          this.donationService.loadDonationById(this.donation.id);
+        }
+      });
+    }
+    
   }
 
   setDonorInitials() {

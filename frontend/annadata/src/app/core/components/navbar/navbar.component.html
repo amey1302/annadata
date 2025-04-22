@@ -1,8 +1,11 @@
-<app-popup #popup></app-popup>
 <nav class="navbar navbar-expand-lg custom-navbar">
-  <div class="container-fluid align-items-baseline d-flex">
-    <!-- Logo / Title -->
-    <a class="navbar-brand project-title" routerLink="/">Annadata</a>
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+    
+    <!-- Logo + Title -->
+    <div class="d-flex align-items-center">
+      <img class="logo-img" src="assets/annadata_logo.png" alt="Annadata Logo">
+      <a class="navbar-brand project-title mb-0" routerLink="/">Annadata</a>
+    </div>
 
     <!-- Toggle Button (for small screens) -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
@@ -10,17 +13,17 @@
     </button>
 
     <!-- Navigation Links -->
-    <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-      <ul class="navbar-nav me-auto align-items-baseline">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav me-auto align-items-center">
         <li class="nav-item" *ngIf="loginuser">
-          <a class="nav-link" routerLink="/my-requests" routerLinkActive="active-link" *ngIf="loginuser.role==='RECEIVER'" style="font-size: 17px;">My Requests</a>
+          <a class="nav-link" routerLink="/my-requests" routerLinkActive="active-link" *ngIf="loginuser.role==='RECEIVER'">My Requests</a>
         </li>
         <li class="nav-item" *ngIf="loginuser">
-          <a class="nav-link" routerLink="/donor/homepage" routerLinkActive="active-link" *ngIf="loginuser.role==='DONOR'" style="font-size: 17px;">My Donations</a>
+          <a class="nav-link" routerLink="/donor/homepage" routerLinkActive="active-link" *ngIf="loginuser.role==='DONOR'">My Donations</a>
         </li>
       </ul>
 
-      <ul class="navbar-nav align-items-baseline">
+      <ul class="navbar-nav align-items-center">
         <li class="nav-item" *ngIf="!loginuser">
           <a class="nav-link" routerLink="/login" routerLinkActive="active-link">I want to donate</a>
         </li>
