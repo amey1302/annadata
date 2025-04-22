@@ -13,10 +13,12 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://annadata-v1.netlify.app")
-                        .allowedOrigins("https://annadata-v0.netlify.app/home")
-                        .allowedOrigins("https://annadata-cc52f.web.app")
-                        .allowedOrigins("http://localhost:4200/")
+                        .allowedOrigins(
+                                "https://annadata-v1.netlify.app",
+                                "https://annadata-v0.netlify.app",
+                                "https://annadata-cc52f.web.app",
+                                "http://localhost:4200"
+                        )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
