@@ -59,15 +59,32 @@
         <div class="mb-2"><strong class="text-muted">📅 Expiry:</strong> {{ donation.expiryTime | date:'short' }}</div>
         <!-- <div class="mb-2"><strong class="text-muted">⏰ Created:</strong> {{ donation.createdAt | date:'medium' }}</div> -->
 
-        <div class="mb-2">
+        <div class="mb-2" style="position: relative;">
           <strong class="text-muted" style="padding-right: 10px;">📦 Status:</strong>
-          <span class="badge rounded-pill" [ngStyle]="{
-            backgroundColor: donation.status === 'OPEN' ? '#5B8C5A' : '#5B3711',
-            color: 'white'
-          }">
-             {{ donation.status }}
-          </span>
+        
+          <div class="dropdown d-inline">
+            <button class="badge rounded-pill border-0 dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    [ngStyle]="{
+                      backgroundColor: donation.status === 'OPEN' ? '#5B8C5A' : '#5B3711',
+                      color: 'white'
+                    }">
+              {{ donation.status }}
+            </button>
+            
+            <ul class="dropdown-menu">
+              <li *ngFor="let s of statusOptions">
+                <a class="dropdown-item"
+                   (click)="updateStatus(s)">
+                  {{ s }}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
+        
         <div class="mb-2">
           <strong class="text-muted">🏠 Address:</strong>
           <div class="border rounded-4 p-3 bg-light shadow-sm mt-2" style="white-space: pre-line;">

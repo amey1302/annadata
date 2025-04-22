@@ -10,6 +10,7 @@ export const Constant = {
         ADD_REQUEST:'/receiver/requests',
         UPDATE_QUANTITY:'/donor/requests/',
         GET_DONATION_BY_DONOR:'/donations/donor/',
-        User: '/users'
+        User: '/users',
+        UPDATE_STATUS:'/donor/donations/'
     }
 }

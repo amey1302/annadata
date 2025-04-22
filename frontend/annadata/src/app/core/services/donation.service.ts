@@ -50,7 +50,9 @@ export class DonationService {
   deleteDonationById(id:string) : Observable<string>{
     return this.http.delete<string>(environment.api_url+Constant.API_END_POINT.DELETE_DONATION+"/"+id,{ responseType: 'text' as 'json' });
   }
-
+  updateStatus(id:string){
+    return this.http.put<Donation>(environment.api_url+Constant.API_END_POINT.UPDATE_STATUS+id+"/close", null);
+  }
   updateDonationById(id:string, obj: DonationSave){
     return this.http.put<ApiResponse>(environment.api_url+Constant.API_END_POINT.ADD_DONATION+"/"+id, obj);
   }

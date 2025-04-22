@@ -42,7 +42,27 @@ export class DonorHomeComponent {
       //this.getDonationByDonor();
       
       this.donationService.loadDonationByDonor(this.user?.id!);
+      const modalEl = document.getElementById('donationModal');
+      if (modalEl) {
+        modalEl.addEventListener('hidden.bs.modal', () => {
+          this.resetDonationForm();
+        });
+      }
      // this.getDonation();
+    }
+    resetDonationForm() {
+      this.donationObj = {
+        title: '',
+        foodType: 'VEG',
+        foodCategory: 'PERISHABLE',
+        quantity: 0,
+        expiryTime: new Date(),
+        createdAt : new Date(),
+        description: '',
+        address: '',
+        addressLink: '',
+        donorId:  '' // or however you set donorId
+      };
     }
     // getDonation(){
     //   this.donationService.getDonationList().subscribe((res:Donation[])=>{

@@ -16,6 +16,7 @@ public class WebConfig {
                         .allowedOrigins("https://annadata-v1.netlify.app")
                         .allowedOrigins("https://annadata-v0.netlify.app/home")
                         .allowedOrigins("https://annadata-cc52f.web.app")
+                        .allowedOrigins("http://localhost:4200/")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
