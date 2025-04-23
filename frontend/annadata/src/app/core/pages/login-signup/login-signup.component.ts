@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LoginServices } from '../../services/Login.services';
 import { User } from '../../model/User';
@@ -7,12 +7,13 @@ import { Router } from '@angular/router'; // Make sure to import this
 import { NgClass, NgIf } from '@angular/common';
 
 import { UserService } from '../../services/UserService';
+import { PopupComponent } from '../../components/popup/popup.component';
 
 
 @Component({
   selector: 'app-login-signup',
   standalone: true,
-  imports: [FormsModule, NgIf, NgClass],
+  imports: [FormsModule, NgIf, NgClass, PopupComponent],
   templateUrl: './login-signup.component.html',
   styleUrl: './login-signup.component.scss'
 })
@@ -79,13 +80,20 @@ export class LoginSignupComponent implements OnInit{
       this.passwordCriteria.specialChar = /[!@#$%^&*()_+=\-]/.test(password);
     }
   
-  
+    fieldTextType: boolean = false;
+
+
+
+toggleFieldTextType() {
+  this.fieldTextType = !this.fieldTextType;
+}
    
+@ViewChild('popup') popupComponent! :PopupComponent;
      signup(){
         this.LoginServices.saveUser(this.signupdata).subscribe({
 
           next:(data)=>{
-            
+            this.popupComponent.open('You have successfully registered.', 'success')
             this.activeTab = 'login';
           },
           error:(err)=>{
@@ -101,6 +109,7 @@ export class LoginSignupComponent implements OnInit{
      login(){
       this.LoginServices.loginUser(this.Logindata).subscribe({
         next: (data)=>{
+          this.popupComponent.open('Logged in successfully', 'success');
           sessionStorage.setItem('user', JSON.stringify(data.user));
           this.userService.setUser(data.user);
           if(data.status){

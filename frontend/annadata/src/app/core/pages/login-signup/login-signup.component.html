@@ -1,3 +1,4 @@
+<app-popup #popup></app-popup>
 <div class="container-fluid py-5 d-flex justify-content-center align-items-center min-vh-100 login-page-bg">
   <div class="card login-card shadow rounded-4 p-4 w-100">
 
@@ -28,8 +29,22 @@
       </div>
       <div class="mb-3">
         <label for="loginPassword" class="form-label">Password</label>
-        <input type="password" class="form-control" id="loginPassword" name="password" [(ngModel)]="Logindata.password"
+        <div class="input-group">
+          <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="loginPassword" name="password" [(ngModel)]="Logindata.password"
           required #loginPassword="ngModel" (blur)="loginPasswordTouched = true">
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <i class="fa" [ngClass]="{
+                'fa-eye-slash': !fieldTextType,
+                'fa-eye': fieldTextType
+              }" style="height: 30px; width: 25px; text-align: center; padding-block: 5px;"
+              (click)="toggleFieldTextType()"></i>
+            </span>
+         </div>
+
+        </div>
+
+       
         <div *ngIf="loginPassword.invalid && loginPasswordTouched" class="text-danger">
           Password is required.
         </div>
@@ -65,9 +80,21 @@
       </div>
       <div class="mb-3">
         <label for="signupPassword" class="form-label">Password</label>
-        <input type="password" class="form-control" id="signupPassword" name="password"
+        <div class="input-group">
+          <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="signupPassword" name="password"
           [(ngModel)]="signupdata.password" required (input)="checkPasswordStrength()" (blur)="passwordTouched = true"
           #password="ngModel">
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <i class="fa" [ngClass]="{
+                'fa-eye-slash': !fieldTextType,
+                'fa-eye': fieldTextType
+              }" style="height: 30px; width: 25px; text-align: center; padding-block: 5px;"
+              (click)="toggleFieldTextType()"></i>
+            </span>
+         </div>
+        </div>
+        
         <div class="form-text" *ngIf="signupdata.password">
           <ul class="text-muted">
             <li [class.text-success]="passwordCriteria.minLength">
