@@ -17,6 +17,7 @@ public class WebConfig {
                                 "https://annadata-v1.netlify.app",
                                 "https://annadata-v0.netlify.app",
                                 "https://annadata-cc52f.web.app",
+                                "https://annadaata-ca379.web.app",
                                 "http://localhost:4200"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
