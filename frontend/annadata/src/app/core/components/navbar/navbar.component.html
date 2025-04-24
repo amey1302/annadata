@@ -1,15 +1,21 @@
 <app-popup #popup></app-popup>
 <nav class="navbar navbar-expand-lg custom-navbar">
-  <div class="container-fluid d-flex align-items-center justify-content-between">
-    
+  <div
+    class="container-fluid d-flex align-items-center justify-content-between"
+  >
     <!-- Logo + Title -->
     <div class="d-flex align-items-center">
-      <img class="logo-img" src="assets/annadata_logo.png" alt="Annadata Logo">
+      <img class="logo-img" src="assets/logo.png" alt="Annadata Logo" />
       <a class="navbar-brand project-title mb-0" routerLink="/">Annadata</a>
     </div>
 
     <!-- Toggle Button (for small screens) -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavDropdown"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -17,29 +23,57 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav me-auto align-items-center">
         <li class="nav-item" *ngIf="loginuser">
-          <a class="nav-link" routerLink="/my-requests" routerLinkActive="active-link" *ngIf="loginuser.role==='RECEIVER'">My Requests</a>
+          <a
+            class="nav-link"
+            routerLink="/my-requests"
+            routerLinkActive="active-link"
+            *ngIf="loginuser.role === 'RECEIVER'"
+            >My Requests</a
+          >
         </li>
         <li class="nav-item" *ngIf="loginuser">
-          <a class="nav-link" routerLink="/donor/homepage" routerLinkActive="active-link" *ngIf="loginuser.role==='DONOR'">My Donations</a>
+          <a
+            class="nav-link"
+            routerLink="/donor/homepage"
+            routerLinkActive="active-link"
+            *ngIf="loginuser.role === 'DONOR'"
+            >My Donations</a
+          >
         </li>
       </ul>
 
       <ul class="navbar-nav align-items-center">
         <li class="nav-item" *ngIf="!loginuser">
-          <a class="nav-link" routerLink="/login" routerLinkActive="active-link">I want to donate</a>
+          <a class="nav-link" routerLink="/login" routerLinkActive="active-link"
+            >I want to donate</a
+          >
         </li>
         <li *ngIf="loginuser">
-          <a class="nav-link username" routerLink="/userProfile">Hi, {{loginuser.name}}</a>
+          <a class="nav-link username" routerLink="/userProfile"
+            >Hi, {{ loginuser.name }}</a
+          >
         </li>
         <li class="nav-item" *ngIf="!loginuser">
-          <a class="nav-link" routerLink="/login" routerLinkActive="active-link">Login</a>
+          <a class="nav-link" routerLink="/login" routerLinkActive="active-link"
+            >Login</a
+          >
         </li>
         <li class="nav-item" *ngIf="loginuser">
           <a class="nav-link username" (click)="logout()">Logout</a>
         </li>
         <li *ngIf="loginuser">
-          <span *ngIf="loginuser?.role=='DONOR'" class="badge rounded-pill px-3 py-2" style="background-color: #5B8C5A; color: white;">Donor</span>
-          <span *ngIf="loginuser?.role!='DONOR'" class="badge rounded-pill px-3 py-2" style="background-color: #5B8C5A; color: white;">Receiver</span>
+          <span
+            *ngIf="loginuser?.role == 'DONOR'"
+            class="badge rounded-pill px-3 py-2"
+            style="background-color: #5b8c5a; color: white"
+            >Donor</span
+          >
+          <span
+            *ngIf="loginuser?.role != 'DONOR'"
+            class="badge rounded-pill px-3 py-2"
+            style="background-color: #5b8c5a; color: white"
+            >Receiver</span
+          >
         </li>
       </ul>
     </div>
