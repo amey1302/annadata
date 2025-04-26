@@ -17,19 +17,26 @@ export class AcceptRequestService {
 
 
   constructor(private http:HttpClient) { }
-  AcceptRequest(donationid:string):Observable<any>{
-    return this.http.put<ApiResponse>(environment.api_url + '/donor/requests/'+donationid+'/accept',{});
+  AcceptRequest(donationid:string,Status: string):Observable<any>{
+    if(Status == 'accept'){
+      return this.http.put<ApiResponse>(environment.api_url + '/donor/requests/'+donationid+'/accept',{});
+    }else{
+      return this.http.put<ApiResponse>(environment.api_url + '/donor/requests/'+donationid+'/reject',{});
+    }
+    // return this.http.put<ApiResponse>(environment.api_url + '/donor/requests/'+donationid+'/accept',{});
     // return this.http.put<ApiResponse>(`${environment.api_url}/donor/requests/${donationid}/accept`, {});
 }
 
-  CollectionRequest(donationid:string,  status: string):Observable<any>{
-    // return this.http.put<ApiResponse>(environment.api_url + '/donor/requests/'+donationid+'/collect-status',{});
-    return this.http.put<any>( `${environment.api_url}/donor/requests/${donationid}/collect-status?status=${status}`, {})
+CollectionRequest(donationId: string): Observable<any> {
+  const status = 'COLLECTED';
+  return this.http.put<any>(
+    `${environment.api_url}/donor/requests/${donationId}/collect-status?status=${status}`,
+    {}
+  );
+}
 
-  }
-
-  loadRequestList(donationId: string){
-    this.AcceptRequest(donationId).subscribe((res)=>{
+  loadRequestList(donationId: string, status: string){
+    this.AcceptRequest(donationId,status).subscribe((res)=>{
 
       this.requestListBevaragesSubject.next(res)
     }

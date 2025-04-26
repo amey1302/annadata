@@ -16,7 +16,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import {AcceptRequestService} from '../../services/AcceptRequest.service';
-
+// import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @Component({
     selector: 'app-request-list',
@@ -25,7 +27,8 @@ import {AcceptRequestService} from '../../services/AcceptRequest.service';
         NavbarComponent,
         MatTableModule, MatPaginatorModule, MatSortModule, MatCardModule,CommonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatOptionModule,MatSelectModule
     ], 
     templateUrl: './request-List-comp.html',
     styleUrls: ['./requestListCss.css']
@@ -34,9 +37,12 @@ export class RequestList implements OnInit {
     donationId!: string;
     requestList: any = [];
 
-
+    isHistoryView: boolean = false; 
+    
     acceptedDataSource = new MatTableDataSource();
+    historyDataSource = new MatTableDataSource();
     acceptedColumns : string[] = ['id','reciverName','reciverContact', 'QtyRequest' , 'Message','otp','Status'];
+
 
     constructor(private route: ActivatedRoute , private requestService: RequestService,
        private acceptrequestService : AcceptRequestService 
@@ -47,7 +53,7 @@ export class RequestList implements OnInit {
     dataSource = new MatTableDataSource();
     
     displayedColumns: string[] = ['id','receiverName','reciverContact', 'QtyRequest' , 'Message','Status'];
-
+    displayedColumns2: string[] = ['id','receiverName','reciverContact', 'QtyRequest' , 'Message','Status'];
 
     // ngOnInit(): void {
 
@@ -88,16 +94,21 @@ export class RequestList implements OnInit {
               (request: any) =>
                 request.status === 'ACCEPTED' && request.collectStatus === 'NOT_COLLECTED'
             );
+
+            this.historyDataSource.data = this.requestList.filter(
+              (request: any) =>
+                request.status === 'REJECTED' || request.collectStatus === 'COLLECTED'
+            );
             }
         })
           
     }
  
 
-        acceptRequest(requestId: string) {
+        acceptRequest(status: string,requestId: string) {
             console.log(requestId);
             
-            this.acceptrequestService.AcceptRequest(requestId).subscribe({
+            this.acceptrequestService.AcceptRequest(requestId,status).subscribe({
               next: (res) => {
                 console.log('Request accepted successfully:', res);
                 this.requestService.loadRequestList(this.donationId);
@@ -111,7 +122,7 @@ export class RequestList implements OnInit {
 
           completeRequest(requestId: string) {
             console.log(requestId);
-            this.acceptrequestService.CollectionRequest(requestId, status='COLLECTED').subscribe({
+            this.acceptrequestService.CollectionRequest(requestId).subscribe({
               next: (res) => {
                 console.log('Request Collection successfully:', res);
                 this.requestService.loadRequestList(this.donationId);

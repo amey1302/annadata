@@ -31,26 +31,44 @@ import { UserService } from '../../services/UserService';
   })
 export class ReciverRequestList implements OnInit {
    
+  isHistoryView: boolean = false; 
+  historyDataSource = new MatTableDataSource();
+
+  displayedColumns2: string[] = ['id','receiverName','reciverContact', 'QtyRequest' , 'Message','Status'];
+
+
+
     dataSource = new MatTableDataSource();
     constructor(private  requestService: RequestService,
-        private userService: UserService, private router:Router
+        private userService: UserService, private router:Router,
+        
     ) {}
     displayedColumns: string[] = ['id','DonorName' , "DonorContact" , 'QtyRequest' , 'Message','Status','otp'];
-
+    requestList : any = []
     ngOnInit(): void {
         const userid : any = this.userService.getUser()
         if(userid===null){
           this.router.navigate(['/home']);
         }
+               
         this.requestService.getRequestListReceiver(userid.id)
-          .subscribe({
-            next: (res) => {
+        .subscribe({
+          next: (res) => {
             
-              this.dataSource.data = res; 
+            this.dataSource.data = res.filter((request: any) => request.status === 'PENDING' && request.collectStatus === 'NOT_COLLECTED'); 
+
+            this.requestList = res;
+
+            this.historyDataSource.data = this.requestList.filter(
+              (request: any) =>
+                request.status === 'REJECTED' || request.collectStatus === 'COLLECTED'
+            );
             },
             error: (err) => {
               console.error('Error fetching request list:', err);
             }
           });
+
+        
       }
 }
