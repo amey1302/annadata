@@ -95,6 +95,15 @@ toggleFieldTextType() {
           next:(data)=>{
             this.popupComponent.open('You have successfully registered.', 'success')
             this.activeTab = 'login';
+            this.signupdata={
+              name: '',
+              email: '',
+              password: '',
+              phoneNumber: '',
+             //  role: 'DONOR'  // DONOR   RECIVER
+       
+              role: '',
+            }
           },
           error:(err)=>{
             this.errorMessage.set(err.error);
