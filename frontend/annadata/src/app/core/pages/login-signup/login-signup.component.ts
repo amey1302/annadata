@@ -129,6 +129,10 @@ toggleFieldTextType() {
             }
            
           }
+          this.Logindata={
+            email: '',
+            password: ''
+          }
         },
         error:(err)=>{
           this.errorMessage.set(err.error.message);
