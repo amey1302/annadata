@@ -18,7 +18,7 @@ export class AcceptRequestService {
 
   constructor(private http:HttpClient) { }
   AcceptRequest(donationid:string,Status: string):Observable<any>{
-    if(Status == 'accept'){
+    if(Status == 'ACCEPTED'){
       return this.http.put<ApiResponse>(environment.api_url + '/donor/requests/'+donationid+'/accept',{});
     }else{
       return this.http.put<ApiResponse>(environment.api_url + '/donor/requests/'+donationid+'/reject',{});

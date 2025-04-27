@@ -55,7 +55,7 @@ export class ReciverRequestList implements OnInit {
         .subscribe({
           next: (res) => {
             
-            this.dataSource.data = res.filter((request: any) => request.status === 'PENDING' && request.collectStatus === 'NOT_COLLECTED'); 
+            this.dataSource.data = res.filter((request: any) => (request.status === 'PENDING' || request.status==='ACCEPTED' )&& request.collectStatus === 'NOT_COLLECTED'); 
 
             this.requestList = res;
 

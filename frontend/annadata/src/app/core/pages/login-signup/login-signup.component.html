@@ -96,20 +96,20 @@
         </div>
         
         <div class="form-text" *ngIf="signupdata.password">
-          <ul class="text-muted">
-            <li [class.text-success]="passwordCriteria.minLength">
+          <ul class="text-muted" >
+            <li [class.text-success]="passwordCriteria.minLength" style="color: red;" >
               Minimum 8 characters
             </li>
-            <li [class.text-success]="passwordCriteria.uppercase">
+            <li [class.text-success]="passwordCriteria.uppercase" style="color: red;" >
               At least one uppercase letter
             </li>
-            <li [class.text-success]="passwordCriteria.lowercase">
+            <li [class.text-success]="passwordCriteria.lowercase" style="color: red;" >
               At least one lowercase letter
             </li>
-            <li [class.text-success]="passwordCriteria.number">
+            <li [class.text-success]="passwordCriteria.number" style="color: red;" >
               At least one number
             </li>
-            <li [class.text-success]="passwordCriteria.specialChar">
+            <li [class.text-success]="passwordCriteria.specialChar" style="color: red;"  >
               At least one special character (!&#64;#$%^&amp;*()_+=-)
             </li>
           </ul>
